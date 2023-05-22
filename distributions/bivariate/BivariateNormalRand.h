@@ -1,8 +1,8 @@
 #ifndef BIVARIATENORMALRAND_H
 #define BIVARIATENORMALRAND_H
 
-#include "ContinuousBivariateDistribution.h"
-#include "../univariate/continuous/NormalRand.h"
+#include "Distributions.h"
+#include "univariate/continuous/NormalRand.h"
 
 /**
  * @brief The BivariateNormalRand class <BR>
@@ -11,7 +11,7 @@
  * Notation: X ~ N(μ1, μ2, σ1, ρ, σ2)
  */
 template< typename RealType = double>
-class RANDLIBSHARED_EXPORT BivariateNormalRand : public ContinuousBivariateDistribution<NormalRand<RealType>, NormalRand<RealType>, RealType>
+class RANDLIBSHARED_EXPORT BivariateNormalRand : public distributions::ContinuousBivariateDistribution<NormalRand<RealType>, NormalRand<RealType>, RealType>
 {
     double mu1 = 0; ///< first location μ1
     double mu2 = 0; ///< second location μ2

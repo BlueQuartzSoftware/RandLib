@@ -1,7 +1,7 @@
 #ifndef KOLMOGOROVSMIRNOVRAND_H
 #define KOLMOGOROVSMIRNOVRAND_H
 
-#include "ContinuousDistribution.h"
+#include "Distributions.h"
 
 /**
  * @brief The KolmogorovSmirnovRand class <BR>
@@ -10,12 +10,12 @@
  * Notation: X ~ KS
  */
 template < typename RealType = double >
-class RANDLIBSHARED_EXPORT KolmogorovSmirnovRand : public ContinuousDistribution<RealType>
+class RANDLIBSHARED_EXPORT KolmogorovSmirnovRand : public distributions::ContinuousDistribution<RealType>
 {
 public:
     KolmogorovSmirnovRand();
     String Name() const override;
-    SUPPORT_TYPE SupportType() const override { return RIGHTSEMIFINITE_T; }
+    distributions::SUPPORT_TYPE SupportType() const override { return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T; }
     RealType MinValue() const override { return 0; }
     RealType MaxValue() const override { return INFINITY; }
 

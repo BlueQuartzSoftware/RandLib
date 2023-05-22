@@ -1,7 +1,8 @@
 #ifndef GAMMARAND_H
 #define GAMMARAND_H
 
-#include "ContinuousDistribution.h"
+#include "Distributions.h"
+#include "univariate/ExponentialFamily.h"
 
 /**
  * @brief The GammaDistribution class <BR>
@@ -19,7 +20,7 @@
  * If X ~ Γ(k, β) for integer k, then X ~ Erlang(k, β)
  */
 template < typename RealType = double >
-class RANDLIBSHARED_EXPORT GammaDistribution : virtual public ContinuousDistribution<RealType>
+class RANDLIBSHARED_EXPORT GammaDistribution : virtual public distributions::ContinuousDistribution<RealType>
 {
 protected:
     double alpha = 1; ///< shape α
@@ -42,7 +43,7 @@ protected:
     virtual ~GammaDistribution() {}
 
 public:
-    SUPPORT_TYPE SupportType() const override { return RIGHTSEMIFINITE_T; }
+    distributions::SUPPORT_TYPE SupportType() const override { return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T; }
     RealType MinValue() const override { return 0; }
     RealType MaxValue() const override { return INFINITY; }
 

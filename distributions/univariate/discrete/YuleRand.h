@@ -1,10 +1,10 @@
 #ifndef YULERAND_H
 #define YULERAND_H
 
-#include "DiscreteDistribution.h"
+#include "Distributions.h"
 #include "GeometricRand.h"
-#include "../continuous/ExponentialRand.h"
-#include "../continuous/ParetoRand.h"
+#include "univariate/continuous/ExponentialRand.h"
+#include "univariate/continuous/ParetoRand.h"
 
 /**
  * @brief The YuleRand class <BR>
@@ -16,7 +16,7 @@
  * If Y ~ Pareto(ρ, 1) and Z ~ Geometric(1 / Y), then Z + 1 ~ Yule(ρ)
  */
 template < typename IntType = int >
-class RANDLIBSHARED_EXPORT YuleRand : public DiscreteDistribution<IntType>
+class RANDLIBSHARED_EXPORT YuleRand : public distributions::DiscreteDistribution<IntType>
 {
     double rho = 0; ///< shape ρ
     double lgamma1pRo = 0; /// log(Γ(1 + ρ))
@@ -25,7 +25,7 @@ class RANDLIBSHARED_EXPORT YuleRand : public DiscreteDistribution<IntType>
 public:
     explicit YuleRand(double shape);
     String Name() const override;
-    SUPPORT_TYPE SupportType() const override { return RIGHTSEMIFINITE_T; }
+    distributions::SUPPORT_TYPE SupportType() const override { return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T; }
     IntType MinValue() const override { return 1; }
     IntType MaxValue() const override { return std::numeric_limits<IntType>::max(); }
 

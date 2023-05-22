@@ -1,8 +1,8 @@
 #ifndef POISSONRAND_H
 #define POISSONRAND_H
 
-#include "DiscreteDistribution.h"
-#include "../continuous/GammaRand.h"
+#include "Distributions.h"
+#include "univariate/continuous/GammaRand.h"
 
 /**
  * @brief The PoissonRand class <BR>
@@ -13,7 +13,7 @@
  * Notation: X ~ Po(λ)
  */
 template < typename IntType = int >
-class RANDLIBSHARED_EXPORT PoissonRand : public DiscreteDistribution<IntType>,
+class RANDLIBSHARED_EXPORT PoissonRand : public distributions::DiscreteDistribution<IntType>,
                                          public ExponentialFamily<IntType, double>
 {
     double lambda = 1; ///< rate λ
@@ -30,7 +30,7 @@ class RANDLIBSHARED_EXPORT PoissonRand : public DiscreteDistribution<IntType>,
 public:
     explicit PoissonRand(double rate = 1.0);
     String Name() const override;
-    SUPPORT_TYPE SupportType() const override { return RIGHTSEMIFINITE_T; }
+    distributions::SUPPORT_TYPE SupportType() const override { return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T; }
     IntType MinValue() const override { return 0; }
     IntType MaxValue() const override { return std::numeric_limits<IntType>::max(); }
 

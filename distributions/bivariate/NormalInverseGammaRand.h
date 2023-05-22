@@ -1,9 +1,9 @@
 #ifndef NORMALINVERSEGAMMARAND_H
 #define NORMALINVERSEGAMMARAND_H
 
-#include "ContinuousBivariateDistribution.h"
-#include "../univariate/continuous/StudentTRand.h"
-#include "../univariate/continuous/InverseGammaRand.h"
+#include "Distributions.h"
+#include "univariate/continuous/StudentTRand.h"
+#include "univariate/continuous/InverseGammaRand.h"
 
 /**
  * @brief The NormalInverseGammaRand class <BR>
@@ -12,7 +12,7 @@
  * Notation: X ~ NIG(μ, λ, α, β)
  */
 template< typename RealType = double>
-class RANDLIBSHARED_EXPORT NormalInverseGammaRand : public ContinuousBivariateDistribution<StudentTRand<RealType>, InverseGammaRand<RealType>, RealType>
+class RANDLIBSHARED_EXPORT NormalInverseGammaRand : public distributions::ContinuousBivariateDistribution<StudentTRand<RealType>, InverseGammaRand<RealType>, RealType>
 {
     double mu = 0; ///< location μ
     double lambda = 1; ///< precision λ

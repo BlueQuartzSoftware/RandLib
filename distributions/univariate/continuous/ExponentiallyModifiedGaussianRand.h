@@ -1,7 +1,7 @@
 #ifndef EXPONENTIALLYMODIFIEDGAUSSIANRAND_H
 #define EXPONENTIALLYMODIFIEDGAUSSIANRAND_H
 
-#include "ContinuousDistribution.h"
+#include "Distributions.h"
 #include "NormalRand.h"
 #include "ExponentialRand.h"
 
@@ -15,7 +15,7 @@
  * X = Y + Z, where Y ~ Normal(μ, σ) and Z ~ Exp(β)
  */
 template < typename RealType = double >
-class RANDLIBSHARED_EXPORT ExponentiallyModifiedGaussianRand : public ContinuousDistribution<RealType>
+class RANDLIBSHARED_EXPORT ExponentiallyModifiedGaussianRand : public distributions::ContinuousDistribution<RealType>
 {
     NormalRand<RealType> X{};
     ExponentialRand<RealType> Y{};
@@ -29,7 +29,7 @@ public:
     explicit ExponentiallyModifiedGaussianRand(double location = 0, double variance = 1, double rate = 1);
 
     String Name() const override;
-    SUPPORT_TYPE SupportType() const override { return INFINITE_T; }
+    distributions::SUPPORT_TYPE SupportType() const override { return distributions::SUPPORT_TYPE::INFINITE_T; }
     RealType MinValue() const override { return -INFINITY; }
     RealType MaxValue() const override { return INFINITY; }
 

@@ -1,7 +1,7 @@
 #ifndef STABLERAND_H
 #define STABLERAND_H
 
-#include "ContinuousDistribution.h"
+#include "Distributions.h"
 
 /**
  * @brief The StableDistribution class <BR>
@@ -15,7 +15,7 @@
  * If +/-X ~ Levy(μ, γ), then X ~ S(0.5, +/-1, γ, μ)
  */
 template < typename RealType = double>
-class RANDLIBSHARED_EXPORT StableDistribution : virtual public ContinuousDistribution<RealType>
+class RANDLIBSHARED_EXPORT StableDistribution : virtual public distributions::ContinuousDistribution<RealType>
 {
 protected:
     double alpha = 2; ///< characteristic exponent α
@@ -54,7 +54,7 @@ protected:
     virtual ~StableDistribution() {}
 
 public:
-    SUPPORT_TYPE SupportType() const override;
+    distributions::SUPPORT_TYPE SupportType() const override;
     RealType MinValue() const override;
     RealType MaxValue() const override;
 

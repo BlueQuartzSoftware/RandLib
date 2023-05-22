@@ -1,8 +1,8 @@
 #ifndef TRINOMIALRAND_H
 #define TRINOMIALRAND_H
 
-#include "DiscreteBivariateDistribution.h"
-#include "../univariate/discrete/BinomialRand.h"
+#include "Distributions.h"
+#include "univariate/discrete/BinomialRand.h"
 
 /**
  * @brief The TrinomialRand class <BR>
@@ -14,7 +14,7 @@
  * X ~ Multin(n, 1 - p_1 - p_2, p_1, p_2)
  */
 template< typename IntType = int>
-class RANDLIBSHARED_EXPORT TrinomialRand : public DiscreteBivariateDistribution<BinomialRand<IntType>, BinomialRand<IntType>, IntType>
+class RANDLIBSHARED_EXPORT TrinomialRand : public distributions::DiscreteBivariateDistribution<BinomialRand<IntType>, BinomialRand<IntType>, IntType>
 {
     int n = 1; ///< number of trials
     double log1mProb = -M_LN3; ///< log(1 - p_1 - p_2)
