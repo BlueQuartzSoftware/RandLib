@@ -4,7 +4,7 @@
 #include "ProbabilityDistribution.h"
 #include "univariate/BasicRandGenerator.h"
 
-namespace distributions {
+namespace RANDLIBSHARED_EXPORT distributions {
 /**
  * @brief The UnivariateDistribution class <BR>
  * Abstract class for all univariate probability distributions

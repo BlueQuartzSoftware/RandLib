@@ -172,7 +172,7 @@ void UniformRand<RealType>::FitMinimum(const std::vector<RealType> &sample,
         this->UPPER_LIMIT_VIOLATION + this->toStringWithPrecision(this->b)));
   RealType minVar = *std::min_element(sample.begin(), sample.end());
 
-  if (unbiased == true) {
+  if (unbiased) {
     int n = sample.size();
     /// E[min] = b - n / (n + 1) * (this->b - this->a)
     RealType minVarAdj = (minVar * (n + 1) - this->b) / n;
@@ -195,7 +195,7 @@ void UniformRand<RealType>::FitMaximum(const std::vector<RealType> &sample,
         this->LOWER_LIMIT_VIOLATION + this->toStringWithPrecision(this->a)));
   RealType maxVar = *std::max_element(sample.begin(), sample.end());
 
-  if (unbiased == true) {
+  if (unbiased) {
     int n = sample.size();
     /// E[max] = (this->b - this->a) * n / (n + 1) + a
     RealType maxVarAdj = (maxVar * (n + 1) - this->a) / n;
@@ -214,7 +214,7 @@ void UniformRand<RealType>::Fit(const std::vector<RealType> &sample,
                                 bool unbiased) {
   double minVar = *std::min_element(sample.begin(), sample.end());
   double maxVar = *std::max_element(sample.begin(), sample.end());
-  if (unbiased == true) {
+  if (unbiased) {
     int n = sample.size();
     /// E[min] = b - n / (n + 1) * (this->b - this->a)
     RealType minVarAdj = (minVar * n - maxVar) / (n - 1);

@@ -659,7 +659,7 @@ bool ContinuousDistribution<RealType>::KolmogorovSmirnovTest(
       return false;
   }
   double SReal = this->S(orderStatistic[n - 1]);
-  return (SReal > interval || SReal < nInv - interval) ? false : true;
+  return (SReal > interval || SReal < nInv - interval);
 }
 
 template <typename RealType>

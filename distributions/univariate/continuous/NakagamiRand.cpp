@@ -427,7 +427,7 @@ void RayleighRand<RealType>::Fit(const std::vector<RealType> &sample,
   DoublePair stats = this->GetSampleMeanAndVariance(sample);
   double rawMoment = stats.second + stats.first * stats.first;
   double sigmaBiasedSq = 0.5 * rawMoment;
-  if (unbiased == false) {
+  if (!unbiased) {
     SetScale(std::sqrt(sigmaBiasedSq));
   }
   /// Calculate unbiased sigma

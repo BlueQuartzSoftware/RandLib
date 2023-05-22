@@ -223,7 +223,7 @@ void NormalRand<RealType>::FitVariance(const std::vector<RealType> &sample,
 template <typename RealType>
 void NormalRand<RealType>::FitScale(const std::vector<RealType> &sample,
                                     bool unbiased) {
-  if (unbiased == false)
+  if (!unbiased)
     return FitVariance(sample);
   size_t n = sample.size();
   double halfN = 0.5 * n;
@@ -239,7 +239,7 @@ template <typename RealType>
 void NormalRand<RealType>::Fit(const std::vector<RealType> &sample,
                                bool unbiased) {
   double adjustment = 1.0;
-  if (unbiased == true) {
+  if (unbiased) {
     size_t n = sample.size();
     if (n <= 1)
       throw std::invalid_argument(this->fitErrorDescription(
