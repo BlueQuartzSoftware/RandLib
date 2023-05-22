@@ -1,3 +1,8 @@
+/**
+ * NOT GUARANTEED TO BE FUNCTIONAL
+ */
+
+
 #ifndef NONCENTRALTRAND_H
 #define NONCENTRALTRAND_H
 
@@ -8,7 +13,7 @@
  * @brief The NoncentralTRand class <BR>
  * Notation: Noncentral-t(ν, μ)
  */
-class RANDLIBSHARED_EXPORT NoncentralTRand : public ContinuousDistribution {
+class RANDLIBSHARED_EXPORT NoncentralTRand : public distributions::ContinuousDistribution {
   double nu, mu;
   long double PhiMu, PhimMu;
   double sqrt1p2oNu;

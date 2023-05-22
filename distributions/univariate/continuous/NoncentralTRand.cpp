@@ -1,4 +1,10 @@
+/**
+ * NOT GUARANTEED TO BE FUNCTIONAL
+ */
+
+
 #include "NoncentralTRand.h"
+
 #include "NormalRand.h"
 #include <functional>
 
