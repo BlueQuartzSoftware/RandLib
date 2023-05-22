@@ -10,8 +10,8 @@
  * Notation: X ~ Raised-cosine(μ, s)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT RaisedCosineDistribution : public distributions::ContinuousDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT RaisedCosineDistribution
+    : public distributions::ContinuousDistribution<RealType> {
   double mu = 0;                 ///< location μ
   double s = M_PI;               ///< scale
   double s_pi = 1;               ///< s / π
@@ -21,39 +21,26 @@ protected:
   RaisedCosineDistribution(double location, double scale);
 
 public:
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::FINITE_T;
-  }
-  RealType MinValue() const override
-  {
-    return mu - s;
-  }
-  RealType MaxValue() const override
-  {
-    return mu + s;
-  }
+  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
+  RealType MinValue() const override { return mu - s; }
+  RealType MaxValue() const override { return mu + s; }
 
 protected:
   void SetLocation(double location);
   void SetScale(double scale);
 
 public:
-  inline double GetLocation() const
-  {
-    return mu;
-  }
-  inline double GetScale() const
-  {
-    return s;
-  }
+  inline double GetLocation() const { return mu; }
+  inline double GetScale() const { return s; }
 
-  double f(const RealType& x) const override;
-  double logf(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double logf(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
 
-  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
+  static RealType
+  StandardVariate(RandGenerator &randGenerator =
+                      ProbabilityDistribution<RealType>::staticRandGenerator);
   RealType Variate() const override;
 
   long double Mean() const override;
@@ -72,13 +59,11 @@ private:
  * Raised-cosine distribution
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT RaisedCosineRand : public RaisedCosineDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT RaisedCosineRand
+    : public RaisedCosineDistribution<RealType> {
 public:
   RaisedCosineRand(double location = 0, double scale = M_PI)
-  : RaisedCosineDistribution<RealType>(location, scale)
-  {
-  }
+      : RaisedCosineDistribution<RealType>(location, scale) {}
   String Name() const override;
 
   using RaisedCosineDistribution<RealType>::SetLocation;
@@ -95,13 +80,10 @@ public:
  * X ~ Raised-cosine(0.0, π)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT RaabGreenRand : public RaisedCosineDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT RaabGreenRand
+    : public RaisedCosineDistribution<RealType> {
 public:
-  RaabGreenRand()
-  : RaisedCosineDistribution<RealType>(0.0, M_PI)
-  {
-  }
+  RaabGreenRand() : RaisedCosineDistribution<RealType>(0.0, M_PI) {}
   String Name() const override;
 };
 

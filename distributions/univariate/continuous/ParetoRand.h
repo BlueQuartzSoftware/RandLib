@@ -14,8 +14,8 @@
  * ln(X / σ) ~ Exp(α)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT ParetoRand : public distributions::ContinuousDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT ParetoRand
+    : public distributions::ContinuousDistribution<RealType> {
   double alpha = 1;    ///< shape α
   double sigma = 1;    ///< scale σ
   double logAlpha = 0; ///< log(α)
@@ -25,52 +25,37 @@ public:
   ParetoRand(double shape = 1, double scale = 1);
 
   String Name() const override;
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T;
+  SUPPORT_TYPE SupportType() const override {
+    return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  RealType MinValue() const override
-  {
-    return sigma;
-  }
-  RealType MaxValue() const override
-  {
-    return INFINITY;
-  }
+  RealType MinValue() const override { return sigma; }
+  RealType MaxValue() const override { return INFINITY; }
 
   void SetShape(double shape);
   void SetScale(double scale);
-  inline double GetShape() const
-  {
-    return alpha;
-  }
-  inline double GetScale() const
-  {
-    return sigma;
-  }
-  inline double GetLogShape() const
-  {
-    return logAlpha;
-  }
-  inline double GetLogScale() const
-  {
-    return logSigma;
-  }
+  inline double GetShape() const { return alpha; }
+  inline double GetScale() const { return sigma; }
+  inline double GetLogShape() const { return logAlpha; }
+  inline double GetLogScale() const { return logSigma; }
 
-  double f(const RealType& x) const override;
-  double logf(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double logf(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
 
 private:
-  static RealType variateForAlphaEqualOne(RandGenerator& randGenerator);
-  static RealType variateForAlphaEqualTwo(RandGenerator& randGenerator);
-  static RealType variateForGeneralAlpha(double shape, RandGenerator& randGenerator);
+  static RealType variateForAlphaEqualOne(RandGenerator &randGenerator);
+  static RealType variateForAlphaEqualTwo(RandGenerator &randGenerator);
+  static RealType variateForGeneralAlpha(double shape,
+                                         RandGenerator &randGenerator);
 
 public:
   RealType Variate() const override;
-  static RealType StandardVariate(double shape, RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
-  void Sample(std::vector<RealType>& outputData) const override;
+  static RealType
+  StandardVariate(double shape,
+                  RandGenerator &randGenerator =
+                      ProbabilityDistribution<RealType>::staticRandGenerator);
+  void Sample(std::vector<RealType> &outputData) const override;
 
   long double Mean() const override;
   long double Variance() const override;
@@ -93,7 +78,7 @@ public:
    * @param sample
    * @param unbiased
    */
-  void FitShape(const std::vector<RealType>& sample, bool unbiased = false);
+  void FitShape(const std::vector<RealType> &sample, bool unbiased = false);
 
   /**
    * @fn FitScale
@@ -102,7 +87,7 @@ public:
    * @param sample
    * @param unbiased
    */
-  void FitScale(const std::vector<RealType>& sample, bool unbiased = false);
+  void FitScale(const std::vector<RealType> &sample, bool unbiased = false);
 
   /**
    * @fn Fit
@@ -111,7 +96,7 @@ public:
    * @param sample
    * @param unbiased
    */
-  void Fit(const std::vector<RealType>& sample, bool unbiased = false);
+  void Fit(const std::vector<RealType> &sample, bool unbiased = false);
 
   /**
    * @fn FitShapeBayes
@@ -121,7 +106,10 @@ public:
    * @param MAP if true, use MAP estimator
    * @return posterior distribution of α
    */
-  GammaRand<RealType> FitShapeBayes(const std::vector<RealType>& sample, const GammaDistribution<RealType>& priorDistribution, bool MAP = false);
+  GammaRand<RealType>
+  FitShapeBayes(const std::vector<RealType> &sample,
+                const GammaDistribution<RealType> &priorDistribution,
+                bool MAP = false);
 };
 
 #endif // PARETORAND_H

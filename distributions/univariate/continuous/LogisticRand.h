@@ -14,8 +14,8 @@
  * 1 / (exp((X - μ) / s) + 1) ~ U(0, 1)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT LogisticRand : public distributions::ContinuousDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT LogisticRand
+    : public distributions::ContinuousDistribution<RealType> {
   double mu = 0;   ///< location μ
   double s = 1;    ///< scale s
   double logS = 0; ///< log(s)
@@ -24,34 +24,19 @@ public:
   LogisticRand(double location = 0, double scale = 1);
 
   String Name() const override;
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::INFINITE_T;
-  }
-  RealType MinValue() const override
-  {
-    return -INFINITY;
-  }
-  RealType MaxValue() const override
-  {
-    return INFINITY;
-  }
+  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::INFINITE_T; }
+  RealType MinValue() const override { return -INFINITY; }
+  RealType MaxValue() const override { return INFINITY; }
 
   void SetLocation(double location);
   void SetScale(double scale);
-  inline double GetLocation() const
-  {
-    return mu;
-  }
-  inline double GetScale() const
-  {
-    return s;
-  }
+  inline double GetLocation() const { return mu; }
+  inline double GetScale() const { return s; }
 
-  double f(const RealType& x) const override;
-  double logf(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double logf(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
   RealType Variate() const override;
 
   long double Mean() const override;
@@ -75,7 +60,7 @@ public:
    * fit location parameter via maximum-likelihood
    * @param sample
    */
-  void FitLocation(const std::vector<RealType>& sample);
+  void FitLocation(const std::vector<RealType> &sample);
 };
 
 #endif // LOGISTICRAND_H

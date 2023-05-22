@@ -82,6 +82,7 @@ set(RANDLIB_HDRS
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/MarchenkoPasturRand.h
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NakagamiRand.h
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NoncentralChiSquaredRand.h
+    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NoncentralTRand.h
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NormalRand.h
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/ParetoRand.h
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/PlanckRand.h
@@ -128,6 +129,7 @@ set(RANDLIB_SRCS
     ${RandLib_SOURCE_DIR}/math/RandMath.cpp
 
     # Abstract Distribution
+    ${RandLib_SOURCE_DIR}/distributions/Distributions.cpp
     ${RandLib_SOURCE_DIR}/distributions/ProbabilityDistribution.cpp
 
     # Bivariate Distributions
@@ -165,6 +167,7 @@ set(RANDLIB_SRCS
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/MarchenkoPasturRand.cpp
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NakagamiRand.cpp
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NoncentralChiSquaredRand.cpp
+    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NoncentralTRand.h
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NormalRand.cpp
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/ParetoRand.cpp
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/PlanckRand.cpp

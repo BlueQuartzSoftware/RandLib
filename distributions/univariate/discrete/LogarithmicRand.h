@@ -12,35 +12,27 @@
  * X ~ Log(p)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT LogarithmicRand : public distributions::DiscreteDistribution<IntType>
-{
+class RANDLIBSHARED_EXPORT LogarithmicRand
+    : public distributions::DiscreteDistribution<IntType> {
   double p = 0.5;            ///< parameter of distribution
   double logProb = -M_LN2;   ///< log(p)
   double log1mProb = -M_LN2; ///< log(q)
 public:
   explicit LogarithmicRand(double probability);
   String Name() const override;
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T;
+  SUPPORT_TYPE SupportType() const override {
+    return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  IntType MinValue() const override
-  {
-    return 1;
-  }
-  IntType MaxValue() const override
-  {
+  IntType MinValue() const override { return 1; }
+  IntType MaxValue() const override {
     return std::numeric_limits<IntType>::max();
   }
 
   void SetProbability(double probability);
-  inline double GetProbability() const
-  {
-    return p;
-  }
+  inline double GetProbability() const { return p; }
 
-  double P(const IntType& k) const override;
-  double logP(const IntType& k) const override;
+  double P(const IntType &k) const override;
+  double logP(const IntType &k) const override;
 
 private:
   /**
@@ -52,8 +44,8 @@ private:
   double betaFun(IntType a) const;
 
 public:
-  double F(const IntType& k) const override;
-  double S(const IntType& k) const override;
+  double F(const IntType &k) const override;
+  double S(const IntType &k) const override;
   IntType Variate() const override;
 
   long double Mean() const override;

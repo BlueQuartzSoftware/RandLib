@@ -1,6 +1,7 @@
 #ifndef CAUCHYRAND_H
 #define CAUCHYRAND_H
 
+#include "Distributions.h"
 #include "StableRand.h"
 
 /**
@@ -16,32 +17,33 @@
  * X ~ S(1, 0, σ, μ) <BR>
  * If X, Y ~ Normal(0, 1), then X / Y ~ Cauchy(0, 1)
  */
-template < typename RealType = double >
-class RANDLIBSHARED_EXPORT CauchyRand : public StableDistribution<RealType>
-{
+template <typename RealType = double>
+class RANDLIBSHARED_EXPORT CauchyRand : public StableDistribution<RealType> {
 public:
-    CauchyRand(double location = 0, double scale = 1);
-    String Name() const override;
-    SUPPORT_TYPE SupportType() const override { return INFINITE_T; }
-    RealType MinValue() const override { return -INFINITY; }
-    RealType MaxValue() const override { return INFINITY; }
+  CauchyRand(double location = 0, double scale = 1);
+  String Name() const override;
+  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::INFINITE_T; }
+  RealType MinValue() const override { return -INFINITY; }
+  RealType MaxValue() const override { return INFINITY; }
 
 public:
-    double f(const RealType & x) const override;
-    double F(const RealType & x) const override;
-    double S(const RealType & x) const override;
-    RealType Variate() const override;
+  double f(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
+  RealType Variate() const override;
 
-    static RealType StandardVariate(RandGenerator &randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
+  static RealType
+  StandardVariate(RandGenerator &randGenerator =
+                      ProbabilityDistribution<RealType>::staticRandGenerator);
 
 private:
-    RealType quantileImpl(double p) const override;
-    RealType quantileImpl1m(double p) const override;
+  RealType quantileImpl(double p) const override;
+  RealType quantileImpl1m(double p) const override;
 
-    std::complex<double> CFImpl(double t) const override;
+  std::complex<double> CFImpl(double t) const override;
 
 public:
-    long double Entropy() const;
+  long double Entropy() const;
 };
 
 #endif // CAUCHYRAND_H

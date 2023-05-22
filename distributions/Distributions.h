@@ -4,23 +4,14 @@
 #include "ProbabilityDistribution.h"
 #include "univariate/BasicRandGenerator.h"
 
-namespace distributions
-{
-enum SUPPORT_TYPE
-{
-  FINITE_T,
-  RIGHTSEMIFINITE_T,
-  LEFTSEMIFINITE_T,
-  INFINITE_T
-};
-
+namespace distributions {
 /**
  * @brief The UnivariateDistribution class <BR>
  * Abstract class for all univariate probability distributions
  */
 template <typename T>
-class RANDLIBSHARED_EXPORT UnivariateDistribution : public ProbabilityDistribution<T>
-{
+class RANDLIBSHARED_EXPORT UnivariateDistribution
+    : public ProbabilityDistribution<T> {
 protected:
   UnivariateDistribution() = default;
   virtual ~UnivariateDistribution() = default;
@@ -79,18 +70,21 @@ protected:
   /**
    * @fn CFimpl
    * @param t
-   * @return characteristic function implementation (inverse Fourier transform of pdf)
+   * @return characteristic function implementation (inverse Fourier transform
+   * of pdf)
    */
   virtual std::complex<double> CFImpl(double t) const;
 
   /**
    * @fn ExpectedValue
-   * @param funPtr pointer on function g(x) with finite support which expected value should be returned
+   * @param funPtr pointer on function g(x) with finite support which expected
+   * value should be returned
    * @param minPoint min{x | g(x) ≠ 0}
    * @param maxPoint max{x | g(x) ≠ 0}
    * @return E[g(x)]
    */
-  virtual long double ExpectedValue(const std::function<double(T)>& funPtr, T minPoint, T maxPoint) const = 0;
+  virtual long double ExpectedValue(const std::function<double(T)> &funPtr,
+                                    T minPoint, T maxPoint) const = 0;
 
 public:
   /**
@@ -113,7 +107,7 @@ public:
    * @param y
    * @return fills vector y with Quantile(p)
    */
-  void QuantileFunction(const std::vector<double>& p, std::vector<T>& y);
+  void QuantileFunction(const std::vector<double> &p, std::vector<T> &y);
 
   /**
    * @fn QuantileFunction1m
@@ -121,7 +115,7 @@ public:
    * @param y
    * @return fills vector y with Quantile1m(p)
    */
-  void QuantileFunction1m(const std::vector<double>& p, std::vector<T>& y);
+  void QuantileFunction1m(const std::vector<double> &p, std::vector<T> &y);
 
   /**
    * @fn CF
@@ -135,21 +129,22 @@ public:
    * @param x input vector
    * @param y output vector: y = CF(x)
    */
-  void CharacteristicFunction(const std::vector<double>& t, std::vector<std::complex<double>>& y) const;
+  void CharacteristicFunction(const std::vector<double> &t,
+                              std::vector<std::complex<double>> &y) const;
 
   /**
    * @fn Hazard
    * @param x input parameter
    * @return hazard function
    */
-  virtual double Hazard(const T& x) const = 0;
+  virtual double Hazard(const T &x) const = 0;
 
   /**
    * @fn HazardFunction
    * @param x input vector
    * @param y output vector: y = Hazard(x)
    */
-  void HazardFunction(const std::vector<T>& x, std::vector<double>& y) const;
+  void HazardFunction(const std::vector<T> &x, std::vector<double> &y) const;
 
   /**
    * @fn Median
@@ -182,7 +177,8 @@ public:
   /**
    * @fn ExcessKurtosis
    * @return E[((X - μ) / σ) ^ 4]  - 3
-   * (fourth moment around the mean divided by the square of the variance of the probability distribution minus 3)
+   * (fourth moment around the mean divided by the square of the variance of the
+   * probability distribution minus 3)
    */
   virtual long double ExcessKurtosis() const;
 
@@ -209,14 +205,14 @@ public:
    * @param sample
    * @return likelihood function for given sample
    */
-  virtual double LikelihoodFunction(const std::vector<T>& sample) const = 0;
+  virtual double LikelihoodFunction(const std::vector<T> &sample) const = 0;
 
   /**
    * @fn LogLikelihoodFunction
    * @param sample
    * @return logarithm of likelihood function for given sample
    */
-  virtual double LogLikelihoodFunction(const std::vector<T>& sample) const = 0;
+  virtual double LogLikelihoodFunction(const std::vector<T> &sample) const = 0;
 
 protected:
   /**
@@ -225,7 +221,8 @@ protected:
    * @param sample
    * @return true if all elements in sample are not greater than given value
    */
-  static bool allElementsAreNotGreaterThan(T value, const std::vector<T>& sample);
+  static bool allElementsAreNotGreaterThan(T value,
+                                           const std::vector<T> &sample);
 
   /**
    * @fn allElementsAreNotSmallerThan
@@ -233,21 +230,22 @@ protected:
    * @param sample
    * @return true if all elements in sample are not smaller than given value
    */
-  static bool allElementsAreNotSmallerThan(T value, const std::vector<T>& sample);
+  static bool allElementsAreNotSmallerThan(T value,
+                                           const std::vector<T> &sample);
 
   /**
    * @fn allElementsAreNonNegative
    * @param sample
    * @return true if all elements in sample are non-negative
    */
-  static bool allElementsAreNonNegative(const std::vector<T>& sample);
+  static bool allElementsAreNonNegative(const std::vector<T> &sample);
 
   /**
    * @fn allElementsArePositive
    * @param sample
    * @return true if all elements in sample are positive
    */
-  static bool allElementsArePositive(const std::vector<T>& sample);
+  static bool allElementsArePositive(const std::vector<T> &sample);
 
 public:
   /**
@@ -255,21 +253,21 @@ public:
    * @param sample
    * @return sum of all elements in a sample
    */
-  static long double GetSampleSum(const std::vector<T>& sample);
+  static long double GetSampleSum(const std::vector<T> &sample);
 
   /**
    * @fn GetSampleMean
    * @param sample
    * @return arithmetic average
    */
-  static long double GetSampleMean(const std::vector<T>& sample);
+  static long double GetSampleMean(const std::vector<T> &sample);
 
   /**
    * @fn GetSampleLogMean
    * @param sample
    * @return arithmetic log-average
    */
-  static long double GetSampleLogMean(const std::vector<T>& sample);
+  static long double GetSampleLogMean(const std::vector<T> &sample);
 
   /**
    * @fn GetSampleVariance
@@ -277,7 +275,8 @@ public:
    * @param mean known mean value
    * @return sample second central moment
    */
-  static long double GetSampleVariance(const std::vector<T>& sample, double mean);
+  static long double GetSampleVariance(const std::vector<T> &sample,
+                                       double mean);
 
   /**
    * @fn GetSampleLogVariance
@@ -285,28 +284,31 @@ public:
    * @param logMean known log-mean value
    * @return sample log-variance
    */
-  static long double GetSampleLogVariance(const std::vector<T>& sample, double logMean);
+  static long double GetSampleLogVariance(const std::vector<T> &sample,
+                                          double logMean);
 
   /**
    * @fn GetSampleMeanAndVariance
    * @param sample
    * @return sample mean and variance
    */
-  static LongDoublePair GetSampleMeanAndVariance(const std::vector<T>& sample);
+  static LongDoublePair GetSampleMeanAndVariance(const std::vector<T> &sample);
 
   /**
    * @fn GetSampleLogMeanAndVariance
    * @param sample
    * @return sample log-mean and log-variance
    */
-  static LongDoublePair GetSampleLogMeanAndVariance(const std::vector<T>& sample);
+  static LongDoublePair
+  GetSampleLogMeanAndVariance(const std::vector<T> &sample);
 
   /**
    * @fn GetSampleStatistics
    * @param sample
    * @return sample mean, variance, skewness and excess kurtosis
    */
-  static std::tuple<long double, long double, long double, long double> GetSampleStatistics(const std::vector<T>& sample);
+  static std::tuple<long double, long double, long double, long double>
+  GetSampleStatistics(const std::vector<T> &sample);
 };
 
 /**
@@ -314,8 +316,8 @@ public:
  * Abstract class for all bivariate probability distributions
  */
 template <class T1, class T2, typename T>
-class RANDLIBSHARED_EXPORT BivariateDistribution : public ProbabilityDistribution<Pair<T>>
-{
+class RANDLIBSHARED_EXPORT BivariateDistribution
+    : public ProbabilityDistribution<Pair<T>> {
 protected:
   T1 X{}; ///< 1st marginal distributions
   T2 Y{}; ///< 2nd marginal distributions
@@ -323,14 +325,8 @@ protected:
   virtual ~BivariateDistribution() = default;
 
 public:
-  Pair<T> MinValue() const
-  {
-    return Pair<T>(X.MinValue(), Y.MinValue());
-  }
-  Pair<T> MaxValue() const
-  {
-    return Pair<T>(X.MaxValue(), Y.MaxValue());
-  }
+  Pair<T> MinValue() const { return Pair<T>(X.MinValue(), Y.MinValue()); }
+  Pair<T> MaxValue() const { return Pair<T>(X.MaxValue(), Y.MaxValue()); }
 
   void Reseed(unsigned long seed) const override;
 
@@ -341,7 +337,6 @@ public:
   virtual Pair<T> Mode() const = 0;
 };
 
-
 //-------------------------------------------------------------------------------------------
 // Continuous
 //-------------------------------------------------------------------------------------------
@@ -350,9 +345,10 @@ public:
  * Abstract class for all continuous distributions
  */
 template <typename RealType>
-class RANDLIBSHARED_EXPORT ContinuousDistribution : virtual public UnivariateDistribution<RealType>
-{
-  static_assert(std::is_floating_point_v<RealType>, "Continuous distribution supports only floating-point types");
+class RANDLIBSHARED_EXPORT ContinuousDistribution
+    : virtual public UnivariateDistribution<RealType> {
+  static_assert(std::is_floating_point_v<RealType>,
+                "Continuous distribution supports only floating-point types");
 
 protected:
   ContinuousDistribution() = default;
@@ -364,17 +360,14 @@ public:
    * @param x
    * @return probability density function
    */
-  virtual double f(const RealType& x) const
-  {
-    return std::exp(this->logf(x));
-  }
+  virtual double f(const RealType &x) const { return std::exp(this->logf(x)); }
 
   /**
    * @fn logf
    * @param x
    * @return logarithm of probability density function
    */
-  virtual double logf(const RealType& x) const = 0;
+  virtual double logf(const RealType &x) const = 0;
 
   /**
    * @fn ProbabilityDensityFunction
@@ -382,7 +375,8 @@ public:
    * @param x
    * @param y
    */
-  void ProbabilityDensityFunction(const std::vector<RealType>& x, std::vector<double>& y) const;
+  void ProbabilityDensityFunction(const std::vector<RealType> &x,
+                                  std::vector<double> &y) const;
 
   /**
    * @fn LogProbabilityDensityFunction
@@ -390,7 +384,8 @@ public:
    * @param x
    * @param y
    */
-  void LogProbabilityDensityFunction(const std::vector<RealType>& x, std::vector<double>& y) const;
+  void LogProbabilityDensityFunction(const std::vector<RealType> &x,
+                                     std::vector<double> &y) const;
 
   RealType Mode() const override;
 
@@ -399,20 +394,25 @@ protected:
   RealType quantileImpl(double p) const override;
   RealType quantileImpl1m(double p, RealType initValue) const override;
   RealType quantileImpl1m(double p) const override;
-  long double ExpectedValue(const std::function<double(RealType)>& funPtr, RealType minPoint, RealType maxPoint) const override;
+  long double ExpectedValue(const std::function<double(RealType)> &funPtr,
+                            RealType minPoint,
+                            RealType maxPoint) const override;
 
 public:
-  double Hazard(const RealType& x) const override;
-  double LikelihoodFunction(const std::vector<RealType>& sample) const override;
-  double LogLikelihoodFunction(const std::vector<RealType>& sample) const override;
+  double Hazard(const RealType &x) const override;
+  double LikelihoodFunction(const std::vector<RealType> &sample) const override;
+  double
+  LogLikelihoodFunction(const std::vector<RealType> &sample) const override;
 
   /**
    * @fn KolmogorovSmirnovTest
    * @param orderStatistic sample sorted in ascending order
    * @param alpha level of test
-   * @return true if sample is from this distribution according to asymptotic KS-test, false otherwise
+   * @return true if sample is from this distribution according to asymptotic
+   * KS-test, false otherwise
    */
-  bool KolmogorovSmirnovTest(const std::vector<RealType>& orderStatistic, double alpha) const;
+  bool KolmogorovSmirnovTest(const std::vector<RealType> &orderStatistic,
+                             double alpha) const;
 };
 
 /**
@@ -421,73 +421,50 @@ public:
  * with marginal continuous distributions
  */
 template <class T1, class T2, typename RealType>
-class RANDLIBSHARED_EXPORT ContinuousBivariateDistribution : public BivariateDistribution<T1, T2, RealType>
-{
-  static_assert(std::is_base_of_v<ContinuousDistribution<RealType>, T1>, "T1 must be a descendant of ContinuousDistribution");
-  static_assert(std::is_base_of_v<ContinuousDistribution<RealType>, T2>, "T2 must be a descendant of ContinuousDistribution");
+class RANDLIBSHARED_EXPORT ContinuousBivariateDistribution
+    : public BivariateDistribution<T1, T2, RealType> {
+  static_assert(std::is_base_of_v<ContinuousDistribution<RealType>, T1>,
+                "T1 must be a descendant of ContinuousDistribution");
+  static_assert(std::is_base_of_v<ContinuousDistribution<RealType>, T2>,
+                "T2 must be a descendant of ContinuousDistribution");
 
 protected:
   ContinuousBivariateDistribution() = default;
   virtual ~ContinuousBivariateDistribution() = default;
 
 public:
-  virtual double f(const Pair<RealType>& point) const = 0;
-  virtual double logf(const Pair<RealType>& point) const = 0;
+  virtual double f(const Pair<RealType> &point) const = 0;
+  virtual double logf(const Pair<RealType> &point) const = 0;
 };
 
 /**
  * @brief The CircularDistribution class <BR>
  * Abstract class for all continuous circular distributions
  *
- * Note that all the moments are now useless, we implement circular moments instead.
+ * Note that all the moments are now useless, we implement circular moments
+ * instead.
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT CircularDistribution : public ContinuousDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT CircularDistribution
+    : public ContinuousDistribution<RealType> {
 protected:
   double loc{};
 
   CircularDistribution(double location = 0);
-  virtual ~CircularDistribution()
-  {
-  }
+  virtual ~CircularDistribution() {}
 
 public:
-  SUPPORT_TYPE SupportType() const override
-  {
-    return FINITE_T;
-  }
-  RealType MinValue() const override
-  {
-    return loc - M_PI;
-  }
-  RealType MaxValue() const override
-  {
-    return loc + M_PI;
-  }
+  SUPPORT_TYPE SupportType() const override { return FINITE_T; }
+  RealType MinValue() const override { return loc - M_PI; }
+  RealType MaxValue() const override { return loc + M_PI; }
 
   void SetLocation(double location);
-  inline double GetLocation() const
-  {
-    return loc;
-  }
+  inline double GetLocation() const { return loc; }
 
-  long double Mean() const override
-  {
-    return NAN;
-  }
-  long double Variance() const override
-  {
-    return NAN;
-  }
-  long double Skewness() const override
-  {
-    return NAN;
-  }
-  long double ExcessKurtosis() const override
-  {
-    return NAN;
-  }
+  long double Mean() const override { return NAN; }
+  long double Variance() const override { return NAN; }
+  long double Skewness() const override { return NAN; }
+  long double ExcessKurtosis() const override { return NAN; }
 
   /**
    * @fn CircularMean
@@ -502,7 +479,6 @@ public:
   virtual long double CircularVariance() const = 0;
 };
 
-
 //-------------------------------------------------------------------------------------------
 // DISCRETE
 //-------------------------------------------------------------------------------------------
@@ -511,9 +487,10 @@ public:
  * Abstract class for all discrete distributions
  */
 template <typename IntType>
-class RANDLIBSHARED_EXPORT DiscreteDistribution : virtual public UnivariateDistribution<IntType>
-{
-  static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>, "Discrete distribution supports only signed integral types");
+class RANDLIBSHARED_EXPORT DiscreteDistribution
+    : virtual public UnivariateDistribution<IntType> {
+  static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>,
+                "Discrete distribution supports only signed integral types");
 
 protected:
   DiscreteDistribution() = default;
@@ -525,17 +502,14 @@ public:
    * @param k
    * @return probability to get k
    */
-  virtual double P(const IntType& k) const
-  {
-    return std::exp(this->logP(k));
-  }
+  virtual double P(const IntType &k) const { return std::exp(this->logP(k)); }
 
   /**
    * @fn logP
    * @param x
    * @return logarithm of probability to get x
    */
-  virtual double logP(const IntType& x) const = 0;
+  virtual double logP(const IntType &x) const = 0;
 
   /**
    * @fn ProbabilityMassFunction
@@ -543,7 +517,8 @@ public:
    * @param x
    * @param y
    */
-  void ProbabilityMassFunction(const std::vector<IntType>& x, std::vector<double>& y) const;
+  void ProbabilityMassFunction(const std::vector<IntType> &x,
+                               std::vector<double> &y) const;
 
   /**
    * @fn LogProbabilityMassFunction
@@ -551,7 +526,8 @@ public:
    * @param x
    * @param y
    */
-  void LogProbabilityMassFunction(const std::vector<IntType>& x, std::vector<double>& y) const;
+  void LogProbabilityMassFunction(const std::vector<IntType> &x,
+                                  std::vector<double> &y) const;
 
   IntType Mode() const override;
 
@@ -560,7 +536,8 @@ protected:
   IntType quantileImpl(double p) const override;
   IntType quantileImpl1m(double p, IntType initValue) const override;
   IntType quantileImpl1m(double p) const override;
-  long double ExpectedValue(const std::function<double(IntType)>& funPtr, IntType minPoint, IntType maxPoint) const override;
+  long double ExpectedValue(const std::function<double(IntType)> &funPtr,
+                            IntType minPoint, IntType maxPoint) const override;
 
 public:
   /**
@@ -568,49 +545,61 @@ public:
    * @param x
    * @return hazard function
    */
-  double Hazard(const IntType& x) const override;
+  double Hazard(const IntType &x) const override;
 
   /**
    * @fn LikelihoodFunction
    * @param sample
    * @return likelihood function of the distribution for given sample
    */
-  double LikelihoodFunction(const std::vector<IntType>& sample) const override;
+  double LikelihoodFunction(const std::vector<IntType> &sample) const override;
 
   /**
    * @fn LogLikelihoodFunction
    * @param sample
    * @return log-likelihood function of the distribution for given sample
    */
-  double LogLikelihoodFunction(const std::vector<IntType>& sample) const override;
+  double
+  LogLikelihoodFunction(const std::vector<IntType> &sample) const override;
 
   /**
    * @fn PearsonChiSquaredTest
    * @param orderStatistic sample sorted in ascending order
    * @param alpha significance level of the test
-   * @param lowerBoundary setting of the left most interval (-infinity, lowerBoundary]
-   * @param upperBoundary setting of the right most interval [upperBoundary, infinity)
+   * @param lowerBoundary setting of the left most interval (-infinity,
+   * lowerBoundary]
+   * @param upperBoundary setting of the right most interval [upperBoundary,
+   * infinity)
    * @param numberOfEstimatedParameters zero by default
-   * @return true if sample is from this distribution according to Pearson's chi-squared test, false otherwise
+   * @return true if sample is from this distribution according to Pearson's
+   * chi-squared test, false otherwise
    *
-   * Chi-squared test is implemented only for discrete distribution, as it is much more complicated for continuous one.
-   * The problem is ambiguity of grouping sample into intervals. In the case when parameters are estimated by
-   * maximum-likelihood estimator, using original observations, statistics might not follow asymptotic chi-square
-   * distribution and that leads to serious underestimate of the error of the first kind.
-   * For more details look: "The use of MLE in chi-square tests for goodness of fit" by Herman Chernoff and E.L. Lehmann
+   * Chi-squared test is implemented only for discrete distribution, as it is
+   * much more complicated for continuous one. The problem is ambiguity of
+   * grouping sample into intervals. In the case when parameters are estimated
+   * by maximum-likelihood estimator, using original observations, statistics
+   * might not follow asymptotic chi-square distribution and that leads to
+   * serious underestimate of the error of the first kind. For more details
+   * look: "The use of MLE in chi-square tests for goodness of fit" by Herman
+   * Chernoff and E.L. Lehmann
    */
-  bool PearsonChiSquaredTest(const std::vector<IntType>& orderStatistic, double alpha, int lowerBoundary, int upperBoundary, size_t numberOfEstimatedParameters = 0) const;
+  bool PearsonChiSquaredTest(const std::vector<IntType> &orderStatistic,
+                             double alpha, int lowerBoundary, int upperBoundary,
+                             size_t numberOfEstimatedParameters = 0) const;
 
   /**
    * @fn PearsonChiSquaredTest
    * @param orderStatistic sample sorted in ascending order
    * @param alpha significance level of the test
    * @param numberOfEstimatedParameters zero by default
-   * @return true if sample is from this distribution according to Pearson's chi-squared test, false otherwise
-   * In this function user won't set upper and lower intervals for tails.
-   * However it might be useful to group rare events for chi-squared test to achieve better results
+   * @return true if sample is from this distribution according to Pearson's
+   * chi-squared test, false otherwise In this function user won't set upper and
+   * lower intervals for tails. However it might be useful to group rare events
+   * for chi-squared test to achieve better results
    */
-  bool PearsonChiSquaredTest(const std::vector<IntType>& orderStatistic, double alpha, size_t numberOfEstimatedParameters = 0) const;
+  bool PearsonChiSquaredTest(const std::vector<IntType> &orderStatistic,
+                             double alpha,
+                             size_t numberOfEstimatedParameters = 0) const;
 };
 
 /**
@@ -618,11 +607,13 @@ public:
  * Abstract class for all bivariate probability distributions
  * with marginal discrete distributions
  */
-template < class T1, class T2, typename IntType >
-class RANDLIBSHARED_EXPORT DiscreteBivariateDistribution : public BivariateDistribution< T1, T2, IntType >
-{
-  static_assert(std::is_base_of_v<DiscreteDistribution<IntType>, T1>, "T1 must be a descendant of DiscreteDistribution");
-  static_assert(std::is_base_of_v<DiscreteDistribution<IntType>, T2>, "T2 must be a descendant of DiscreteDistribution");
+template <class T1, class T2, typename IntType>
+class RANDLIBSHARED_EXPORT DiscreteBivariateDistribution
+    : public BivariateDistribution<T1, T2, IntType> {
+  static_assert(std::is_base_of_v<DiscreteDistribution<IntType>, T1>,
+                "T1 must be a descendant of DiscreteDistribution");
+  static_assert(std::is_base_of_v<DiscreteDistribution<IntType>, T2>,
+                "T2 must be a descendant of DiscreteDistribution");
 
 protected:
   DiscreteBivariateDistribution() {}
@@ -633,7 +624,6 @@ public:
   virtual double logP(const Pair<IntType> &point) const = 0;
 };
 
-
 //-------------------------------------------------------------------------------------------
 // SINGULAR
 //-------------------------------------------------------------------------------------------
@@ -641,18 +631,20 @@ public:
  * @brief The SingularDistribution class <BR>
  * Abstract class for all singular distributions
  */
-class RANDLIBSHARED_EXPORT SingularDistribution : public UnivariateDistribution<double>
-{
+class RANDLIBSHARED_EXPORT SingularDistribution
+    : public UnivariateDistribution<double> {
 protected:
   SingularDistribution() = default;
   virtual ~SingularDistribution() = default;
 
 private:
-  double Hazard(const double&) const override;
+  double Hazard(const double &) const override;
   double Mode() const override;
-  long double ExpectedValue(const std::function<double (double)> &funPtr, double minPoint, double maxPoint) const override;
+  long double ExpectedValue(const std::function<double(double)> &funPtr,
+                            double minPoint, double maxPoint) const override;
   double LikelihoodFunction(const std::vector<double> &sample) const override;
-  double LogLikelihoodFunction(const std::vector<double> &sample) const override;
+  double
+  LogLikelihoodFunction(const std::vector<double> &sample) const override;
 };
 } // namespace distributions
 

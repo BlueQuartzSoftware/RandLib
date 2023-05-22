@@ -14,8 +14,8 @@
  * d1/d2 * X ~ B'(d1/2, d2/2)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT FisherFRand : public distributions::ContinuousDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT FisherFRand
+    : public distributions::ContinuousDistribution<RealType> {
   int d1 = 2;         ///< first degree
   int d2 = 2;         ///< second degree
   double a = 0;       ///< d1 / 2 - 1;
@@ -30,35 +30,22 @@ public:
   FisherFRand(int degree1 = 2, int degree2 = 2);
 
   String Name() const override;
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T;
+  SUPPORT_TYPE SupportType() const override {
+    return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  RealType MinValue() const override
-  {
-    return 0;
-  }
-  RealType MaxValue() const override
-  {
-    return INFINITY;
-  }
+  RealType MinValue() const override { return 0; }
+  RealType MaxValue() const override { return INFINITY; }
 
   void SetDegrees(int degree1, int degree2);
-  inline int GetFirstDegree() const
-  {
-    return d1;
-  }
-  inline int GetSecondDegree() const
-  {
-    return d2;
-  }
+  inline int GetFirstDegree() const { return d1; }
+  inline int GetSecondDegree() const { return d2; }
 
-  double f(const RealType& x) const override;
-  double logf(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double logf(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
   RealType Variate() const override;
-  void Sample(std::vector<RealType>& outputData) const override;
+  void Sample(std::vector<RealType> &outputData) const override;
   void Reseed(unsigned long seed) const override;
 
   long double Mean() const override;

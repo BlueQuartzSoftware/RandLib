@@ -15,35 +15,43 @@
  * Related distributions: <BR>
  * If Y ~ Pareto(ρ, 1) and Z ~ Geometric(1 / Y), then Z + 1 ~ Yule(ρ)
  */
-template < typename IntType = int >
-class RANDLIBSHARED_EXPORT YuleRand : public distributions::DiscreteDistribution<IntType>
-{
-    double rho = 0; ///< shape ρ
-    double lgamma1pRo = 0; /// log(Γ(1 + ρ))
-    
-    ParetoRand<double> X;
+template <typename IntType = int>
+class RANDLIBSHARED_EXPORT YuleRand
+    : public distributions::DiscreteDistribution<IntType> {
+  double rho = 0;        ///< shape ρ
+  double lgamma1pRo = 0; /// log(Γ(1 + ρ))
+
+  ParetoRand<double> X;
+
 public:
-    explicit YuleRand(double shape);
-    String Name() const override;
-    distributions::SUPPORT_TYPE SupportType() const override { return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T; }
-    IntType MinValue() const override { return 1; }
-    IntType MaxValue() const override { return std::numeric_limits<IntType>::max(); }
+  explicit YuleRand(double shape);
+  String Name() const override;
+  SUPPORT_TYPE SupportType() const override {
+    return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
+  }
+  IntType MinValue() const override { return 1; }
+  IntType MaxValue() const override {
+    return std::numeric_limits<IntType>::max();
+  }
 
-    void SetShape(double shape);
-    inline double GetShape() const { return rho; }
+  void SetShape(double shape);
+  inline double GetShape() const { return rho; }
 
-    double logP(const IntType & k) const override;
-    double F(const IntType & k) const override;
-    double S(const IntType & k) const override;
-    IntType Variate() const override;
-    static IntType Variate(double shape, RandGenerator &randGenerator = ProbabilityDistribution<IntType>::staticRandGenerator);
-    void Reseed(unsigned long seed) const override;
+  double logP(const IntType &k) const override;
+  double F(const IntType &k) const override;
+  double S(const IntType &k) const override;
+  IntType Variate() const override;
+  static IntType
+  Variate(double shape,
+          RandGenerator &randGenerator =
+              ProbabilityDistribution<IntType>::staticRandGenerator);
+  void Reseed(unsigned long seed) const override;
 
-    long double Mean() const override;
-    long double Variance() const override;
-    IntType Mode() const override;
-    long double Skewness() const override;
-    long double ExcessKurtosis() const override;
+  long double Mean() const override;
+  long double Variance() const override;
+  IntType Mode() const override;
+  long double Skewness() const override;
+  long double ExcessKurtosis() const override;
 };
 
 #endif // YULERAND_H

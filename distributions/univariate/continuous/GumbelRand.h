@@ -13,8 +13,8 @@
  * exp(-(X - μ) / β) ~ Exp(1)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT GumbelRand : public distributions::ContinuousDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT GumbelRand
+    : public distributions::ContinuousDistribution<RealType> {
   double mu = 0;      ///< location μ
   double beta = 1;    ///< scale β
   double logBeta = 0; ///< log(β)
@@ -22,36 +22,23 @@ public:
   GumbelRand(double location = 0, double scale = 1);
 
   String Name() const override;
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::INFINITE_T;
-  }
-  RealType MinValue() const override
-  {
-    return -INFINITY;
-  }
-  RealType MaxValue() const override
-  {
-    return INFINITY;
-  }
+  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::INFINITE_T; }
+  RealType MinValue() const override { return -INFINITY; }
+  RealType MaxValue() const override { return INFINITY; }
 
   void SetLocation(double location);
   void SetScale(double scale);
-  inline double GetLocation() const
-  {
-    return mu;
-  }
-  inline double GetScale() const
-  {
-    return beta;
-  }
+  inline double GetLocation() const { return mu; }
+  inline double GetScale() const { return beta; }
 
-  double f(const RealType& x) const override;
-  double logf(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double logf(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
   RealType Variate() const override;
-  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
+  static RealType
+  StandardVariate(RandGenerator &randGenerator =
+                      ProbabilityDistribution<RealType>::staticRandGenerator);
 
   long double Mean() const override;
   long double Variance() const override;

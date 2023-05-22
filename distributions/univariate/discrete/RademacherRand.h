@@ -15,27 +15,18 @@
  * Related distributions: <BR>
  * If Y ~ Bernoulli(0.5), then 2Y - 1 ~ Rademacher
  */
-class RANDLIBSHARED_EXPORT RademacherRand : public distributions::DiscreteDistribution<int>
-{
+class RANDLIBSHARED_EXPORT RademacherRand
+    : public distributions::DiscreteDistribution<int> {
 public:
   RademacherRand();
   String Name() const override;
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::FINITE_T;
-  }
-  int MinValue() const override
-  {
-    return -1;
-  }
-  int MaxValue() const override
-  {
-    return 1;
-  }
+  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
+  int MinValue() const override { return -1; }
+  int MaxValue() const override { return 1; }
 
-  double P(const int& k) const override;
-  double logP(const int& k) const override;
-  double F(const int& k) const override;
+  double P(const int &k) const override;
+  double logP(const int &k) const override;
+  double F(const int &k) const override;
   int Variate() const override;
 
   long double Mean() const override;

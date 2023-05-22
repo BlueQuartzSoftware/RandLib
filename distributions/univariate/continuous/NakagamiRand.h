@@ -15,8 +15,8 @@
  * X^2 ~ Γ(μ, μ / ω)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT NakagamiDistribution : public distributions::ContinuousDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT NakagamiDistribution
+    : public distributions::ContinuousDistribution<RealType> {
   double mu = 0.5;  ///< shape μ
   double omega = 1; ///< spread ω
   GammaRand<RealType> Y{};
@@ -26,18 +26,11 @@ protected:
   NakagamiDistribution(double shape = 0.5, double spread = 1);
 
 public:
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::RIGHTSEMIFINITE_T;
+  SUPPORT_TYPE SupportType() const override {
+    return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  RealType MinValue() const override
-  {
-    return 0;
-  }
-  RealType MaxValue() const override
-  {
-    return INFINITY;
-  }
+  RealType MinValue() const override { return 0; }
+  RealType MaxValue() const override { return INFINITY; }
 
 protected:
   /**
@@ -52,41 +45,29 @@ public:
    * @fn GetShape
    * @return shape μ
    */
-  inline double GetShape() const
-  {
-    return mu;
-  }
+  inline double GetShape() const { return mu; }
   /**
    * @fn GetSpread
    * @return spread w
    */
-  inline double GetSpread() const
-  {
-    return omega;
-  }
+  inline double GetSpread() const { return omega; }
   /**
    * @fn GetLogGammaFunction
    * @return log(Γ(μ))
    */
-  inline double GetLogGammaFunction() const
-  {
-    return Y.GetLogGammaShape();
-  }
+  inline double GetLogGammaFunction() const { return Y.GetLogGammaShape(); }
   /**
    * @fn GetLogGammaShapeRatio
    * @return log(Γ(μ + 0.5) / Γ(μ))
    */
-  inline double GetLogGammaShapeRatio() const
-  {
-    return lgammaShapeRatio;
-  }
+  inline double GetLogGammaShapeRatio() const { return lgammaShapeRatio; }
 
-  double f(const RealType& x) const override;
-  double logf(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double logf(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
   RealType Variate() const override;
-  void Sample(std::vector<RealType>& outputData) const override;
+  void Sample(std::vector<RealType> &outputData) const override;
   void Reseed(unsigned long seed) const override;
 
   long double Mean() const override;
@@ -109,13 +90,11 @@ protected:
  * Nakagami distribution
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT NakagamiRand : public NakagamiDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT NakagamiRand
+    : public NakagamiDistribution<RealType> {
 public:
   NakagamiRand(double shape = 0.5, double spread = 1)
-  : NakagamiDistribution<RealType>(shape, spread)
-  {
-  }
+      : NakagamiDistribution<RealType>(shape, spread) {}
   String Name() const override;
   using NakagamiDistribution<RealType>::SetParameters;
 };
@@ -132,8 +111,7 @@ public:
  * X^2 ~ Γ(k/2, 0.5)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT ChiRand : public NakagamiDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT ChiRand : public NakagamiDistribution<RealType> {
 
 public:
   explicit ChiRand(int degree);
@@ -150,8 +128,7 @@ public:
    * @fn GetDegree
    * @return degree k
    */
-  inline int GetDegree() const
-  {
+  inline int GetDegree() const {
     return 2 * NakagamiDistribution<RealType>::GetShape();
   }
 
@@ -170,8 +147,8 @@ public:
  * X ~ Nakagami(1.5, 3σ^2)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT MaxwellBoltzmannRand : public NakagamiDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT MaxwellBoltzmannRand
+    : public NakagamiDistribution<RealType> {
   double sigma = 1; ///< scale σ
 public:
   explicit MaxwellBoltzmannRand(double scale);
@@ -188,16 +165,13 @@ public:
    * @fn GetScale
    * @return scale σ
    */
-  double GetScale() const
-  {
-    return sigma;
-  }
+  double GetScale() const { return sigma; }
 
-  double f(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
   RealType Variate() const override;
-  void Sample(std::vector<RealType>& outputData) const override;
+  void Sample(std::vector<RealType> &outputData) const override;
 
   long double Mean() const override;
   long double Variance() const override;
@@ -217,8 +191,8 @@ public:
  * X ~ Nakagami(1, 2σ^2)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT RayleighRand : public NakagamiDistribution<RealType>
-{
+class RANDLIBSHARED_EXPORT RayleighRand
+    : public NakagamiDistribution<RealType> {
   double sigma = 1; ///< scale σ
 public:
   explicit RayleighRand(double scale = 1);
@@ -235,16 +209,13 @@ public:
    * @fn GetScale
    * @return scale σ
    */
-  double GetScale() const
-  {
-    return sigma;
-  }
+  double GetScale() const { return sigma; }
 
-  double f(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
+  double f(const RealType &x) const override;
+  double F(const RealType &x) const override;
+  double S(const RealType &x) const override;
   RealType Variate() const override;
-  void Sample(std::vector<RealType>& outputData) const override;
+  void Sample(std::vector<RealType> &outputData) const override;
 
   long double Mean() const override;
   long double Variance() const override;
@@ -261,10 +232,11 @@ public:
   /**
    * @fn Fit
    * fit scale via maximum-likelihood method if unbiased = false,
-   * otherwise set scale, returned by uniformly minimum variance unbiased estimator
+   * otherwise set scale, returned by uniformly minimum variance unbiased
+   * estimator
    * @param sample
    */
-  void Fit(const std::vector<RealType>& sample, bool unbiased = false);
+  void Fit(const std::vector<RealType> &sample, bool unbiased = false);
 };
 
 #endif // NAKAGAMIRAND_H

@@ -13,39 +13,34 @@
  * P(X = k) = 1 / (b - a + 1) for a <= k <= b
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT UniformDiscreteRand : public distributions::DiscreteDistribution<IntType>
-{
-  size_t n = 1;                                                               ///< number of possible outcomes
-  IntType a = 0;                                                              ///< min bound
-  IntType b = 0;                                                              ///< max bound
-  double nInv = 1;                                                            ///< 1/n
-  double logN = 0;                                                            ///< log(n)
-  unsigned long long MAX_RAND_UNBIASED = this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
+class RANDLIBSHARED_EXPORT UniformDiscreteRand
+    : public distributions::DiscreteDistribution<IntType> {
+  size_t n = 1;    ///< number of possible outcomes
+  IntType a = 0;   ///< min bound
+  IntType b = 0;   ///< max bound
+  double nInv = 1; ///< 1/n
+  double logN = 0; ///< log(n)
+  unsigned long long MAX_RAND_UNBIASED =
+      this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
 
 public:
   UniformDiscreteRand(IntType minValue = 0, IntType maxValue = 1);
   String Name() const override;
-  distributions::SUPPORT_TYPE SupportType() const override
-  {
-    return distributions::SUPPORT_TYPE::FINITE_T;
-  }
-  IntType MinValue() const override
-  {
-    return a;
-  }
-  IntType MaxValue() const override
-  {
-    return b;
-  }
+  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
+  IntType MinValue() const override { return a; }
+  IntType MaxValue() const override { return b; }
 
   void SetBoundaries(IntType minValue, IntType maxValue);
 
-  double P(const IntType& k) const override;
-  double logP(const IntType& k) const override;
-  double F(const IntType& k) const override;
+  double P(const IntType &k) const override;
+  double logP(const IntType &k) const override;
+  double F(const IntType &k) const override;
 
   IntType Variate() const override;
-  static IntType StandardVariate(IntType minValue = 0, IntType maxValue = 1, RandGenerator& randGenerator = ProbabilityDistribution<IntType>::staticRandGenerator);
+  static IntType
+  StandardVariate(IntType minValue = 0, IntType maxValue = 1,
+                  RandGenerator &randGenerator =
+                      ProbabilityDistribution<IntType>::staticRandGenerator);
 
   long double Mean() const override;
   long double Variance() const override;
@@ -59,15 +54,16 @@ private:
 
 public:
   long double Entropy() const;
-  double LikelihoodFunction(const std::vector<IntType>& sample) const override;
-  double LogLikelihoodFunction(const std::vector<IntType>& sample) const override;
+  double LikelihoodFunction(const std::vector<IntType> &sample) const override;
+  double
+  LogLikelihoodFunction(const std::vector<IntType> &sample) const override;
 
   /**
    * @fn Fit
    * fit bounds via maximum-likelihood method
    * @param sample
    */
-  void Fit(const std::vector<IntType>& sample);
+  void Fit(const std::vector<IntType> &sample);
 };
 
 #endif // UNIFORM_DISCRETE_RAND_H
