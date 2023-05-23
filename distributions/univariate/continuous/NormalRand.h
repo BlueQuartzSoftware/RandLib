@@ -4,7 +4,9 @@
 #include "InverseGammaRand.h"
 #include "StableRand.h"
 
-#include "bivariate/NormalInverseGammaRand.h"
+#include "math/Constants.h"
+
+#include "distributions/bivariate/NormalInverseGammaRand.h"
 
 /**
  * @brief The NormalRand class <BR>

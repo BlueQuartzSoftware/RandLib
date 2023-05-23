@@ -215,9 +215,9 @@ target_sources(RandLib
     ${RANDLIB_SRCS}
 )
 
-set(DIST_INCLUDE_DIR ${RandLib_SOURCE_DIR}/distributions)
+set(SEARCH_INCLUDE_DIR ${RandLib_SOURCE_DIR})
 target_include_directories(RandLib
   PUBLIC
-  $<BUILD_INTERFACE:${DIST_INCLUDE_DIR}>
+  $<BUILD_INTERFACE:${SEARCH_INCLUDE_DIR}>
   $<INSTALL_INTERFACE:include>
 )

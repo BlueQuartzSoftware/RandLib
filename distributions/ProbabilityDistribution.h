@@ -12,7 +12,7 @@
  * @brief The ProbabilityDistribution class <BR>
  * Abstract class for all probability distributions
  */
-template <typename T> class RANDLIBSHARED_EXPORT ProbabilityDistribution {
+template <typename T> class ProbabilityDistribution {
 protected:
   static thread_local RandGenerator staticRandGenerator;
 
