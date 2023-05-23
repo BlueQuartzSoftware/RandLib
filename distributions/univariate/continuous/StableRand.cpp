@@ -266,7 +266,7 @@ double StableDistribution<RealType>::pdfForUnityExponent(double x) const {
   std::function<double(double)> funPtr =
       std::bind(&StableDistribution<RealType>::integrandAuxForUnityExponent,
                 this, std::placeholders::_1, xAdj);
-  RandMath::findRootNewtonFirstOrder(funPtr, lowerBoundary, upperBoundary,
+  RandMath::findRootBrentFirstOrder(funPtr, lowerBoundary, upperBoundary,
                                      theta0);
 
   /// Sanity check
@@ -544,11 +544,11 @@ double StableDistribution<RealType>::pdfForGeneralExponent(double x) const {
   double xAdj = alpha_alpham1 * logAbsX;
 
   /// Search for the peak of the integrand
-  double theta0;
+  double theta0 = 0;
   std::function<double(double)> funPtr =
       std::bind(&StableDistribution<RealType>::integrandAuxForGeneralExponent,
                 this, std::placeholders::_1, xAdj, xiAdj);
-  RandMath::findRootNewtonFirstOrder(funPtr, -xiAdj, M_PI_2, static_cast<long double>(theta0));
+  RandMath::findRootBrentFirstOrder<double>(funPtr, -xiAdj, M_PI_2, theta0);
 
   /// If theta0 is too close to π/2 or -xiAdj then we can still underestimate
   /// the integral

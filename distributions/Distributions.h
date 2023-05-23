@@ -4,6 +4,8 @@
 #include "ProbabilityDistribution.h"
 #include "distributions/univariate/BasicRandGenerator.h"
 
+#include <complex>
+
 namespace distributions {
 /**
  * @brief The UnivariateDistribution class <BR>

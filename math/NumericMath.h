@@ -151,7 +151,7 @@ bool findRootNewtonFirstOrder2d(const std::function<DoublePair (DoublePair)> &fu
  * @return true if success, false otherwise
  */
 template<typename RealType>
-bool findRootNewtonFirstOrder(const std::function<double (RealType)> &funPtr, RealType a, RealType b, RealType & root, long double epsilon = 1e-8)
+bool findRootBrentFirstOrder(const std::function<double (RealType)> &funPtr, RealType a, RealType b, RealType & root, long double epsilon = 1e-8)
 {
     /// Sanity check
     epsilon = epsilon > MIN_POSITIVE ? epsilon : MIN_POSITIVE;

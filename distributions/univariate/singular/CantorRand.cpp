@@ -53,7 +53,7 @@ long double CantorRand::Mean() const { return 0.5; }
 long double CantorRand::Variance() const { return 0.125; }
 
 double CantorRand::quantileImpl(double p, double initValue) const {
-  if (!RandMath::findRootNewtonFirstOrder<double>(
+  if (!RandMath::findRootBrentFirstOrder<double>(
           [this, p](double x) { return F(x) - p; }, 0.0, 1.0, initValue))
     throw std::runtime_error(
         "Cantor distribution: failure in numerical procedure");
@@ -63,7 +63,7 @@ double CantorRand::quantileImpl(double p, double initValue) const {
 double CantorRand::quantileImpl(double p) const { return quantileImpl(p, p); }
 
 double CantorRand::quantileImpl1m(double p, double initValue) const {
-  if (!RandMath::findRootNewtonFirstOrder<double>(
+  if (!RandMath::findRootBrentFirstOrder<double>(
           [this, p](double x) { return S(x) - p; }, 0.0, 1.0, initValue))
     throw std::runtime_error(
         "Cantor distribution: failure in numerical procedure");

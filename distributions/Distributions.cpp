@@ -2,6 +2,8 @@
 #include "distributions/univariate/continuous/GammaRand.h"
 #include "distributions/univariate/continuous/KolmogorovSmirnovRand.h"
 
+#include <complex>
+
 namespace distributions {
 // Distributions
 template <typename T> bool UnivariateDistribution<T>::isLeftBounded() const {
