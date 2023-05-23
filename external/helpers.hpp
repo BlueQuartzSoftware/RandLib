@@ -22,11 +22,15 @@
 #define _gcem_helpers_HPP
 
 #include "gcem_options.hpp"
+#include "floor.hpp"
+#include "sgn.hpp"
 
 namespace internal
 {
 template<class T>
 using GCLIM = std::numeric_limits<T>;
+
+using namespace gcem;
 
 /**
  * Compile-time absolute value function
@@ -63,6 +67,16 @@ noexcept
                 x );
 }
 
+
+constexpr
+bool
+is_odd(const llint_t x)
+noexcept
+{
+    // return( x % llint_t(2) == llint_t(0) ? false : true );
+    return (x & 1U) != 0;
+}
+
 template<typename T>
 constexpr
 bool
@@ -83,7 +97,34 @@ noexcept
 
 template<typename T>
 constexpr
-gcem::llint_t
+bool
+is_neginf(const T x)
+noexcept
+{
+    return x == - GCLIM<T>::infinity();
+}
+
+template<typename T>
+constexpr
+bool
+is_inf(const T x)
+noexcept
+{
+    return( is_neginf(x) || is_posinf(x) );
+}
+
+template<typename T>
+constexpr
+bool
+is_finite(const T x)
+noexcept
+{
+    return (!is_nan(x)) && (!is_inf(x));
+}
+
+template<typename T>
+constexpr
+llint_t
 find_exponent(const T x, const gcem::llint_t exponent)
 noexcept
 {
@@ -103,6 +144,32 @@ noexcept
                 find_exponent(x / T(1e+04), exponent + llint_t(4)) :
             // else
                 exponent );
+}
+
+template<typename T>
+constexpr
+llint_t
+find_whole(const T x)
+noexcept
+{
+    return( abs(x - floor_check(x)) >= T(0.5) ? \
+            // if 
+                static_cast<llint_t>(floor_check(x) + nonstd::sgn(x)) :
+            // else 
+                static_cast<llint_t>(floor_check(x)) );
+}
+
+template<typename T>
+constexpr
+T
+find_fraction(const T x)
+noexcept
+{
+    return( abs(x - floor_check(x)) >= T(0.5) ? \
+            // if 
+                x - floor_check(x) - nonstd::sgn(x) : 
+            //else 
+                x - floor_check(x) );
 }
 }
 

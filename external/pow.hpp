@@ -27,6 +27,7 @@
 
 #include "gcem_options.hpp"
 #include "log.hpp"
+#include "exp.hpp"
 
 #include <type_traits>
 
@@ -132,7 +133,7 @@ T
 pow_dbl(const T base, const T exp_term)
 noexcept
 {
-    return exp(exp_term*nonstd::log(base));
+    return nonstd::exp(exp_term * nonstd::log(base));
 }
 
 template<typename T1, typename T2, typename TC = common_t<T1,T2>, 
