@@ -31,6 +31,9 @@ if(UNIX)
   )
 endif()
 
+# Add Definitions
+target_compile_definitions(RandLib PRIVATE RANDLIB_LIBRARY=true)
+
 set(RANDLIB_HDRS
     # Overarching
     ${RandLib_SOURCE_DIR}/RandLib.h
