@@ -2,7 +2,7 @@
 #define BETAPRIMERAND_H
 
 #include "BetaRand.h"
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The BetaPrimeRand class <BR>

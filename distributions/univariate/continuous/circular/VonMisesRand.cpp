@@ -1,6 +1,6 @@
 #include "VonMisesRand.h"
 
-#include "univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/UniformRand.h"
 
 template <typename RealType>
 VonMisesRand<RealType>::VonMisesRand(double location, double concentration)

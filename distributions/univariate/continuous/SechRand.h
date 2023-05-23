@@ -1,7 +1,7 @@
 #ifndef SECHRAND_H
 #define SECHRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The SechRand class <BR>

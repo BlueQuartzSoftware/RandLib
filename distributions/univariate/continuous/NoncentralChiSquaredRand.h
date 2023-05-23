@@ -1,10 +1,10 @@
 #ifndef NONCENTRALCHISQUAREDRAND_H
 #define NONCENTRALCHISQUAREDRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "GammaRand.h"
 #include "NormalRand.h"
-#include "univariate/discrete/PoissonRand.h"
+#include "distributions/univariate/discrete/PoissonRand.h"
 
 /**
  * @brief The NoncentralChiSquaredRand class <BR>

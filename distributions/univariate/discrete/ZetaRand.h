@@ -1,7 +1,7 @@
 #ifndef ZETARAND_H
 #define ZETARAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The ZetaRand class <BR>

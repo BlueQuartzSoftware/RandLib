@@ -1,8 +1,8 @@
 ﻿#ifndef BETABINOMIALRAND_H
 #define BETABINOMIALRAND_H
 
-#include "Distributions.h"
-#include "univariate/continuous/BetaRand.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/continuous/BetaRand.h"
 #include <functional>
 
 /**

@@ -1,8 +1,8 @@
 #ifndef POISSONRAND_H
 #define POISSONRAND_H
 
-#include "Distributions.h"
-#include "univariate/continuous/GammaRand.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/continuous/GammaRand.h"
 
 /**
  * @brief The PoissonRand class <BR>

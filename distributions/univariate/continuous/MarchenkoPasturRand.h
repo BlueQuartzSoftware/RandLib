@@ -2,7 +2,7 @@
 #define MARCHENKOPASTURRAND_H
 
 #include "BetaRand.h"
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 /**
  * @brief The MarchenkoPasturRand class <BR>
  * Marchenko-Pastur distribution

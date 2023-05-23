@@ -1,7 +1,7 @@
 #ifndef STUDENTTRAND_H
 #define STUDENTTRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "NakagamiRand.h"
 
 /**

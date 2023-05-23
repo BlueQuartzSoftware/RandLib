@@ -1,7 +1,7 @@
 #ifndef NAKAGAMIRAND_H
 #define NAKAGAMIRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "GammaRand.h"
 
 /**

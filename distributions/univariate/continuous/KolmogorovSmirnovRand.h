@@ -1,7 +1,7 @@
 #ifndef KOLMOGOROVSMIRNOVRAND_H
 #define KOLMOGOROVSMIRNOVRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The KolmogorovSmirnovRand class <BR>

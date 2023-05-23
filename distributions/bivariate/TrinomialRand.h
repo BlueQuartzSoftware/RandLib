@@ -1,8 +1,8 @@
 #ifndef TRINOMIALRAND_H
 #define TRINOMIALRAND_H
 
-#include "Distributions.h"
-#include "univariate/discrete/BinomialRand.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/discrete/BinomialRand.h"
 
 /**
  * @brief The TrinomialRand class <BR>

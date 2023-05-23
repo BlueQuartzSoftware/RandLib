@@ -1,10 +1,10 @@
 #ifndef YULERAND_H
 #define YULERAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "GeometricRand.h"
-#include "univariate/continuous/ExponentialRand.h"
-#include "univariate/continuous/ParetoRand.h"
+#include "distributions/univariate/continuous/ExponentialRand.h"
+#include "distributions/univariate/continuous/ParetoRand.h"
 
 /**
  * @brief The YuleRand class <BR>

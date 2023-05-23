@@ -1,9 +1,9 @@
 #ifndef BINOMIALRAND_H
 #define BINOMIALRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "GeometricRand.h"
-#include "univariate/continuous/BetaRand.h"
+#include "distributions/univariate/continuous/BetaRand.h"
 
 /**
  * @brief The BinomialDistribution class <BR>

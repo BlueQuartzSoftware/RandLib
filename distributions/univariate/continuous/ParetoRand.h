@@ -1,7 +1,7 @@
 #ifndef PARETORAND_H
 #define PARETORAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "ExponentialRand.h"
 
 /**

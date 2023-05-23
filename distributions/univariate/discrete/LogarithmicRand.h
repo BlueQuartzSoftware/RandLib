@@ -1,7 +1,7 @@
 #ifndef LOGARITHMICRAND_H
 #define LOGARITHMICRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The LogarithmicRand class <BR>

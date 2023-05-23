@@ -1,7 +1,7 @@
 #include "PoissonRand.h"
 
-#include "univariate/continuous/ExponentialRand.h"
-#include "univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/ExponentialRand.h"
+#include "distributions/univariate/continuous/UniformRand.h"
 
 template <typename IntType> PoissonRand<IntType>::PoissonRand(double rate) {
   SetRate(rate);

@@ -1,6 +1,6 @@
 #include "LogarithmicRand.h"
 
-#include "univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/UniformRand.h"
 
 template <typename IntType>
 LogarithmicRand<IntType>::LogarithmicRand(double probability) {

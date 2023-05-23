@@ -1,7 +1,7 @@
 #ifndef DEGENERATERAND_H
 #define DEGENERATERAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The DegenerateRand class <BR>

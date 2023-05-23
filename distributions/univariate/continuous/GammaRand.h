@@ -1,8 +1,8 @@
 #ifndef GAMMARAND_H
 #define GAMMARAND_H
 
-#include "Distributions.h"
-#include "univariate/ExponentialFamily.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/ExponentialFamily.h"
 
 /**
  * @brief The GammaDistribution class <BR>

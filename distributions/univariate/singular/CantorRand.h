@@ -1,8 +1,8 @@
 #ifndef CANTORRAND_H
 #define CANTORRAND_H
 
-#include "Distributions.h"
-#include "univariate/discrete/BernoulliRand.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/discrete/BernoulliRand.h"
 
 /**
  * @brief The CantorRand class <BR>

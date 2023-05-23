@@ -1,9 +1,9 @@
 #ifndef BIVARIATENORMALRAND_H
 #define BIVARIATENORMALRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
-#include "univariate/continuous/NormalRand.h"
+#include "distributions/univariate/continuous/NormalRand.h"
 
 /**
  * @brief The BivariateNormalRand class <BR>

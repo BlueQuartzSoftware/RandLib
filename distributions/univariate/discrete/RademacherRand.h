@@ -1,8 +1,8 @@
 #ifndef RADEMACHERRAND_H
 #define RADEMACHERRAND_H
 
-#include "Distributions.h"
-#include "univariate/BasicRandGenerator.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/BasicRandGenerator.h"
 
 /**
  * @brief The RademacherRand class <BR>

@@ -1,7 +1,7 @@
 #ifndef BETARAND_H
 #define BETARAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "GammaRand.h"
 #include "NormalRand.h"
 

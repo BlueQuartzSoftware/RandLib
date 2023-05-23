@@ -1,7 +1,7 @@
 #ifndef LOGISTICRAND_H
 #define LOGISTICRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "UniformRand.h"
 
 /**

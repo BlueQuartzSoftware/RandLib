@@ -1,8 +1,8 @@
 #ifndef NEGATIVEBINOMIALRAND_H
 #define NEGATIVEBINOMIALRAND_H
 
-#include "Distributions.h"
-#include "univariate/continuous/BetaRand.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/continuous/BetaRand.h"
 
 /**
  * @brief The NegativeBinomialDistribution class <BR>

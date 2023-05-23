@@ -1,7 +1,7 @@
 #ifndef CAUCHYRAND_H
 #define CAUCHYRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "StableRand.h"
 
 /**

@@ -1,7 +1,7 @@
 #ifndef CATEGORICALRAND_H
 #define CATEGORICALRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The CategoricalRand class <BR>

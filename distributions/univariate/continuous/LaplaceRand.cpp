@@ -1,6 +1,6 @@
 #include "LaplaceRand.h"
 
-#include "univariate/discrete/BernoulliRand.h"
+#include "distributions/univariate/discrete/BernoulliRand.h"
 
 template <typename RealType>
 AsymmetricLaplaceDistribution<RealType>::AsymmetricLaplaceDistribution(

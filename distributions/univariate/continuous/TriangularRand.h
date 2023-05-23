@@ -1,7 +1,7 @@
 #ifndef TRIANGULARRAND_H
 #define TRIANGULARRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The TriangularRand class <BR>

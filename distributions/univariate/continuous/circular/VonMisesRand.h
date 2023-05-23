@@ -1,7 +1,7 @@
 #ifndef VONMISESRAND_H
 #define VONMISESRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The VonMisesRand class <BR>

@@ -2,7 +2,7 @@
 #define WIGNERSEMICIRCLERAND_H
 
 #include "BetaRand.h"
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The WignerSemicircleRand class <BR>

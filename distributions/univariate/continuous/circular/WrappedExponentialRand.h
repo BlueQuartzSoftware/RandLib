@@ -1,7 +1,7 @@
 #ifndef WRAPPEDEXPONENTIALRAND_H
 #define WRAPPEDEXPONENTIALRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The WrappedExponentialRand class <BR>

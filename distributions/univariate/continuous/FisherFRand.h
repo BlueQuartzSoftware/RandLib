@@ -2,7 +2,7 @@
 #define FISHERFRAND_H
 
 #include "BetaPrimeRand.h"
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The FisherFRand class <BR>

@@ -1,7 +1,7 @@
 #ifndef LOGNORMALRAND_H
 #define LOGNORMALRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "NormalRand.h"
 
 /**

@@ -1,7 +1,7 @@
 #ifndef GEOMETRICSTABLERAND_H
 #define GEOMETRICSTABLERAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "StableRand.h"
 
 /**

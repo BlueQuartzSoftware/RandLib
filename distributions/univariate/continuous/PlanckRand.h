@@ -1,9 +1,9 @@
 #ifndef PLANCKRAND_H
 #define PLANCKRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "GammaRand.h"
-#include "univariate/discrete/ZetaRand.h"
+#include "distributions/univariate/discrete/ZetaRand.h"
 
 /**
  * @brief The PlanckRand class <BR>

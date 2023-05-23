@@ -6,7 +6,7 @@
 #include "RandLib_global.h"
 #include "math/NumericMath.h"
 #include "math/RandMath.h"
-#include "univariate/BasicRandGenerator.h"
+#include "distributions/univariate/BasicRandGenerator.h"
 
 /**
  * @brief The ProbabilityDistribution class <BR>

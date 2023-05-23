@@ -2,7 +2,7 @@
 #define NEGATIVEHYPERGEOMETRICRAND_H
 
 #include "BernoulliRand.h"
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The NegativeHyperGeometricRand class <BR>

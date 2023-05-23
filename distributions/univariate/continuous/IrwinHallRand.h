@@ -1,7 +1,7 @@
 #ifndef IRWINHALLRAND_H
 #define IRWINHALLRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "UniformRand.h"
 
 /**

@@ -1,8 +1,8 @@
 #ifndef UNIFORM_DISCRETE_RAND_H
 #define UNIFORM_DISCRETE_RAND_H
 
-#include "Distributions.h"
-#include "univariate/BasicRandGenerator.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/BasicRandGenerator.h"
 
 /**
  * @brief The UniformDiscreteRand class <BR>

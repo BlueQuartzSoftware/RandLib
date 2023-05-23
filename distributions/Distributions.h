@@ -2,7 +2,7 @@
 #define RANDLIB_H
 
 #include "ProbabilityDistribution.h"
-#include "univariate/BasicRandGenerator.h"
+#include "distributions/univariate/BasicRandGenerator.h"
 
 namespace distributions {
 /**

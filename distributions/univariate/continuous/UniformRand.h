@@ -2,7 +2,7 @@
 #define UNIFORMRAND_H
 
 #include "BetaRand.h"
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "ParetoRand.h"
 
 /**

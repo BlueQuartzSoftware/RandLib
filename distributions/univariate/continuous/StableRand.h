@@ -1,7 +1,7 @@
 #ifndef STABLERAND_H
 #define STABLERAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The StableDistribution class <BR>

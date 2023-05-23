@@ -4,7 +4,7 @@
 #include "StudentTRand.h"
 #include "UniformRand.h"
 
-#include "univariate/BasicRandGenerator.h"
+#include "distributions/univariate/BasicRandGenerator.h"
 
 template <typename RealType>
 NormalRand<RealType>::NormalRand(double location, double variance)

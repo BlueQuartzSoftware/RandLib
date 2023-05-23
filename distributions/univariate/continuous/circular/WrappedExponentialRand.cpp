@@ -1,8 +1,8 @@
 #include "WrappedExponentialRand.h"
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
-#include "univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/UniformRand.h"
 
 template <typename RealType>
 WrappedExponentialRand<RealType>::WrappedExponentialRand(double rate)

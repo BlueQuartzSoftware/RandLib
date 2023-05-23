@@ -1,6 +1,6 @@
-#include "Distributions.h"
-#include "univariate/continuous/GammaRand.h"
-#include "univariate/continuous/KolmogorovSmirnovRand.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/continuous/GammaRand.h"
+#include "distributions/univariate/continuous/KolmogorovSmirnovRand.h"
 
 namespace distributions {
 // Distributions

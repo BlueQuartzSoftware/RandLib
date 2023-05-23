@@ -1,7 +1,7 @@
 #include "GeometricRand.h"
 
-#include "univariate/continuous/ExponentialRand.h"
-#include "univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/ExponentialRand.h"
+#include "distributions/univariate/continuous/UniformRand.h"
 
 template <typename IntType> String GeometricRand<IntType>::Name() const {
   return "Geometric(" + this->toStringWithPrecision(this->GetProbability()) +

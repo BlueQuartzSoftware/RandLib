@@ -1,7 +1,7 @@
 #ifndef FRECHETRAND_H
 #define FRECHETRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The FrechetRand class <BR>

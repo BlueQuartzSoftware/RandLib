@@ -1,7 +1,7 @@
 #ifndef EXPONENTIALFAMILY_H
 #define EXPONENTIALFAMILY_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 template <typename T, typename P> class RANDLIBSHARED_EXPORT ExponentialFamily {
 public:

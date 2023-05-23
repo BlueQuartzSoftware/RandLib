@@ -6,7 +6,7 @@
 #ifndef NONCENTRALTRAND_H
 #define NONCENTRALTRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "StudentTRand.h"
 
 /**

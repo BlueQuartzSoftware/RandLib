@@ -1,7 +1,7 @@
 #ifndef SKELLAMRAND_H
 #define SKELLAMRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "PoissonRand.h"
 
 /**

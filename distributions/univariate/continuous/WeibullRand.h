@@ -1,7 +1,7 @@
 #ifndef WEIBULLRAND_H
 #define WEIBULLRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 #include "InverseGammaRand.h"
 
 /**

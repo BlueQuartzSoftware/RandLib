@@ -1,7 +1,7 @@
 #ifndef RAISEDCOSINERAND_H
 #define RAISEDCOSINERAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The RaisedCosineDistribution class <BR>

@@ -1,9 +1,10 @@
 #ifndef EXPONENTIALLYMODIFIEDGAUSSIANRAND_H
 #define EXPONENTIALLYMODIFIEDGAUSSIANRAND_H
 
-#include "Distributions.h"
 #include "ExponentialRand.h"
 #include "NormalRand.h"
+
+#include "distributions/Distributions.h"
 
 /**
  * @brief The ExponentiallyModifiedGaussianRand class <BR>

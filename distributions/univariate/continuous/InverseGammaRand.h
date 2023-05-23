@@ -1,8 +1,9 @@
 #ifndef INVERSEGAMMARAND_H
 #define INVERSEGAMMARAND_H
 
-#include "Distributions.h"
 #include "GammaRand.h"
+
+#include "distributions/Distributions.h"
 
 /**
  * @brief The InverseGammaRand class <BR>

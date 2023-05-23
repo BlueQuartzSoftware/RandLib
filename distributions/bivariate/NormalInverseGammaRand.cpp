@@ -1,5 +1,5 @@
 #include "NormalInverseGammaRand.h"
-#include "univariate/continuous/NormalRand.h"
+#include "distributions/univariate/continuous/NormalRand.h"
 
 template <typename RealType>
 NormalInverseGammaRand<RealType>::NormalInverseGammaRand(double location,

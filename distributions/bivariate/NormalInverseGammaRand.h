@@ -1,10 +1,10 @@
 #ifndef NORMALINVERSEGAMMARAND_H
 #define NORMALINVERSEGAMMARAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
-#include "univariate/continuous/InverseGammaRand.h"
-#include "univariate/continuous/StudentTRand.h"
+#include "distributions/univariate/continuous/InverseGammaRand.h"
+#include "distributions/univariate/continuous/StudentTRand.h"
 
 /**
  * @brief The NormalInverseGammaRand class <BR>

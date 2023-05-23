@@ -1,7 +1,7 @@
 #ifndef GUMBELRAND_H
 #define GUMBELRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The GumbelRand class <BR>

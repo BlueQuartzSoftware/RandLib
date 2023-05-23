@@ -1,7 +1,7 @@
 #ifndef INVERSEGAUSSIANRAND_H
 #define INVERSEGAUSSIANRAND_H
 
-#include "Distributions.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The InverseGaussianRand class <BR>

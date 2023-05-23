@@ -1,8 +1,8 @@
 #ifndef ZIPFRAND_H
 #define ZIPFRAND_H
 
-#include "Distributions.h"
-#include "univariate/continuous/UniformRand.h"
+#include "distributions/Distributions.h"
+#include "distributions/univariate/continuous/UniformRand.h"
 
 /**
  * @brief The ZipfRand class <BR>

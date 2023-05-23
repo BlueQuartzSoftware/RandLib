@@ -1,6 +1,6 @@
 #include "NegativeBinomialRand.h"
 #include "PoissonRand.h"
-#include "univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/UniformRand.h"
 
 template <typename IntType, typename T>
 NegativeBinomialDistribution<IntType, T>::NegativeBinomialDistribution(
