@@ -35,6 +35,13 @@ endif()
 target_compile_definitions(RandLib PRIVATE RANDLIB_LIBRARY=true)
 
 set(RANDLIB_HDRS
+    # External Constexpr Math Library Functions
+    ${RandLib_SOURCE_DIR}/external/gcem_options.hpp
+    ${RandLib_SOURCE_DIR}/external/helpers.hpp
+    ${RandLib_SOURCE_DIR}/external/log.hpp
+    ${RandLib_SOURCE_DIR}/external/pow.hpp
+    ${RandLib_SOURCE_DIR}/external/sqrt.hpp
+
     # Overarching
     ${RandLib_SOURCE_DIR}/RandLib.h
     ${RandLib_SOURCE_DIR}/RandLib_global.h

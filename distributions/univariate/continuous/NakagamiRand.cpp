@@ -2,6 +2,9 @@
 #include "ExponentialRand.h"
 #include "NormalRand.h"
 
+#include "external/pow.hpp"
+#include "external/sqrt.hpp"
+
 template <typename RealType>
 NakagamiDistribution<RealType>::NakagamiDistribution(double shape,
                                                      double spread) {
@@ -393,7 +396,7 @@ RealType RayleighRand<RealType>::quantileImpl1m(double p) const {
 }
 
 template <typename RealType> RealType RayleighRand<RealType>::Median() const {
-  static constexpr double medianCoef = std::sqrt(M_LN2 + M_LN2);
+  static constexpr double medianCoef = nonstd::sqrt(M_LN2 + M_LN2);
   return sigma * medianCoef;
 }
 
@@ -404,7 +407,7 @@ template <typename RealType> RealType RayleighRand<RealType>::Mode() const {
 template <typename RealType>
 long double RayleighRand<RealType>::Skewness() const {
   static constexpr long double skewness =
-      2 * M_SQRTPI * (M_PI - 3) / std::pow(4.0 - M_PI, 1.5);
+      2 * M_SQRTPI * (M_PI - 3) / nonstd::pow(4.0 - M_PI, 1.5);
   return skewness;
 }
 

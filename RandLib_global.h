@@ -9,7 +9,7 @@
 #define Q_DECL_IMPORT __attribute__((visibility("default")))
 #endif
 
-#ifdef RANDLIB_LIBRARY
+#if RANDLIB_LIBRARY
 #define RANDLIBSHARED_EXPORT Q_DECL_EXPORT
 #else
 #define RANDLIBSHARED_EXPORT Q_DECL_IMPORT

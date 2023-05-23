@@ -4,6 +4,8 @@
 #include "LevyRand.h"
 #include "NormalRand.h"
 #include "UniformRand.h"
+
+#include <algorithm>
 #include <functional>
 
 template <typename RealType>
@@ -546,12 +548,12 @@ double StableDistribution<RealType>::pdfForGeneralExponent(double x) const {
   std::function<double(double)> funPtr =
       std::bind(&StableDistribution<RealType>::integrandAuxForGeneralExponent,
                 this, std::placeholders::_1, xAdj, xiAdj);
-  RandMath::findRootNewtonFirstOrder(funPtr, -xiAdj, M_PI_2, theta0);
+  RandMath::findRootNewtonFirstOrder(funPtr, -xiAdj, M_PI_2, static_cast<long double>(theta0));
 
   /// If theta0 is too close to π/2 or -xiAdj then we can still underestimate
   /// the integral
   int maxRecursionDepth = 11;
-  double closeness = std::min(M_PI_2 - theta0, theta0 + xiAdj);
+  double closeness = std::min(M_PI_2 - static_cast<long double>(theta0), static_cast<long double>(theta0) + static_cast<long double>(xiAdj));
   if (closeness < 0.1)
     maxRecursionDepth = 20;
   else if (closeness < 0.2)

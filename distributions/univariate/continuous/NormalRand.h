@@ -6,7 +6,12 @@
 
 #include "math/Constants.h"
 
+#include "external/log.hpp"
+#include "external/sqrt.hpp"
+
 #include "distributions/bivariate/NormalInverseGammaRand.h"
+
+#include <array>
 
 /**
  * @brief The NormalRand class <BR>
@@ -30,7 +35,6 @@ private:
 
       constexpr Ziggurat() {
         constexpr long double A = 4.92867323399e-3l; /// area under rectangle
-        std::array<LongDoublePair, 257> table{};
         /// coordinates of the implicit rectangle in base layer
         table[0].first = 0.001260285930498597l;   /// exp(-x1);
         table[0].second = 3.9107579595370918075l; /// A / stairHeight[0];
@@ -40,7 +44,7 @@ private:
         table[1].first = 0.002609072746106362l;
         for (size_t i = 2; i < 257 - 1; ++i) {
           /// such y_i that f(x_{i+1}) = y_i
-          table[i].second = std::sqrt(-2 * std::log(table[i - 1].first));
+          table[i].second = nonstd::sqrt(-2 * nonstd::log(table[i - 1].first));
           table[i].first = table[i - 1].first + A / table[i].second;
         }
       }
