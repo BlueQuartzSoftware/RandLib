@@ -36,7 +36,7 @@ target_compile_definitions(RandLib PRIVATE RANDLIB_LIBRARY=true)
 
 set(RANDLIB_HDRS
     # External Constexpr Math Library Functions
-    ${RandLib_SOURCE_DIR}/external/exp.hpp
+    ${RandLib_SOURCE_DIR}/external/checks.hpp
     ${RandLib_SOURCE_DIR}/external/floor.hpp
     ${RandLib_SOURCE_DIR}/external/gcem_options.hpp
     ${RandLib_SOURCE_DIR}/external/helpers.hpp

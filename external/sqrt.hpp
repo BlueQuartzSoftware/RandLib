@@ -22,8 +22,7 @@
  * compile-time square-root function
  */
 
-#ifndef _gcem_sqrt_HPP
-#define _gcem_sqrt_HPP
+#pragma once
 
 #include "gcem_options.hpp"
 #include "helpers.hpp"
@@ -38,7 +37,7 @@ T
 sqrt_recur(const T x, const T xn, const int count)
 noexcept
 {
-    return( abs(xn - x/xn) / (T(1) + xn) < GCLIM<T>::min() ? \
+    return( helpers::abs(xn - x/xn) / (T(1) + xn) < GCLIM<T>::min() ? \
             // if
                 xn :
             // else
@@ -74,18 +73,18 @@ T
 sqrt_check(const T x)
 noexcept
 {
-    return( is_nan(x) ? \
+    return( helpers::is_nan(x) ? \
                 GCLIM<T>::quiet_NaN() :
             //
             x < T(0) ? \
                 GCLIM<T>::quiet_NaN() :
             //
-            is_posinf(x) ? \
+            helpers::is_posinf(x) ? \
                 x :
             // indistinguishable from zero or one
-            GCLIM<T>::min() > abs(x) ? \
+            GCLIM<T>::min() > helpers::abs(x) ? \
                 T(0) :
-            GCLIM<T>::min() > abs(T(1) - x) ? \
+            GCLIM<T>::min() > helpers::abs(T(1) - x) ? \
                 x :
             // else
             sqrt_simplify(x, T(1)) );
@@ -111,5 +110,3 @@ noexcept
     return internal::sqrt_check( static_cast<gcem::return_t<T>>(x) );
 }
 }
-
-#endif

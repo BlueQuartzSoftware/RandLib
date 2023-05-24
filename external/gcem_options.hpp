@@ -18,32 +18,11 @@
   ##
   ################################################################################*/
 
+#pragma once
+
 #include <cstddef>      // size_t
 #include <limits>
 #include <type_traits>
-
-// undef some functions from math.h
-// see issue #29
-
-#ifdef abs
-    #undef abs
-#endif
-
-#ifdef min
-    #undef min
-#endif
-
-#ifdef max
-    #undef max
-#endif
-
-#ifdef round
-    #undef round
-#endif
-
-#ifdef signbit
-    #undef signbit
-#endif
 
 //
 // version

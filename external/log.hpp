@@ -22,9 +22,9 @@
  * compile-time natural logarithm function
  */
 
-#ifndef _gcem_log_HPP
-#define _gcem_log_HPP
+#pragma once
 
+#include "checks.hpp"
 #include "gcem_options.hpp"
 #include "helpers.hpp"
 
@@ -122,7 +122,7 @@ T
 log_breakup(const T x)
 noexcept
 {   // x = a*b, where b = 10^c
-    return( log_mantissa(mantissa(x)) + T(GCEM_LOG_10)*T(find_exponent(x,0)) );
+    return( log_mantissa(helpers::mantissa(x)) + T(GCEM_LOG_10)*T(checks::find_exponent(x,0)) );
 }
 
 template<typename T>
@@ -131,7 +131,7 @@ T
 log_check(const T x)
 noexcept
 {
-    return( is_nan(x) ? \
+    return( helpers::is_nan(x) ? \
                 GCLIM<T>::quiet_NaN() :
             // x < 0
             x < T(0) ? \
@@ -140,7 +140,7 @@ noexcept
             GCLIM<T>::min() > x ? \
                 - GCLIM<T>::infinity() :
             // indistinguishable from 1
-            GCLIM<T>::min() > abs(x - T(1)) ? \
+            GCLIM<T>::min() > helpers::abs(x - T(1)) ? \
                 T(0) : 
             // 
             x == GCLIM<T>::infinity() ? \
@@ -189,4 +189,3 @@ noexcept
     return internal::log_integral_check( x );
 }
 }
-#endif

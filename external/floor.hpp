@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_floor_HPP
-#define _gcem_floor_HPP
+#pragma once
 
 #include "gcem_options.hpp"
 #include "helpers.hpp"
@@ -62,7 +61,7 @@ float
 floor_check_internal<float>(const float x)
 noexcept
 {
-    return( abs(x) >= 8388608.f ? \
+    return( helpers::abs(x) >= 8388608.f ? \
             // if
                 x : \
             // else
@@ -75,7 +74,7 @@ double
 floor_check_internal<double>(const double x)
 noexcept
 {
-    return( abs(x) >= 4503599627370496. ? \
+    return( helpers::abs(x) >= 4503599627370496. ? \
             // if
                 x : \
             // else
@@ -88,11 +87,11 @@ long double
 floor_check_internal<long double>(const long double x)
 noexcept
 {
-    return( abs(x) >= 9223372036854775808.l ? \
+    return( helpers::abs(x) >= 9223372036854775808.l ? \
             // if
                 x : \
             // else
-                floor_int(x, ((long double)static_cast<ullint_t>(abs(x))) * nonstd::sgn(x)) );
+                floor_int(x, ((long double)static_cast<ullint_t>(helpers::abs(x))) * nonstd::sgn(x)) );
 }
 
 template<typename T>
@@ -102,13 +101,13 @@ floor_check(const T x)
 noexcept
 {
     return( // NaN check
-            is_nan(x) ? \
+            helpers::is_nan(x) ? \
                 GCLIM<T>::quiet_NaN() :
             // +/- infinite
-            !is_finite(x) ? \
+            !helpers::is_finite(x) ? \
                 x :
             // signed-zero cases
-            GCLIM<T>::min() > abs(x) ? \
+            GCLIM<T>::min() > helpers::abs(x) ? \
                 x :
             // else
                 floor_check_internal(x) );
@@ -134,5 +133,3 @@ noexcept
     return internal::floor_check( static_cast<gcem::return_t<T>>(x) );
 }
 }
-
-#endif

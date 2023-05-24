@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_sgn_HPP
-#define _gcem_sgn_HPP
+#pragma once
 
 namespace nonstd
 {
@@ -44,5 +43,3 @@ noexcept
                 0 );
 }
 }
-
-#endif
