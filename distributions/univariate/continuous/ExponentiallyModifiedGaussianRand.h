@@ -16,8 +16,8 @@
  * X = Y + Z, where Y ~ Normal(μ, σ) and Z ~ Exp(β)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT ExponentiallyModifiedGaussianRand
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT ExponentiallyModifiedGaussianRand : public distributions::ContinuousDistribution<RealType>
+{
   NormalRand<RealType> X{};
   ExponentialRand<RealType> Y{};
 
@@ -27,32 +27,46 @@ class RANDLIBSHARED_EXPORT ExponentiallyModifiedGaussianRand
   double v = 1;         /// βσ
 
 public:
-  explicit ExponentiallyModifiedGaussianRand(double location = 0,
-                                             double variance = 1,
-                                             double rate = 1);
+  explicit ExponentiallyModifiedGaussianRand(double location = 0, double variance = 1, double rate = 1);
 
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::INFINITE_T; }
-  RealType MinValue() const override { return -INFINITY; }
-  RealType MaxValue() const override { return INFINITY; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::INFINITE_T;
+  }
+  RealType MinValue() const override
+  {
+    return -INFINITY;
+  }
+  RealType MaxValue() const override
+  {
+    return INFINITY;
+  }
 
   void SetParameters(double location, double variance, double rate);
-  inline double GetLocation() const { return X.GetLocation(); }
-  inline double GetScale() const { return X.GetScale(); }
-  inline double GetRate() const { return Y.GetRate(); }
+  inline double GetLocation() const
+  {
+    return X.GetLocation();
+  }
+  inline double GetScale() const
+  {
+    return X.GetScale();
+  }
+  inline double GetRate() const
+  {
+    return Y.GetRate();
+  }
 
 private:
-  DoublePair faux(const RealType &x) const;
+  DoublePair faux(const RealType& x) const;
 
 public:
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
   RealType Variate() const override;
-  static RealType
-  StandardVariate(RandGenerator &randGenerator =
-                      ProbabilityDistribution<RealType>::staticRandGenerator);
+  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
   void Reseed(unsigned long seed) const override;
 
   long double Mean() const override;

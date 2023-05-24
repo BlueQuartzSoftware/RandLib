@@ -10,8 +10,8 @@
  * Notation: X ~ Tri(a, b, c)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT TriangularRand
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT TriangularRand : public distributions::ContinuousDistribution<RealType>
+{
   double a = 0;                 ///< min value
   double b = 2;                 ///< max value
   double c = 1;                 ///< mode
@@ -22,20 +22,28 @@ class RANDLIBSHARED_EXPORT TriangularRand
   void SetConstantsForGenerator();
 
 public:
-  TriangularRand(double lowerLimit = 0, double mode = 0.5,
-                 double upperLimit = 1);
+  TriangularRand(double lowerLimit = 0, double mode = 0.5, double upperLimit = 1);
 
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  RealType MinValue() const override { return a; }
-  RealType MaxValue() const override { return b; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  RealType MinValue() const override
+  {
+    return a;
+  }
+  RealType MaxValue() const override
+  {
+    return b;
+  }
 
   void SetParameters(double lowerLimit, double mode, double upperLimit);
 
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
   RealType Variate() const override;
 
 public:

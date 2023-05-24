@@ -3,26 +3,24 @@
 #include "UniformDiscreteRand.h"
 
 template <typename IntType>
-BetaBinomialRand<IntType>::BetaBinomialRand(IntType number, double shape1,
-                                            double shape2) {
+BetaBinomialRand<IntType>::BetaBinomialRand(IntType number, double shape1, double shape2)
+{
   SetParameters(number, shape1, shape2);
 }
 
-template <typename IntType> String BetaBinomialRand<IntType>::Name() const {
-  return "Beta-Binomial(" + this->toStringWithPrecision(GetNumber()) + ", " +
-         this->toStringWithPrecision(GetAlpha()) + ", " +
-         this->toStringWithPrecision(GetBeta()) + ")";
+template <typename IntType>
+String BetaBinomialRand<IntType>::Name() const
+{
+  return "Beta-Binomial(" + this->toStringWithPrecision(GetNumber()) + ", " + this->toStringWithPrecision(GetAlpha()) + ", " + this->toStringWithPrecision(GetBeta()) + ")";
 }
 
 template <typename IntType>
-void BetaBinomialRand<IntType>::SetParameters(IntType number, double shape1,
-                                              double shape2) {
-  if (shape1 <= 0.0 || shape2 <= 0.0)
-    throw std::invalid_argument(
-        "Beta-Binomial distribution: shape parameters should be positive");
-  if (number <= 0)
-    throw std::invalid_argument(
-        "Beta-Binomial distribution: number should be positive");
+void BetaBinomialRand<IntType>::SetParameters(IntType number, double shape1, double shape2)
+{
+  if(shape1 <= 0.0 || shape2 <= 0.0)
+    throw std::invalid_argument("Beta-Binomial distribution: shape parameters should be positive");
+  if(number <= 0)
+    throw std::invalid_argument("Beta-Binomial distribution: number should be positive");
   n = number;
   B.SetShapes(shape1, shape2);
   pmfCoef = RandMath::lfact(n);
@@ -31,13 +29,15 @@ void BetaBinomialRand<IntType>::SetParameters(IntType number, double shape1,
 }
 
 template <typename IntType>
-double BetaBinomialRand<IntType>::P(const IntType &k) const {
+double BetaBinomialRand<IntType>::P(const IntType& k) const
+{
   return (k < 0 || k > n) ? 0.0 : std::exp(logP(k));
 }
 
 template <typename IntType>
-double BetaBinomialRand<IntType>::logP(const IntType &k) const {
-  if (k < 0 || k > n)
+double BetaBinomialRand<IntType>::logP(const IntType& k) const
+{
+  if(k < 0 || k > n)
     return -INFINITY;
   double y = std::lgammal(k + B.GetAlpha());
   y += std::lgammal(n - k + B.GetBeta());
@@ -47,63 +47,75 @@ double BetaBinomialRand<IntType>::logP(const IntType &k) const {
 }
 
 template <typename IntType>
-double BetaBinomialRand<IntType>::F(const IntType &k) const {
-  if (k < 0)
+double BetaBinomialRand<IntType>::F(const IntType& k) const
+{
+  if(k < 0)
     return 0.0;
-  if (k >= n) {
+  if(k >= n)
+  {
     return 1.0;
   }
   double sum = 0.0;
   int i = 0;
-  do {
+  do
+  {
     sum += P(i);
-  } while (++i <= k);
+  } while(++i <= k);
   return sum;
 }
 
 template <typename IntType>
-IntType BetaBinomialRand<IntType>::VariateUniform() const {
-  return UniformDiscreteRand<IntType>::StandardVariate(
-      0, n, this->localRandGenerator);
+IntType BetaBinomialRand<IntType>::VariateUniform() const
+{
+  return UniformDiscreteRand<IntType>::StandardVariate(0, n, this->localRandGenerator);
 }
 
 template <typename IntType>
-IntType BetaBinomialRand<IntType>::VariateBeta() const {
+IntType BetaBinomialRand<IntType>::VariateBeta() const
+{
   double p = B.Variate();
   return BinomialDistribution<IntType>::Variate(n, p, this->localRandGenerator);
 }
 
-template <typename IntType> IntType BetaBinomialRand<IntType>::Variate() const {
-  return (B.GetAlpha() == 1 && B.GetBeta() == 1) ? VariateUniform()
-                                                 : VariateBeta();
+template <typename IntType>
+IntType BetaBinomialRand<IntType>::Variate() const
+{
+  return (B.GetAlpha() == 1 && B.GetBeta() == 1) ? VariateUniform() : VariateBeta();
 }
 
 template <typename IntType>
-void BetaBinomialRand<IntType>::Sample(std::vector<IntType> &outputData) const {
-  if (B.GetAlpha() == 1 && B.GetBeta() == 1) {
-    for (IntType &var : outputData)
+void BetaBinomialRand<IntType>::Sample(std::vector<IntType>& outputData) const
+{
+  if(B.GetAlpha() == 1 && B.GetBeta() == 1)
+  {
+    for(IntType& var : outputData)
       var = VariateUniform();
-  } else {
-    for (IntType &var : outputData)
+  }
+  else
+  {
+    for(IntType& var : outputData)
       var = VariateBeta();
   }
 }
 
 template <typename IntType>
-void BetaBinomialRand<IntType>::Reseed(unsigned long seed) const {
+void BetaBinomialRand<IntType>::Reseed(unsigned long seed) const
+{
   this->localRandGenerator.Reseed(seed);
   B.Reseed(seed + 1);
 }
 
 template <typename IntType>
-long double BetaBinomialRand<IntType>::Mean() const {
+long double BetaBinomialRand<IntType>::Mean() const
+{
   double alpha = B.GetAlpha();
   double beta = B.GetBeta();
   return n * alpha / (alpha + beta);
 }
 
 template <typename IntType>
-long double BetaBinomialRand<IntType>::Variance() const {
+long double BetaBinomialRand<IntType>::Variance() const
+{
   double alpha = B.GetAlpha();
   double beta = B.GetBeta();
   double alphaPBeta = alpha + beta;
@@ -113,18 +125,21 @@ long double BetaBinomialRand<IntType>::Variance() const {
   return numerator / denominator;
 }
 
-template <typename IntType> IntType BetaBinomialRand<IntType>::Mode() const {
+template <typename IntType>
+IntType BetaBinomialRand<IntType>::Mode() const
+{
   IntType mode = (IntType)(n * B.Mode());
   double logPmode = this->logP(mode);
-  if (this->logP(mode + 1) > logPmode)
+  if(this->logP(mode + 1) > logPmode)
     return mode + 1;
-  if (this->logP(mode - 1) > logPmode)
+  if(this->logP(mode - 1) > logPmode)
     return mode - 1;
   return mode;
 }
 
 template <typename IntType>
-long double BetaBinomialRand<IntType>::Skewness() const {
+long double BetaBinomialRand<IntType>::Skewness() const
+{
   long double alpha = B.GetAlpha();
   long double beta = B.GetBeta();
   long double alphaPBeta = alpha + beta;
@@ -136,7 +151,8 @@ long double BetaBinomialRand<IntType>::Skewness() const {
 }
 
 template <typename IntType>
-long double BetaBinomialRand<IntType>::ExcessKurtosis() const {
+long double BetaBinomialRand<IntType>::ExcessKurtosis() const
+{
   long double alpha = B.GetAlpha();
   long double beta = B.GetBeta();
   long double alphaPBeta = alpha + beta;

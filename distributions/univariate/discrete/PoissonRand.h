@@ -13,9 +13,8 @@
  * Notation: X ~ Po(λ)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT PoissonRand
-    : public distributions::DiscreteDistribution<IntType>,
-      public ExponentialFamily<IntType, double> {
+class RANDLIB_EXPORT PoissonRand : public distributions::DiscreteDistribution<IntType>, public ExponentialFamily<IntType, double>
+{
   double lambda = 1;      ///< rate λ
   double logLambda = 0;   ///< ln(λ)
   double Fmu = 2 * M_1_E; ///< P(X < [λ])
@@ -30,11 +29,16 @@ class RANDLIBSHARED_EXPORT PoissonRand
 public:
   explicit PoissonRand(double rate = 1.0);
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override {
+  SUPPORT_TYPE SupportType() const override
+  {
     return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  IntType MinValue() const override { return 0; }
-  IntType MaxValue() const override {
+  IntType MinValue() const override
+  {
+    return 0;
+  }
+  IntType MaxValue() const override
+  {
     return std::numeric_limits<IntType>::max();
   }
 
@@ -43,7 +47,10 @@ private:
 
 public:
   void SetRate(double rate);
-  inline double GetRate() const { return lambda; }
+  inline double GetRate() const
+  {
+    return lambda;
+  }
 
   double SufficientStatistic(IntType x) const override;
   double SourceParameters() const override;
@@ -55,9 +62,9 @@ public:
   double CrossEntropyAdjusted(double parameters) const override;
   double EntropyAdjusted() const override;
 
-  double logP(const IntType &k) const override;
-  double F(const IntType &k) const override;
-  double S(const IntType &k) const override;
+  double logP(const IntType& k) const override;
+  double F(const IntType& k) const override;
+  double S(const IntType& k) const override;
 
 private:
   double acceptanceFunction(IntType X) const;
@@ -67,11 +74,8 @@ private:
 
 public:
   IntType Variate() const override;
-  static IntType
-  Variate(double rate,
-          RandGenerator &randGenerator =
-              ProbabilityDistribution<IntType>::staticRandGenerator);
-  void Sample(std::vector<IntType> &outputData) const;
+  static IntType Variate(double rate, RandGenerator& randGenerator = ProbabilityDistribution<IntType>::staticRandGenerator);
+  void Sample(std::vector<IntType>& outputData) const;
 
   long double Mean() const override;
   long double Variance() const override;
@@ -89,15 +93,14 @@ public:
    * fit rate λ via maximum-likelihood method
    * @param sample
    */
-  void Fit(const std::vector<IntType> &sample);
+  void Fit(const std::vector<IntType>& sample);
   /**
    * @brief Fit
    * @param sample
    * @param confidenceInterval
    * @param significanceLevel
    */
-  void Fit(const std::vector<IntType> &sample, DoublePair &confidenceInterval,
-           double significanceLevel);
+  void Fit(const std::vector<IntType>& sample, DoublePair& confidenceInterval, double significanceLevel);
   /**
    * @fn FitBayes
    * fit rate λ via Bayes estimation
@@ -106,9 +109,7 @@ public:
    * @param MAP if true, use MAP estimator
    * @return posterior Gamma distribution
    */
-  GammaRand<> FitBayes(const std::vector<IntType> &sample,
-                       const GammaDistribution<> &priorDistribution,
-                       bool MAP = false);
+  GammaRand<> FitBayes(const std::vector<IntType>& sample, const GammaDistribution<>& priorDistribution, bool MAP = false);
 };
 
 #endif // POISSONRAND_H

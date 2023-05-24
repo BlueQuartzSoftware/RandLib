@@ -10,8 +10,8 @@
  *
  * Notation X ~ Cantor()
  */
-class RANDLIBSHARED_EXPORT CantorRand
-    : public distributions::SingularDistribution {
+class RANDLIB_EXPORT CantorRand : public distributions::SingularDistribution
+{
   static constexpr int n = 30;
   static double table[n]; /// all powers of 1/3 from 1 to n
   static const bool dummy;
@@ -20,11 +20,20 @@ class RANDLIBSHARED_EXPORT CantorRand
 public:
   CantorRand();
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  double MinValue() const override { return 0; }
-  double MaxValue() const override { return 1; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  double MinValue() const override
+  {
+    return 0;
+  }
+  double MaxValue() const override
+  {
+    return 1;
+  }
 
-  double F(const double &x) const override;
+  double F(const double& x) const override;
   double Variate() const override;
 
   long double Mean() const override;

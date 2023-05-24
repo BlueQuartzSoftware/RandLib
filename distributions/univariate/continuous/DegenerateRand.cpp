@@ -1,51 +1,96 @@
 #include "DegenerateRand.h"
 
-DegenerateRand::DegenerateRand(double value) { SetValue(value); }
+DegenerateRand::DegenerateRand(double value)
+{
+  SetValue(value);
+}
 
-String DegenerateRand::Name() const { return "Degenerate"; }
+String DegenerateRand::Name() const
+{
+  return "Degenerate";
+}
 
-void DegenerateRand::SetValue(double value) { a = value; }
+void DegenerateRand::SetValue(double value)
+{
+  a = value;
+}
 
-double DegenerateRand::f(const double &x) const {
+double DegenerateRand::f(const double& x) const
+{
   return (x == a) ? INFINITY : 0.0;
 }
 
-double DegenerateRand::logf(const double &x) const {
+double DegenerateRand::logf(const double& x) const
+{
   return (x == a) ? INFINITY : -INFINITY;
 }
 
-double DegenerateRand::F(const double &x) const { return (x < a) ? 0.0 : 1.0; }
+double DegenerateRand::F(const double& x) const
+{
+  return (x < a) ? 0.0 : 1.0;
+}
 
-double DegenerateRand::Variate() const { return a; }
+double DegenerateRand::Variate() const
+{
+  return a;
+}
 
-long double DegenerateRand::Mean() const { return a; }
+long double DegenerateRand::Mean() const
+{
+  return a;
+}
 
-long double DegenerateRand::Variance() const { return 0.0; }
+long double DegenerateRand::Variance() const
+{
+  return 0.0;
+}
 
-std::complex<double> DegenerateRand::CFImpl(double t) const {
+std::complex<double> DegenerateRand::CFImpl(double t) const
+{
   double re = std::cos(a * t);
   double im = std::sin(a * t);
   return std::complex<double>(re, im);
 }
 
-double DegenerateRand::quantileImpl(double) const { return a; }
+double DegenerateRand::quantileImpl(double) const
+{
+  return a;
+}
 
-double DegenerateRand::quantileImpl1m(double) const { return a; }
+double DegenerateRand::quantileImpl1m(double) const
+{
+  return a;
+}
 
-double DegenerateRand::Median() const { return a; }
+double DegenerateRand::Median() const
+{
+  return a;
+}
 
-double DegenerateRand::Mode() const { return a; }
+double DegenerateRand::Mode() const
+{
+  return a;
+}
 
-long double DegenerateRand::Skewness() const { return NAN; }
+long double DegenerateRand::Skewness() const
+{
+  return NAN;
+}
 
-long double DegenerateRand::ExcessKurtosis() const { return NAN; }
+long double DegenerateRand::ExcessKurtosis() const
+{
+  return NAN;
+}
 
-long double DegenerateRand::Entropy() const { return 0.0; }
+long double DegenerateRand::Entropy() const
+{
+  return 0.0;
+}
 
-void DegenerateRand::Fit(const std::vector<double> &sample) {
+void DegenerateRand::Fit(const std::vector<double>& sample)
+{
   auto sampleBegin = sample.begin();
-  if (!std::equal(sampleBegin, sample.end(), sampleBegin))
-    throw std::invalid_argument(this->fitErrorDescription(
-        this->WRONG_SAMPLE, "All elements should be equal to each other"));
+  if(!std::equal(sampleBegin, sample.end(), sampleBegin))
+    throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, "All elements should be equal to each other"));
   SetValue(*sampleBegin);
 }

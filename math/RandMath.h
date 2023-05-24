@@ -1,23 +1,23 @@
 #ifndef RANDMATH_H
 #define RANDMATH_H
 
-#include <cmath>
-#include <functional>
-#include <complex>
-#include <vector>
-#include <utility>
 #include <algorithm>
+#include <cmath>
+#include <complex>
+#include <functional>
 #include <numeric>
+#include <utility>
+#include <vector>
 
+#include "BetaMath.h"
 #include "Constants.h"
 #include "GammaMath.h"
-#include "BetaMath.h"
 
 namespace RandMath
 {
 
 template <int TABLE_SIZE>
-constexpr std::array<LongDoublePair, TABLE_SIZE> createZiggurat(const std::function<LongDoublePair (const LongDoublePair &)> &funPtr, LongDoublePair first, LongDoublePair second);
+constexpr std::array<LongDoublePair, TABLE_SIZE> createZiggurat(const std::function<LongDoublePair(const LongDoublePair&)>& funPtr, LongDoublePair first, LongDoublePair second);
 
 /**
  * @fn areClose
@@ -26,14 +26,14 @@ constexpr std::array<LongDoublePair, TABLE_SIZE> createZiggurat(const std::funct
  * @param eps
  * @return |a - b| < eps * max(a, b)
  */
-template<typename RealType>
+template <typename RealType>
 bool areClose(RealType a, RealType b, RealType eps = 1e-6)
 {
-    if (a == b)
-        return true;
-    RealType fa = std::fabs(a);
-    RealType fb = std::fabs(b);
-    return std::fabs(b - a) < eps * std::max(fa, fb);
+  if(a == b)
+    return true;
+  RealType fa = std::fabs(a);
+  RealType fb = std::fabs(b);
+  return std::fabs(b - a) < eps * std::max(fa, fb);
 }
 
 /**
@@ -184,6 +184,6 @@ double MarcumQ(double mu, double x, double y, double sqrtX, double sqrtY, double
  * @return Marcum Q-function
  */
 double MarcumQ(double mu, double x, double y);
-}
+} // namespace RandMath
 
 #endif // RANDMATH_H

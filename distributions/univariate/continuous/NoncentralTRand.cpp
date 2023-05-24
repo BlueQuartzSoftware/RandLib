@@ -8,17 +8,17 @@
 //#include "NormalRand.h"
 //#include <functional>
 //
-//NoncentralTRand::NoncentralTRand(double degree, double noncentrality)
+// NoncentralTRand::NoncentralTRand(double degree, double noncentrality)
 //    : T(degree) {
 //  SetParameters(degree, noncentrality);
 //}
 //
-//std::string NoncentralTRand::Name() const {
+// std::string NoncentralTRand::Name() const {
 //  return "Noncentral-t(" + toStringWithPrecision(GetDegree()) + ", " +
 //         toStringWithPrecision(GetNoncentrality()) + ")";
 //}
 //
-//void NoncentralTRand::SetParameters(double degree, double noncentrality) {
+// void NoncentralTRand::SetParameters(double degree, double noncentrality) {
 //  nu = (degree > 0.0) ? degree : 1.0;
 //  T.SetDegree(nu);
 //  sqrt1p2oNu = std::exp(0.5 * std::log1p(2.0 / nu));
@@ -47,7 +47,7 @@
 //  nup2Coefs.lgamma2 = std::lgamma(startingPoint + 1 + nup2Coefs.halfNu);
 //}
 //
-//double NoncentralTRand::cdfSeries(const double &x, const nuStruct &degreeCoef,
+// double NoncentralTRand::cdfSeries(const double &x, const nuStruct &degreeCoef,
 //                                  double noncentrality) const {
 //  if (x == 0.0)
 //    return 0.0;
@@ -155,8 +155,8 @@
 //  return 0.5 * (sum1 + sum2);
 //}
 //
-//double
-//NoncentralTRand::cdfComplSeries(const double &x,
+// double
+// NoncentralTRand::cdfComplSeries(const double &x,
 //                                const NoncentralTRand::nuStruct &degreeCoef,
 //                                double noncentrality) const {
 //  // TODO: find bug here, sum is always around 1e-15
@@ -262,14 +262,14 @@
 //  return 0.5 * (sum1 + sum2);
 //}
 //
-//double NoncentralTRand::logPdfAtZero() const {
+// double NoncentralTRand::logPdfAtZero() const {
 //  double y = mu * mu + M_LN2 + nuCoefs.logHalfNu;
 //  y *= -0.5;
 //  y -= T.logBetaFun;
 //  return y;
 //}
 //
-//double NoncentralTRand::pdfCommon(const double &x, double noncentrality) const {
+// double NoncentralTRand::pdfCommon(const double &x, double noncentrality) const {
 //  double y = 0.0;
 //  if (x >= 0.0) {
 //    y = cdfSeries(x * sqrt1p2oNu, nup2Coefs, noncentrality);
@@ -282,13 +282,13 @@
 //  return std::max(y, 0.0);
 //}
 //
-//double NoncentralTRand::f(const double &x) const {
+// double NoncentralTRand::f(const double &x) const {
 //  if (mu == 0.0)
 //    return T.f(x);
 //  return (x == 0.0) ? std::exp(logPdfAtZero()) : pdfCommon(x, mu);
 //}
 //
-//double NoncentralTRand::logf(const double &x) const {
+// double NoncentralTRand::logf(const double &x) const {
 //  if (mu == 0.0)
 //    return T.logf(x);
 //  if (x == 0.0)
@@ -297,7 +297,7 @@
 //  return (y > 0.0) ? std::log(y) : -INFINITY;
 //}
 //
-//double NoncentralTRand::F(const double &x) const {
+// double NoncentralTRand::F(const double &x) const {
 //  if (mu == 0.0)
 //    return T.F(x);
 //  if (x == 0.0)
@@ -312,7 +312,7 @@
 //  cdfComplSeries(-x, nuCoefs, -mu); return std::max(y, 0.0);*/
 //}
 //
-//double NoncentralTRand::S(const double &x) const {
+// double NoncentralTRand::S(const double &x) const {
 //  if (mu == 0.0)
 //    return T.S(x);
 //  double y = (x >= 0.0) ? cdfComplSeries(x, nuCoefs, mu)
@@ -320,13 +320,13 @@
 //  return std::max(y, 0.0);
 //}
 //
-//double NoncentralTRand::Variate() const {
+// double NoncentralTRand::Variate() const {
 //  double X = NormalRand<>::StandardVariate() + mu;
 //  X /= T.Y.Variate();
 //  return X;
 //}
 //
-//void NoncentralTRand::Sample(std::vector<double> &outputData) const {
+// void NoncentralTRand::Sample(std::vector<double> &outputData) const {
 //  if (mu == 0.0)
 //    return T.Sample(outputData);
 //  T.Y.Sample(outputData);
@@ -334,7 +334,7 @@
 //    var = (mu + NormalRand<>::StandardVariate()) / var;
 //}
 //
-//double NoncentralTRand::Mean() const {
+// double NoncentralTRand::Mean() const {
 //  if (nu <= 1)
 //    return NAN;
 //  if (mu == 0.0)
@@ -344,7 +344,7 @@
 //  return 2 * mu / (nu - 1) * std::exp(temp);
 //}
 //
-//double NoncentralTRand::Variance() const {
+// double NoncentralTRand::Variance() const {
 //  if (nu <= 2)
 //    return (nu > 1) ? INFINITY : NAN;
 //  double mean = Mean();
@@ -352,7 +352,7 @@
 //         mean * mean; // TODO: Wikipedia lies, re-check
 //}
 //
-//double NoncentralTRand::Mode() const {
+// double NoncentralTRand::Mode() const {
 //  if (mu == 0.0)
 //    return 0.0;
 //  double left = std::sqrt(nu / (nu + 2.5));  /// left boundary for mode / μ
@@ -363,7 +363,7 @@
 //  return root;
 //}
 //
-//double NoncentralTRand::Skewness() const {
+// double NoncentralTRand::Skewness() const {
 //  if (nu <= 3)
 //    return NAN;
 //  double mean = Mean();
@@ -379,7 +379,7 @@
 //         denominator; // TODO: Wikipedia lies, re-check
 //}
 //
-//double NoncentralTRand::ExcessKurtosis() const {
+// double NoncentralTRand::ExcessKurtosis() const {
 //  if (nu <= 4)
 //    return (nu > 2) ? INFINITY : NAN;
 //  double fourthMoment = nu * nu / ((nu - 2) * (nu - 4));
@@ -398,7 +398,7 @@
 //  return kurtosis / (var * var); // TODO: Wikipedia lies, re-check
 //}
 //
-//double NoncentralTRand::quantileImpl(double p) const {
+// double NoncentralTRand::quantileImpl(double p) const {
 //  if (p > 1e-5)
 //    return ContinuousDistribution::quantileImpl(p);
 //  /// we need to be cautious with small values of p
@@ -419,7 +419,7 @@
 //  return NAN;
 //}
 //
-//double NoncentralTRand::quantileImpl1m(double p) const {
+// double NoncentralTRand::quantileImpl1m(double p) const {
 //  if (p > 1e-5)
 //    return ContinuousDistribution::quantileImpl1m(p);
 //  /// we need to be cautious with small values of p

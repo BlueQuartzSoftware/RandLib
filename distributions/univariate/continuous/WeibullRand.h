@@ -1,8 +1,8 @@
 #ifndef WEIBULLRAND_H
 #define WEIBULLRAND_H
 
-#include "distributions/Distributions.h"
 #include "InverseGammaRand.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The WeibullRand class <BR>
@@ -11,8 +11,8 @@
  * Notation: X ~ Weibull(λ, k)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT WeibullRand
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT WeibullRand : public distributions::ContinuousDistribution<RealType>
+{
   double lambda = 1;      ///< scale λ
   double k = 1;           ///< shape k
   double kInv = 1;        /// 1 /k
@@ -22,20 +22,33 @@ public:
   WeibullRand(double scale = 1, double shape = 1);
 
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override {
+  SUPPORT_TYPE SupportType() const override
+  {
     return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  RealType MinValue() const override { return 0; }
-  RealType MaxValue() const override { return INFINITY; }
+  RealType MinValue() const override
+  {
+    return 0;
+  }
+  RealType MaxValue() const override
+  {
+    return INFINITY;
+  }
 
   void SetParameters(double scale, double shape);
-  inline double GetScale() const { return lambda; }
-  inline double GetShape() const { return k; }
+  inline double GetScale() const
+  {
+    return lambda;
+  }
+  inline double GetShape() const
+  {
+    return k;
+  }
 
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
   RealType Variate() const override;
 
   long double Mean() const override;
@@ -60,7 +73,7 @@ private:
    * @param sample
    * @return L^k norm of the sample
    */
-  double getNorm(const std::vector<RealType> &sample) const;
+  double getNorm(const std::vector<RealType>& sample) const;
 
 public:
   /**
@@ -68,7 +81,7 @@ public:
    * Fit λ by maximum-likelihood
    * @param sample
    */
-  void FitScale(const std::vector<RealType> &sample);
+  void FitScale(const std::vector<RealType>& sample);
 
   /**
    * @fn FitScaleBayes
@@ -78,10 +91,7 @@ public:
    * @param MAP if true, use MAP estimator
    * @return posterior distribution
    */
-  InverseGammaRand<RealType>
-  FitScaleBayes(const std::vector<RealType> &sample,
-                const InverseGammaRand<RealType> &priorDistribution,
-                bool MAP = false);
+  InverseGammaRand<RealType> FitScaleBayes(const std::vector<RealType>& sample, const InverseGammaRand<RealType>& priorDistribution, bool MAP = false);
 };
 
 #endif // WEIBULLRAND_H

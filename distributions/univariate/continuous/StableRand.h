@@ -15,8 +15,8 @@
  * If +/-X ~ Levy(μ, γ), then X ~ S(0.5, +/-1, γ, μ)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT StableDistribution
-    : virtual public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT StableDistribution : virtual public distributions::ContinuousDistribution<RealType>
+{
 protected:
   double alpha = 2;              ///< characteristic exponent α
   double beta = 0;               ///< skewness β
@@ -32,12 +32,11 @@ private:
   double alpha_alpham1 = 2;                   ///< α / (α - 1)
   double logGammaPi_2 = M_LNPI - 1.5 * M_LN2; ///< log(γπ/2)
 
-  static constexpr double BIG_NUMBER =
-      1e9; ///< a.k.a. infinity for pdf and cdf calculations
-  static constexpr double ALMOST_TWO =
-      1.99999; ///< parameter used to identify α close to 2
+  static constexpr double BIG_NUMBER = 1e9;     ///< a.k.a. infinity for pdf and cdf calculations
+  static constexpr double ALMOST_TWO = 1.99999; ///< parameter used to identify α close to 2
 
-  enum DISTRIBUTION_TYPE {
+  enum DISTRIBUTION_TYPE
+  {
     NORMAL,         ///< α = 2
     LEVY,           ///< α = 0.5, |β| = 1
     CAUCHY,         ///< α = 1, β = 0
@@ -45,21 +44,19 @@ private:
     GENERAL         ///< the rest
   };
 
-  DISTRIBUTION_TYPE distributionType =
-      NORMAL; ///< type of distribution (Gaussian by default)
+  DISTRIBUTION_TYPE distributionType = NORMAL; ///< type of distribution (Gaussian by default)
 
 protected:
-  double pdfCoef =
-      0.5 *
-      (M_LN2 + M_LNPI); ///< hashed coefficient for faster pdf calculations
-  double pdftailBound = INFINITY; ///< boundary k such that for |x| > k we can
-                                  ///< use pdf tail approximation
-  double cdftailBound = INFINITY; ///< boundary k such that for |x| > k we can
-                                  ///< use cdf tail approximation
+  double pdfCoef = 0.5 * (M_LN2 + M_LNPI); ///< hashed coefficient for faster pdf calculations
+  double pdftailBound = INFINITY;          ///< boundary k such that for |x| > k we can
+                                           ///< use pdf tail approximation
+  double cdftailBound = INFINITY;          ///< boundary k such that for |x| > k we can
+                                           ///< use cdf tail approximation
 
-  StableDistribution(double exponent, double skewness, double scale = 1,
-                     double location = 0);
-  virtual ~StableDistribution() {}
+  StableDistribution(double exponent, double skewness, double scale = 1, double location = 0);
+  virtual ~StableDistribution()
+  {
+  }
 
 public:
   SUPPORT_TYPE SupportType() const override;
@@ -75,8 +72,7 @@ private:
   void setParametersForGeneralExponent();
 
 protected:
-  void SetParameters(double exponent, double skewness, double scale = 1,
-                     double location = 0);
+  void SetParameters(double exponent, double skewness, double scale = 1, double location = 0);
 
 public:
   void SetLocation(double location);
@@ -86,27 +82,42 @@ public:
    * @fn GetExponent
    * @return characteristic exponent α
    */
-  inline double GetExponent() const { return alpha; }
+  inline double GetExponent() const
+  {
+    return alpha;
+  }
   /**
    * @fn GetSkewness
    * @return skewness parameter β
    */
-  inline double GetSkewness() const { return beta; }
+  inline double GetSkewness() const
+  {
+    return beta;
+  }
   /**
    * @fn GetScale
    * @return scale parameter γ
    */
-  inline double GetScale() const { return gamma; }
+  inline double GetScale() const
+  {
+    return gamma;
+  }
   /**
    * @fn GetLocation
    * @return location parameter μ
    */
-  inline double GetLocation() const { return mu; }
+  inline double GetLocation() const
+  {
+    return mu;
+  }
   /**
    * @fn GetLogScale
    * @return logarithm of the scale parameter γ
    */
-  inline double GetLogScale() const { return logGamma; }
+  inline double GetLogScale() const
+  {
+    return logGamma;
+  }
 
 protected:
   /**
@@ -168,8 +179,7 @@ private:
    * @param xAdj
    * @return large values in the case of closeness to extreme points
    */
-  double limitCaseForIntegrandAuxForUnityExponent(double theta,
-                                                  double xAdj) const;
+  double limitCaseForIntegrandAuxForUnityExponent(double theta, double xAdj) const;
   /**
    * @fn integrandAuxForUnityExponent
    * @param theta
@@ -233,8 +243,7 @@ private:
    * @param xiAdj
    * @return large values in the case of closeness to extreme points
    */
-  double limitCaseForIntegrandAuxForGeneralExponent(double theta,
-                                                    double xiAdj) const;
+  double limitCaseForIntegrandAuxForGeneralExponent(double theta, double xiAdj) const;
   /**
    * @fn integrandAuxForGeneralExponent
    * @param theta
@@ -243,8 +252,7 @@ private:
    * @return supplementary value for the integrand used in pdf calculations for
    * α ≠ 1
    */
-  double integrandAuxForGeneralExponent(double theta, double xAdj,
-                                        double xiAdj) const;
+  double integrandAuxForGeneralExponent(double theta, double xAdj, double xiAdj) const;
   /**
    * @fn integrandFoGeneralExponent
    * @param theta
@@ -252,8 +260,7 @@ private:
    * @param xiAdj
    * @return the value of the integrand used for calculations of pdf for α ≠ 1
    */
-  double integrandFoGeneralExponent(double theta, double xAdj,
-                                    double xiAdj) const;
+  double integrandFoGeneralExponent(double theta, double xAdj, double xiAdj) const;
   /**
    * @fn pdfForGeneralExponent
    * @param x
@@ -262,8 +269,8 @@ private:
   double pdfForGeneralExponent(double x) const;
 
 public:
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
 
 protected:
   /**
@@ -355,8 +362,8 @@ private:
   double cdfForGeneralExponent(double x) const;
 
 public:
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
 
 private:
   /**
@@ -377,7 +384,7 @@ private:
 
 public:
   RealType Variate() const override;
-  void Sample(std::vector<RealType> &outputData) const override;
+  void Sample(std::vector<RealType>& outputData) const override;
 
 public:
   long double Mean() const override;
@@ -458,11 +465,13 @@ private:
  * Stable distribution
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT StableRand : public StableDistribution<RealType> {
+class RANDLIB_EXPORT StableRand : public StableDistribution<RealType>
+{
 public:
-  StableRand(double exponent = 2, double skewness = 0, double scale = 1,
-             double location = 0)
-      : StableDistribution<RealType>(exponent, skewness, scale, location) {}
+  StableRand(double exponent = 2, double skewness = 0, double scale = 1, double location = 0)
+  : StableDistribution<RealType>(exponent, skewness, scale, location)
+  {
+  }
   String Name() const override;
 
   void SetExponent(double exponent);
@@ -479,10 +488,13 @@ public:
  * X ~ S(1.5, 0, γ, μ)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT HoltsmarkRand : public StableDistribution<RealType> {
+class RANDLIB_EXPORT HoltsmarkRand : public StableDistribution<RealType>
+{
 public:
   HoltsmarkRand(double scale = 1, double location = 0)
-      : StableDistribution<RealType>(1.5, 0.0, scale, location) {}
+  : StableDistribution<RealType>(1.5, 0.0, scale, location)
+  {
+  }
   String Name() const override;
 };
 
@@ -496,10 +508,13 @@ public:
  * X ~ S(1, 1, γ, μ)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT LandauRand : public StableDistribution<RealType> {
+class RANDLIB_EXPORT LandauRand : public StableDistribution<RealType>
+{
 public:
   LandauRand(double scale = 1, double location = 0)
-      : StableDistribution<RealType>(1.0, 1.0, scale, location) {}
+  : StableDistribution<RealType>(1.0, 1.0, scale, location)
+  {
+  }
   String Name() const override;
 };
 

@@ -31,8 +31,12 @@ if(UNIX)
   )
 endif()
 
-# Add Definitions
-target_compile_definitions(RandLib PRIVATE RANDLIB_LIBRARY=true)
+set(RANDLIB_EXPORT_HEADER ${RandLib_BINARY_DIR}/generated/RandLib_export.hpp)
+
+include(GenerateExportHeader)
+generate_export_header(RandLib EXPORT_FILE_NAME ${RANDLIB_EXPORT_HEADER})
+
+target_include_directories(RandLib PUBLIC ${RandLib_BINARY_DIR}/generated)
 
 set(RANDLIB_HDRS
     # External Constexpr Math Library Functions

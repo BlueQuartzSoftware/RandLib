@@ -1,27 +1,24 @@
 #include "ExponentiallyModifiedGaussianRand.h"
 
 template <typename RealType>
-ExponentiallyModifiedGaussianRand<RealType>::ExponentiallyModifiedGaussianRand(
-    double location, double variance, double rate) {
+ExponentiallyModifiedGaussianRand<RealType>::ExponentiallyModifiedGaussianRand(double location, double variance, double rate)
+{
   SetParameters(location, variance, rate);
 }
 
 template <typename RealType>
-String ExponentiallyModifiedGaussianRand<RealType>::Name() const {
-  return "Exponentially modified Gaussian(" +
-         this->toStringWithPrecision(GetLocation()) + ", " +
-         this->toStringWithPrecision(X.Variance()) + ", " +
-         this->toStringWithPrecision(GetRate()) + ")";
+String ExponentiallyModifiedGaussianRand<RealType>::Name() const
+{
+  return "Exponentially modified Gaussian(" + this->toStringWithPrecision(GetLocation()) + ", " + this->toStringWithPrecision(X.Variance()) + ", " + this->toStringWithPrecision(GetRate()) + ")";
 }
 
 template <typename RealType>
-void ExponentiallyModifiedGaussianRand<RealType>::SetParameters(double location,
-                                                                double variance,
-                                                                double rate) {
-  if (variance <= 0)
+void ExponentiallyModifiedGaussianRand<RealType>::SetParameters(double location, double variance, double rate)
+{
+  if(variance <= 0)
     throw std::invalid_argument("Exponentially modified Gaussian distribution: "
                                 "variance should be positive");
-  if (rate <= 0)
+  if(rate <= 0)
     throw std::invalid_argument("Exponentially modified Gaussian distribution: "
                                 "rate should be positive");
 
@@ -41,8 +38,8 @@ void ExponentiallyModifiedGaussianRand<RealType>::SetParameters(double location,
 }
 
 template <typename RealType>
-DoublePair
-ExponentiallyModifiedGaussianRand<RealType>::faux(const RealType &x) const {
+DoublePair ExponentiallyModifiedGaussianRand<RealType>::faux(const RealType& x) const
+{
   double lambda = Y.GetRate();
   double y = a - x;
   y *= b;
@@ -54,20 +51,22 @@ ExponentiallyModifiedGaussianRand<RealType>::faux(const RealType &x) const {
 }
 
 template <typename RealType>
-double ExponentiallyModifiedGaussianRand<RealType>::f(const RealType &x) const {
+double ExponentiallyModifiedGaussianRand<RealType>::f(const RealType& x) const
+{
   auto [y, exponent] = faux(x);
   return y * std::exp(exponent);
 }
 
 template <typename RealType>
-double
-ExponentiallyModifiedGaussianRand<RealType>::logf(const RealType &x) const {
+double ExponentiallyModifiedGaussianRand<RealType>::logf(const RealType& x) const
+{
   auto [y, exponent] = faux(x);
   return std::log(y) + exponent;
 }
 
 template <typename RealType>
-double ExponentiallyModifiedGaussianRand<RealType>::F(const RealType &x) const {
+double ExponentiallyModifiedGaussianRand<RealType>::F(const RealType& x) const
+{
   double u = Y.GetRate() * (x - X.GetLocation());
   double y = X.F(x);
   double exponent = -u + 0.5 * v * v;
@@ -77,7 +76,8 @@ double ExponentiallyModifiedGaussianRand<RealType>::F(const RealType &x) const {
 }
 
 template <typename RealType>
-double ExponentiallyModifiedGaussianRand<RealType>::S(const RealType &x) const {
+double ExponentiallyModifiedGaussianRand<RealType>::S(const RealType& x) const
+{
   double u = Y.GetRate() * (x - X.GetLocation());
   double y = X.S(x);
   double exponent = -u + 0.5 * v * v;
@@ -87,42 +87,45 @@ double ExponentiallyModifiedGaussianRand<RealType>::S(const RealType &x) const {
 }
 
 template <typename RealType>
-RealType ExponentiallyModifiedGaussianRand<RealType>::Variate() const {
+RealType ExponentiallyModifiedGaussianRand<RealType>::Variate() const
+{
   return X.Variate() + Y.Variate();
 }
 
 template <typename RealType>
-RealType ExponentiallyModifiedGaussianRand<RealType>::StandardVariate(
-    RandGenerator &randGenerator) {
-  return NormalRand<RealType>::StandardVariate(randGenerator) +
-         ExponentialRand<RealType>::StandardVariate(randGenerator);
+RealType ExponentiallyModifiedGaussianRand<RealType>::StandardVariate(RandGenerator& randGenerator)
+{
+  return NormalRand<RealType>::StandardVariate(randGenerator) + ExponentialRand<RealType>::StandardVariate(randGenerator);
 }
 
 template <typename RealType>
-void ExponentiallyModifiedGaussianRand<RealType>::Reseed(
-    unsigned long seed) const {
+void ExponentiallyModifiedGaussianRand<RealType>::Reseed(unsigned long seed) const
+{
   X.Reseed(seed);
   Y.Reseed(seed + 1);
 }
 
 template <typename RealType>
-long double ExponentiallyModifiedGaussianRand<RealType>::Mean() const {
+long double ExponentiallyModifiedGaussianRand<RealType>::Mean() const
+{
   return X.Mean() + Y.Mean();
 }
 
 template <typename RealType>
-long double ExponentiallyModifiedGaussianRand<RealType>::Variance() const {
+long double ExponentiallyModifiedGaussianRand<RealType>::Variance() const
+{
   return X.Variance() + Y.Variance();
 }
 
 template <typename RealType>
-std::complex<double>
-ExponentiallyModifiedGaussianRand<RealType>::CFImpl(double t) const {
+std::complex<double> ExponentiallyModifiedGaussianRand<RealType>::CFImpl(double t) const
+{
   return X.CF(t) * Y.CF(t);
 }
 
 template <typename RealType>
-long double ExponentiallyModifiedGaussianRand<RealType>::Skewness() const {
+long double ExponentiallyModifiedGaussianRand<RealType>::Skewness() const
+{
   long double sigma = X.GetScale();
   long double lambda = Y.GetRate();
   long double tmp = 1.0 / (sigma * lambda);
@@ -135,8 +138,8 @@ long double ExponentiallyModifiedGaussianRand<RealType>::Skewness() const {
 }
 
 template <typename RealType>
-long double
-ExponentiallyModifiedGaussianRand<RealType>::ExcessKurtosis() const {
+long double ExponentiallyModifiedGaussianRand<RealType>::ExcessKurtosis() const
+{
   long double sigma = X.GetScale();
   long double lambda = Y.GetRate();
   long double tmp = 1.0 / (sigma * lambda);

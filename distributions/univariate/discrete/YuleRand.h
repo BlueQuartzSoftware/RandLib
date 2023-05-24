@@ -1,8 +1,8 @@
 #ifndef YULERAND_H
 #define YULERAND_H
 
-#include "distributions/Distributions.h"
 #include "GeometricRand.h"
+#include "distributions/Distributions.h"
 #include "distributions/univariate/continuous/ExponentialRand.h"
 #include "distributions/univariate/continuous/ParetoRand.h"
 
@@ -16,8 +16,8 @@
  * If Y ~ Pareto(ρ, 1) and Z ~ Geometric(1 / Y), then Z + 1 ~ Yule(ρ)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT YuleRand
-    : public distributions::DiscreteDistribution<IntType> {
+class RANDLIB_EXPORT YuleRand : public distributions::DiscreteDistribution<IntType>
+{
   double rho = 0;        ///< shape ρ
   double lgamma1pRo = 0; /// log(Γ(1 + ρ))
 
@@ -26,25 +26,30 @@ class RANDLIBSHARED_EXPORT YuleRand
 public:
   explicit YuleRand(double shape);
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override {
+  SUPPORT_TYPE SupportType() const override
+  {
     return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  IntType MinValue() const override { return 1; }
-  IntType MaxValue() const override {
+  IntType MinValue() const override
+  {
+    return 1;
+  }
+  IntType MaxValue() const override
+  {
     return std::numeric_limits<IntType>::max();
   }
 
   void SetShape(double shape);
-  inline double GetShape() const { return rho; }
+  inline double GetShape() const
+  {
+    return rho;
+  }
 
-  double logP(const IntType &k) const override;
-  double F(const IntType &k) const override;
-  double S(const IntType &k) const override;
+  double logP(const IntType& k) const override;
+  double F(const IntType& k) const override;
+  double S(const IntType& k) const override;
   IntType Variate() const override;
-  static IntType
-  Variate(double shape,
-          RandGenerator &randGenerator =
-              ProbabilityDistribution<IntType>::staticRandGenerator);
+  static IntType Variate(double shape, RandGenerator& randGenerator = ProbabilityDistribution<IntType>::staticRandGenerator);
   void Reseed(unsigned long seed) const override;
 
   long double Mean() const override;

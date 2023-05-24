@@ -11,8 +11,8 @@
  * Notation: X ~ Zipf(s, n)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT ZipfRand
-    : public distributions::DiscreteDistribution<IntType> {
+class RANDLIB_EXPORT ZipfRand : public distributions::DiscreteDistribution<IntType>
+{
   double s = 2;                 ///< exponent
   IntType n = 1;                ///< number
   double invHarmonicNumber = 1; /// 1 / H(s, n)
@@ -25,17 +25,32 @@ public:
   ZipfRand(double exponent = 2.0, IntType number = 1);
 
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  IntType MinValue() const override { return 1; }
-  IntType MaxValue() const override { return n; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  IntType MinValue() const override
+  {
+    return 1;
+  }
+  IntType MaxValue() const override
+  {
+    return n;
+  }
 
   void SetParameters(double exponent, IntType number);
-  inline double GetExponent() const { return s; }
-  inline IntType GetNumber() const { return n; }
+  inline double GetExponent() const
+  {
+    return s;
+  }
+  inline IntType GetNumber() const
+  {
+    return n;
+  }
 
-  double P(const IntType &k) const override;
-  double logP(const IntType &k) const override;
-  double F(const IntType &k) const override;
+  double P(const IntType& k) const override;
+  double logP(const IntType& k) const override;
+  double F(const IntType& k) const override;
   IntType Variate() const override;
 
   long double Mean() const override;

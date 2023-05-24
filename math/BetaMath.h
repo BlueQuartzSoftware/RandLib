@@ -40,7 +40,6 @@ double ibeta(double x, double a, double b, double logBetaFun, double logX, doubl
  */
 double ibeta(double x, double a, double b);
 
-}
+} // namespace RandMath
 
 #endif // BETAMATH
-

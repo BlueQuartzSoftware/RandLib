@@ -18,21 +18,20 @@
  * If X ~ Levy(0, σ), then X ~ Inv-Γ(1/2, σ/2)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT LevyRand : public StableDistribution<RealType> {
+class RANDLIB_EXPORT LevyRand : public StableDistribution<RealType>
+{
 public:
   LevyRand(double location = 0, double scale = 1);
   String Name() const override;
 
 public:
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
   RealType Variate() const override;
 
-  static RealType
-  StandardVariate(RandGenerator &randGenerator =
-                      ProbabilityDistribution<RealType>::staticRandGenerator);
+  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
 
 private:
   RealType quantileImpl(double p) const override;
@@ -46,7 +45,7 @@ public:
    * Fit scale using maximum-likelihoood estimator
    * @param sample
    */
-  void FitScale(const std::vector<RealType> &sample);
+  void FitScale(const std::vector<RealType>& sample);
 };
 
 #endif // LEVYRAND_H

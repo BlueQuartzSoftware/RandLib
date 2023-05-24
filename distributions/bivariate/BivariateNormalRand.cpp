@@ -1,27 +1,22 @@
 #include "BivariateNormalRand.h"
 
 template <typename RealType>
-BivariateNormalRand<RealType>::BivariateNormalRand(double location1,
-                                                   double location2,
-                                                   double scale1, double scale2,
-                                                   double correlation) {
+BivariateNormalRand<RealType>::BivariateNormalRand(double location1, double location2, double scale1, double scale2, double correlation)
+{
   SetLocations(location1, location2);
   SetCovariance(scale1, scale2, correlation);
 }
 
 template <typename RealType>
-String BivariateNormalRand<RealType>::Name() const {
-  return "Bivariate Normal( (" +
-         this->toStringWithPrecision(GetFirstLocation()) + ", " +
-         this->toStringWithPrecision(GetSecondLocation()) + "), (" +
-         this->toStringWithPrecision(GetFirstScale()) + ", " +
-         this->toStringWithPrecision(GetSecondScale()) + ", " +
-         this->toStringWithPrecision(GetCorrelation()) + ") )";
+String BivariateNormalRand<RealType>::Name() const
+{
+  return "Bivariate Normal( (" + this->toStringWithPrecision(GetFirstLocation()) + ", " + this->toStringWithPrecision(GetSecondLocation()) + "), (" + this->toStringWithPrecision(GetFirstScale()) +
+         ", " + this->toStringWithPrecision(GetSecondScale()) + ", " + this->toStringWithPrecision(GetCorrelation()) + ") )";
 }
 
 template <typename RealType>
-void BivariateNormalRand<RealType>::SetLocations(double location1,
-                                                 double location2) {
+void BivariateNormalRand<RealType>::SetLocations(double location1, double location2)
+{
   mu1 = location1;
   mu2 = location2;
   this->X.SetLocation(mu1);
@@ -29,18 +24,16 @@ void BivariateNormalRand<RealType>::SetLocations(double location1,
 }
 
 template <typename RealType>
-void BivariateNormalRand<RealType>::SetCovariance(double scale1, double scale2,
-                                                  double correlation) {
-  if (scale1 <= 0.0 || scale2 <= 0.0)
+void BivariateNormalRand<RealType>::SetCovariance(double scale1, double scale2, double correlation)
+{
+  if(scale1 <= 0.0 || scale2 <= 0.0)
     throw std::invalid_argument("Scales of Bivariate-Normal distribution "
                                 "should be positive, but they're equal to " +
-                                std::to_string(scale1) + " and " +
-                                std::to_string(scale2) + " respectively");
-  if (std::fabs(correlation) > 1.0)
-    throw std::invalid_argument(
-        "Correlation of Bivariate-Normal distribution should be in interval "
-        "[-1, 1], but it's equal to " +
-        std::to_string(correlation));
+                                std::to_string(scale1) + " and " + std::to_string(scale2) + " respectively");
+  if(std::fabs(correlation) > 1.0)
+    throw std::invalid_argument("Correlation of Bivariate-Normal distribution should be in interval "
+                                "[-1, 1], but it's equal to " +
+                                std::to_string(correlation));
   sigma1 = scale1;
   sigma2 = scale2;
   rho = correlation;
@@ -49,20 +42,19 @@ void BivariateNormalRand<RealType>::SetCovariance(double scale1, double scale2,
   this->Y.SetScale(sigma2);
 
   sqrt1mroSq = 0.5 * std::log1pl(-rho * rho);
-  pdfCoef = this->X.GetLogScale() + this->Y.GetLogScale() + sqrt1mroSq + M_LN2 +
-            M_LNPI;
+  pdfCoef = this->X.GetLogScale() + this->Y.GetLogScale() + sqrt1mroSq + M_LN2 + M_LNPI;
   sqrt1mroSq = std::exp(sqrt1mroSq);
 }
 
 template <typename RealType>
-double BivariateNormalRand<RealType>::f(const Pair<RealType> &point) const {
-  RealType xAdj = (point.first - mu1) / sigma1,
-           yAdj = (point.second - mu2) / sigma2;
-  if (rho == 1.0) /// f(x, y) = δ(xAdj - yAdj)
+double BivariateNormalRand<RealType>::f(const Pair<RealType>& point) const
+{
+  RealType xAdj = (point.first - mu1) / sigma1, yAdj = (point.second - mu2) / sigma2;
+  if(rho == 1.0) /// f(x, y) = δ(xAdj - yAdj)
   {
     return (xAdj - yAdj == 0) ? INFINITY : 0.0;
   }
-  if (rho == -1.0) /// f(x, y) = δ(xAdj + yAdj)
+  if(rho == -1.0) /// f(x, y) = δ(xAdj + yAdj)
   {
     return (xAdj + yAdj == 0) ? INFINITY : 0.0;
   }
@@ -70,18 +62,18 @@ double BivariateNormalRand<RealType>::f(const Pair<RealType> &point) const {
 }
 
 template <typename RealType>
-double BivariateNormalRand<RealType>::logf(const Pair<RealType> &point) const {
-  if (rho == 0.0) // log(f(x, y)) = log(f(x)) + log(f(y))
+double BivariateNormalRand<RealType>::logf(const Pair<RealType>& point) const
+{
+  if(rho == 0.0) // log(f(x, y)) = log(f(x)) + log(f(y))
   {
     return this->X.logf(point.first) + this->Y.logf(point.second);
   }
-  RealType xAdj = (point.first - mu1) / sigma1,
-           yAdj = (point.second - mu2) / sigma2;
-  if (rho == 1.0) /// log(f(x, y)) = log(δ(xAdj - yAdj))
+  RealType xAdj = (point.first - mu1) / sigma1, yAdj = (point.second - mu2) / sigma2;
+  if(rho == 1.0) /// log(f(x, y)) = log(δ(xAdj - yAdj))
   {
     return (xAdj - yAdj == 0) ? INFINITY : -INFINITY;
   }
-  if (rho == -1.0) /// log(f(x, y)) = log(δ(xAdj + yAdj))
+  if(rho == -1.0) /// log(f(x, y)) = log(δ(xAdj + yAdj))
   {
     return (xAdj + yAdj == 0) ? INFINITY : -INFINITY;
   }
@@ -90,8 +82,9 @@ double BivariateNormalRand<RealType>::logf(const Pair<RealType> &point) const {
 }
 
 template <typename RealType>
-double BivariateNormalRand<RealType>::F(const Pair<RealType> &point) const {
-  if (rho == 0.0) /// F(x, y) = F(x)F(y)
+double BivariateNormalRand<RealType>::F(const Pair<RealType>& point) const
+{
+  if(rho == 0.0) /// F(x, y) = F(x)F(y)
   {
     return this->X.F(point.first) * this->Y.F(point.second);
   }
@@ -100,13 +93,17 @@ double BivariateNormalRand<RealType>::F(const Pair<RealType> &point) const {
   RealType p1, p2 = 0.0;
   RealType x = point.first, y = point.second;
   RealType xAdj = (x - mu1) / sigma1, yAdj = (y - mu2) / sigma2;
-  if (rho > 0) {
+  if(rho > 0)
+  {
     p1 = (xAdj < yAdj) ? this->X.F(x) : this->Y.F(y);
-  } else {
+  }
+  else
+  {
     p1 = std::max(this->X.F(x) - this->Y.F(-y), 0.0);
   }
 
-  if (std::fabs(rho) < 1.0) {
+  if(std::fabs(rho) < 1.0)
+  {
     RealType lowLimit = std::asin(rho);
     RealType highLimit = RandMath::sign(rho) * M_PI_2;
     p2 = RandMath::integral(
@@ -126,7 +123,8 @@ double BivariateNormalRand<RealType>::F(const Pair<RealType> &point) const {
 }
 
 template <typename RealType>
-Pair<RealType> BivariateNormalRand<RealType>::Variate() const {
+Pair<RealType> BivariateNormalRand<RealType>::Variate() const
+{
   RealType Z1 = NormalRand<RealType>::StandardVariate(this->localRandGenerator);
   RealType Z2 = NormalRand<RealType>::StandardVariate(this->localRandGenerator);
   RealType x = mu1 + sigma1 * Z1;
@@ -135,11 +133,13 @@ Pair<RealType> BivariateNormalRand<RealType>::Variate() const {
 }
 
 template <typename RealType>
-long double BivariateNormalRand<RealType>::Correlation() const {
+long double BivariateNormalRand<RealType>::Correlation() const
+{
   return rho;
 }
 
 template <typename RealType>
-Pair<RealType> BivariateNormalRand<RealType>::Mode() const {
+Pair<RealType> BivariateNormalRand<RealType>::Mode() const
+{
   return std::make_pair(mu1, mu2);
 }

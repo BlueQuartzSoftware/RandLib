@@ -10,28 +10,35 @@
  * Notation: X ~ KS
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT KolmogorovSmirnovRand
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT KolmogorovSmirnovRand : public distributions::ContinuousDistribution<RealType>
+{
 public:
   KolmogorovSmirnovRand();
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override {
+  SUPPORT_TYPE SupportType() const override
+  {
     return SUPPORT_TYPE::RIGHTSEMIFINITE_T;
   }
-  RealType MinValue() const override { return 0; }
-  RealType MaxValue() const override { return INFINITY; }
+  RealType MinValue() const override
+  {
+    return 0;
+  }
+  RealType MaxValue() const override
+  {
+    return INFINITY;
+  }
 
 private:
   static double L(RealType x);
   static double K(RealType x);
 
 public:
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
-  double logF(const RealType &x) const;
-  double logS(const RealType &x) const;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
+  double logF(const RealType& x) const;
+  double logS(const RealType& x) const;
 
 private:
   RealType truncatedGammaVariate() const;

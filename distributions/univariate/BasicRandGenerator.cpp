@@ -4,8 +4,8 @@
 #include <thread>
 #include <time.h>
 
-unsigned long RandEngine::mix(unsigned long a, unsigned long b,
-                              unsigned long c) {
+unsigned long RandEngine::mix(unsigned long a, unsigned long b, unsigned long c)
+{
   // clang-format off
     a = a - b;  a = a - c;  a = a ^ (c >> 13);
     b = b - c;  b = b - a;  b = b ^ (a << 8);
@@ -20,13 +20,14 @@ unsigned long RandEngine::mix(unsigned long a, unsigned long b,
   // clang-format on
 }
 
-unsigned long RandEngine::getRandomSeed() {
+unsigned long RandEngine::getRandomSeed()
+{
   static thread_local unsigned long dummy = 123456789;
-  return mix(time(0), std::hash<std::thread::id>()(std::this_thread::get_id()),
-             ++dummy);
+  return mix(time(0), std::hash<std::thread::id>()(std::this_thread::get_id()), ++dummy);
 }
 
-void JKissRandEngine::Reseed(unsigned long seed) {
+void JKissRandEngine::Reseed(unsigned long seed)
+{
   // clang-format off
     X = 123456789 ^ seed;
     C = 6543217;
@@ -35,7 +36,8 @@ void JKissRandEngine::Reseed(unsigned long seed) {
   // clang-format on
 }
 
-unsigned long long JKissRandEngine::Next() {
+unsigned long long JKissRandEngine::Next()
+{
   // clang-format off
     unsigned long long t = 698769069ULL * Z + C;
 
@@ -53,7 +55,8 @@ unsigned long long JKissRandEngine::Next() {
   // clang-format on
 }
 
-void JLKiss64RandEngine::Reseed(unsigned long seed) {
+void JLKiss64RandEngine::Reseed(unsigned long seed)
+{
   // clang-format off
     X = 123456789123ULL ^ seed;
     Y = 987654321987ULL;
@@ -64,7 +67,8 @@ void JLKiss64RandEngine::Reseed(unsigned long seed) {
   // clang-format on
 }
 
-unsigned long long JLKiss64RandEngine::Next() {
+unsigned long long JLKiss64RandEngine::Next()
+{
   // clang-format on
   X = 1490024343005336237ULL * X + 123456789;
   Y ^= Y << 21;

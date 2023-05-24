@@ -1,8 +1,8 @@
 #ifndef IRWINHALLRAND_H
 #define IRWINHALLRAND_H
 
-#include "distributions/Distributions.h"
 #include "UniformRand.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The IrwinHallRand class <BR>
@@ -17,8 +17,8 @@
  * X ~ Y_1 + Y_2 + ... + Y_n, where Y_i ~ U(0,1)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT IrwinHallRand
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT IrwinHallRand : public distributions::ContinuousDistribution<RealType>
+{
   int n = 1; ///< parameter of the distribution
   UniformRand<RealType> U{};
 
@@ -26,16 +26,28 @@ public:
   explicit IrwinHallRand(size_t number);
 
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  RealType MinValue() const override { return 0; }
-  RealType MaxValue() const override { return n; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  RealType MinValue() const override
+  {
+    return 0;
+  }
+  RealType MaxValue() const override
+  {
+    return n;
+  }
 
   void SetNumber(int number);
-  inline int GetNumber() const { return n; }
+  inline int GetNumber() const
+  {
+    return n;
+  }
 
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
   RealType Variate() const override;
   void Reseed(unsigned long seed) const override;
 

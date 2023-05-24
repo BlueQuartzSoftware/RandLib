@@ -126,7 +126,7 @@ double pgamma(double a, double x, double logA, double lgammaA);
  */
 double pgamma(double a, double x, double logX);
 
- /**
+/**
  * @fn pgamma
  * Calculate lower regularized incomplete gamma function
  * @param a non-negative parameter
@@ -158,7 +158,7 @@ double lqgamma(double a, double x, double logA, double lgammaA);
  */
 double lqgamma(double a, double x, double logX);
 
- /**
+/**
  * @fn lqgamma
  * Calculate logarithm of upper incomplete gamma function
  * @param a non-negative parameter
@@ -198,7 +198,6 @@ double qgamma(double a, double x, double logX);
  * @return Q(a, x)
  */
 double qgamma(double a, double x);
-}
+} // namespace RandMath
 
 #endif // GAMMAMATH
-

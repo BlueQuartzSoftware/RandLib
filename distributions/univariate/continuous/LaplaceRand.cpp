@@ -3,77 +3,77 @@
 #include "distributions/univariate/discrete/BernoulliRand.h"
 
 template <typename RealType>
-AsymmetricLaplaceDistribution<RealType>::AsymmetricLaplaceDistribution(
-    double shift, double scale, double asymmetry)
-    : GeneralGeometricStableDistribution<RealType>(2.0, 0.0, scale, 0.0,
-                                                   shift) {
+AsymmetricLaplaceDistribution<RealType>::AsymmetricLaplaceDistribution(double shift, double scale, double asymmetry)
+: GeneralGeometricStableDistribution<RealType>(2.0, 0.0, scale, 0.0, shift)
+{
   GeneralGeometricStableDistribution<RealType>::SetAsymmetry(asymmetry);
   ChangeLocation();
 }
 
 template <typename RealType>
-void AsymmetricLaplaceDistribution<RealType>::ChangeLocation() {
+void AsymmetricLaplaceDistribution<RealType>::ChangeLocation()
+{
   this->SetLocation((1.0 - this->kappaSq) * this->gamma * this->kappaInv);
 }
 
 template <typename RealType>
-void AsymmetricLaplaceDistribution<RealType>::SetScale(double scale) {
-  if (scale <= 0.0)
-    throw std::invalid_argument(
-        "Laplace distribution: scale should be positive, but it's equal to " +
-        std::to_string(scale));
+void AsymmetricLaplaceDistribution<RealType>::SetScale(double scale)
+{
+  if(scale <= 0.0)
+    throw std::invalid_argument("Laplace distribution: scale should be positive, but it's equal to " + std::to_string(scale));
   GeneralGeometricStableDistribution<RealType>::SetScale(scale);
   ChangeLocation();
 }
 
 template <typename RealType>
-double AsymmetricLaplaceDistribution<RealType>::f(const RealType &x) const {
+double AsymmetricLaplaceDistribution<RealType>::f(const RealType& x) const
+{
   return this->pdfLaplace(x - this->m);
 }
 
 template <typename RealType>
-double AsymmetricLaplaceDistribution<RealType>::logf(const RealType &x) const {
+double AsymmetricLaplaceDistribution<RealType>::logf(const RealType& x) const
+{
   return this->logpdfLaplace(x - this->m);
 }
 
 template <typename RealType>
-double AsymmetricLaplaceDistribution<RealType>::F(const RealType &x) const {
+double AsymmetricLaplaceDistribution<RealType>::F(const RealType& x) const
+{
   return this->cdfLaplace(x - this->m);
 }
 
 template <typename RealType>
-double AsymmetricLaplaceDistribution<RealType>::S(const RealType &x) const {
+double AsymmetricLaplaceDistribution<RealType>::S(const RealType& x) const
+{
   return this->cdfLaplaceCompl(x - this->m);
 }
 
 template <typename RealType>
-RealType AsymmetricLaplaceDistribution<RealType>::Variate() const {
-  RealType X =
-      (this->kappa == 1)
-          ? LaplaceRand<RealType>::StandardVariate(this->localRandGenerator)
-          : AsymmetricLaplaceRand<RealType>::StandardVariate(
-                this->kappa, this->localRandGenerator);
+RealType AsymmetricLaplaceDistribution<RealType>::Variate() const
+{
+  RealType X = (this->kappa == 1) ? LaplaceRand<RealType>::StandardVariate(this->localRandGenerator) : AsymmetricLaplaceRand<RealType>::StandardVariate(this->kappa, this->localRandGenerator);
   return this->m + this->gamma * X;
 }
 
 template <typename RealType>
-void AsymmetricLaplaceDistribution<RealType>::Sample(
-    std::vector<RealType> &outputData) const {
-  if (this->kappa == 1) {
-    for (RealType &var : outputData)
-      var = this->m + this->gamma * LaplaceRand<RealType>::StandardVariate(
-                                        this->localRandGenerator);
-  } else {
-    for (RealType &var : outputData)
-      var = this->m +
-            this->gamma * AsymmetricLaplaceRand<RealType>::StandardVariate(
-                              this->kappa, this->localRandGenerator);
+void AsymmetricLaplaceDistribution<RealType>::Sample(std::vector<RealType>& outputData) const
+{
+  if(this->kappa == 1)
+  {
+    for(RealType& var : outputData)
+      var = this->m + this->gamma * LaplaceRand<RealType>::StandardVariate(this->localRandGenerator);
+  }
+  else
+  {
+    for(RealType& var : outputData)
+      var = this->m + this->gamma * AsymmetricLaplaceRand<RealType>::StandardVariate(this->kappa, this->localRandGenerator);
   }
 }
 
 template <typename RealType>
-std::complex<double>
-AsymmetricLaplaceDistribution<RealType>::CFImpl(double t) const {
+std::complex<double> AsymmetricLaplaceDistribution<RealType>::CFImpl(double t) const
+{
   double bt = this->gamma * t;
   double btSq = bt * bt;
   double denominator = (1 + this->kappaSq * btSq) * (1 + btSq / this->kappaSq);
@@ -83,28 +83,31 @@ AsymmetricLaplaceDistribution<RealType>::CFImpl(double t) const {
 }
 
 template <typename RealType>
-RealType AsymmetricLaplaceDistribution<RealType>::quantileImpl(double p) const {
+RealType AsymmetricLaplaceDistribution<RealType>::quantileImpl(double p) const
+{
   return this->quantileLaplace(p);
 }
 
 template <typename RealType>
-RealType
-AsymmetricLaplaceDistribution<RealType>::quantileImpl1m(double p) const {
+RealType AsymmetricLaplaceDistribution<RealType>::quantileImpl1m(double p) const
+{
   return this->quantileLaplace1m(p);
 }
 
 template <typename RealType>
-long double AsymmetricLaplaceDistribution<RealType>::Entropy() const {
+long double AsymmetricLaplaceDistribution<RealType>::Entropy() const
+{
   double y = this->kappaInv + this->kappa;
   return std::log1pl(this->gamma * y);
 }
 
 template <typename RealType>
-void AsymmetricLaplaceDistribution<RealType>::FitScale(
-    const std::vector<RealType> &sample) {
+void AsymmetricLaplaceDistribution<RealType>::FitScale(const std::vector<RealType>& sample)
+{
   double deviation = 0.0;
-  for (const RealType &x : sample) {
-    if (x > this->m)
+  for(const RealType& x : sample)
+  {
+    if(x > this->m)
       deviation += this->kappa * (x - this->m);
     else
       deviation -= (x - this->m) / this->kappa;
@@ -114,35 +117,35 @@ void AsymmetricLaplaceDistribution<RealType>::FitScale(
 }
 
 template <typename RealType>
-void ShiftedAsymmetricLaplaceDistribution<RealType>::FitShift(
-    const std::vector<RealType> &sample) {
+void ShiftedAsymmetricLaplaceDistribution<RealType>::FitShift(const std::vector<RealType>& sample)
+{
   /// Calculate median (considering asymmetry)
   /// we use root-finding algorithm for median search
   double minVar = *std::min_element(sample.begin(), sample.end());
   double maxVar = *std::max_element(sample.begin(), sample.end());
   double median = this->GetSampleMean(sample);
 
-  if (!RandMath::findRootBrentFirstOrder<double>(
-          [this, sample](double med) {
-            double y = 0.0;
-            for (const RealType &x : sample) {
-              if (x > med)
-                y -= this->kappaSq;
-              else if (x < med)
-                ++y;
-            }
-            return y;
-          },
-          minVar, maxVar, median))
-    throw std::runtime_error(this->fitErrorDescription(
-        this->UNDEFINED_ERROR, "Error in root-finding procedure"));
+  if(!RandMath::findRootBrentFirstOrder<double>(
+         [this, sample](double med) {
+           double y = 0.0;
+           for(const RealType& x : sample)
+           {
+             if(x > med)
+               y -= this->kappaSq;
+             else if(x < med)
+               ++y;
+           }
+           return y;
+         },
+         minVar, maxVar, median))
+    throw std::runtime_error(this->fitErrorDescription(this->UNDEFINED_ERROR, "Error in root-finding procedure"));
 
   this->SetShift(median);
 }
 
 template <typename RealType>
-void ShiftedAsymmetricLaplaceDistribution<RealType>::FitShiftAndScale(
-    const std::vector<RealType> &sample) {
+void ShiftedAsymmetricLaplaceDistribution<RealType>::FitShiftAndScale(const std::vector<RealType>& sample)
+{
   this->FitShift(sample);
   this->FitScale(sample);
 }
@@ -152,35 +155,33 @@ template class AsymmetricLaplaceDistribution<double>;
 template class AsymmetricLaplaceDistribution<long double>;
 
 template <typename RealType>
-String AsymmetricLaplaceRand<RealType>::Name() const {
-  return "Asymmetric-Laplace(" + this->toStringWithPrecision(this->GetShift()) +
-         ", " + this->toStringWithPrecision(this->GetScale()) + ", " +
-         this->toStringWithPrecision(this->GetAsymmetry()) + ")";
+String AsymmetricLaplaceRand<RealType>::Name() const
+{
+  return "Asymmetric-Laplace(" + this->toStringWithPrecision(this->GetShift()) + ", " + this->toStringWithPrecision(this->GetScale()) + ", " + this->toStringWithPrecision(this->GetAsymmetry()) + ")";
 }
 
 template <typename RealType>
-void AsymmetricLaplaceRand<RealType>::SetAsymmetry(double asymmetry) {
+void AsymmetricLaplaceRand<RealType>::SetAsymmetry(double asymmetry)
+{
   GeneralGeometricStableDistribution<RealType>::SetAsymmetry(asymmetry);
   this->ChangeLocation();
 }
 
 template <typename RealType>
-RealType
-AsymmetricLaplaceRand<RealType>::StandardVariate(double asymmetry,
-                                                 RandGenerator &randGenerator) {
-  RealType x =
-      ExponentialRand<RealType>::StandardVariate(randGenerator) / asymmetry;
-  RealType y =
-      ExponentialRand<RealType>::StandardVariate(randGenerator) * asymmetry;
+RealType AsymmetricLaplaceRand<RealType>::StandardVariate(double asymmetry, RandGenerator& randGenerator)
+{
+  RealType x = ExponentialRand<RealType>::StandardVariate(randGenerator) / asymmetry;
+  RealType y = ExponentialRand<RealType>::StandardVariate(randGenerator) * asymmetry;
   return x - y;
 }
 
 template <typename RealType>
-DoublePair AsymmetricLaplaceRand<RealType>::getOneSidedSums(
-    const std::vector<RealType> &sample) {
+DoublePair AsymmetricLaplaceRand<RealType>::getOneSidedSums(const std::vector<RealType>& sample)
+{
   double xPlus = 0.0, xMinus = 0.0;
-  for (const RealType &x : sample) {
-    if (x < this->m)
+  for(const RealType& x : sample)
+  {
+    if(x < this->m)
       xMinus += (x - this->m);
     else
       xPlus += (x - this->m);
@@ -189,18 +190,21 @@ DoublePair AsymmetricLaplaceRand<RealType>::getOneSidedSums(
 }
 
 template <typename RealType>
-void AsymmetricLaplaceRand<RealType>::FitAsymmetry(
-    const std::vector<RealType> &sample) {
+void AsymmetricLaplaceRand<RealType>::FitAsymmetry(const std::vector<RealType>& sample)
+{
   auto [xPlus, xMinus] = getOneSidedSums(sample);
   double gammaN = this->gamma * sample.size();
   double asymmetry = 0;
-  if (xPlus == xMinus)
+  if(xPlus == xMinus)
     asymmetry = 1.0;
-  else if (xPlus == 0)
+  else if(xPlus == 0)
     asymmetry = -xMinus / gammaN;
-  else if (xMinus == 0) {
+  else if(xMinus == 0)
+  {
     asymmetry = gammaN / xPlus;
-  } else {
+  }
+  else
+  {
     /// write down coefficients of quartic equation
     double a = xPlus / gammaN;
     double c = (xPlus + xMinus) / gammaN;
@@ -217,7 +221,7 @@ void AsymmetricLaplaceRand<RealType>::FitAsymmetry(
     double S = 0.5 * std::sqrt(-2.0 / 3 * p + (Q + delta0 / Q) / (3 * a));
     /// solve by general formula
     double c1 = -0.25 / a, b1 = -4 * S * S - 2 * p, b2 = q / S;
-    if (b1 + b2 > 0)
+    if(b1 + b2 > 0)
       asymmetry = c1 + S + 0.5 * std::sqrt(b1 + b2);
     else
       asymmetry = c1 - S + 0.5 * std::sqrt(b1 - b2);
@@ -230,13 +234,15 @@ template class AsymmetricLaplaceRand<float>;
 template class AsymmetricLaplaceRand<double>;
 template class AsymmetricLaplaceRand<long double>;
 
-template <typename RealType> String LaplaceRand<RealType>::Name() const {
-  return "Laplace(" + this->toStringWithPrecision(this->GetShift()) + ", " +
-         this->toStringWithPrecision(this->GetScale()) + ")";
+template <typename RealType>
+String LaplaceRand<RealType>::Name() const
+{
+  return "Laplace(" + this->toStringWithPrecision(this->GetShift()) + ", " + this->toStringWithPrecision(this->GetScale()) + ")";
 }
 
 template <typename RealType>
-RealType LaplaceRand<RealType>::StandardVariate(RandGenerator &randGenerator) {
+RealType LaplaceRand<RealType>::StandardVariate(RandGenerator& randGenerator)
+{
   RealType W = ExponentialRand<RealType>::StandardVariate(randGenerator);
   return BernoulliRand::StandardVariate(randGenerator) ? W : -W;
 }

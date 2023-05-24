@@ -1,8 +1,8 @@
 #ifndef BINOMIALRAND_H
 #define BINOMIALRAND_H
 
-#include "distributions/Distributions.h"
 #include "GeometricRand.h"
+#include "distributions/Distributions.h"
 #include "distributions/univariate/continuous/BetaRand.h"
 
 /**
@@ -16,9 +16,8 @@
  * X ~ Multin(n, 1 - p, p)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT BinomialDistribution
-    : public distributions::DiscreteDistribution<IntType>,
-      public ExponentialFamily<IntType, double> {
+class RANDLIB_EXPORT BinomialDistribution : public distributions::DiscreteDistribution<IntType>, public ExponentialFamily<IntType, double>
+{
 protected:
   double p = 0.5;            ///< probability of success
   double q = 0.5;            ///< probability of failure
@@ -50,9 +49,18 @@ protected:
   BinomialDistribution(IntType number, double probability);
 
 public:
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  IntType MinValue() const override { return 0; }
-  IntType MaxValue() const override { return n; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  IntType MinValue() const override
+  {
+    return 0;
+  }
+  IntType MaxValue() const override
+  {
+    return n;
+  }
 
 private:
   void SetGeneratorConstants();
@@ -61,8 +69,14 @@ protected:
   void SetParameters(IntType number, double probability);
 
 public:
-  inline IntType GetNumber() const { return n; }
-  inline double GetProbability() const { return p; }
+  inline IntType GetNumber() const
+  {
+    return n;
+  }
+  inline double GetProbability() const
+  {
+    return p;
+  }
 
   double SufficientStatistic(IntType x) const override;
   double SourceParameters() const override;
@@ -82,23 +96,29 @@ private:
   double logProbFloor(int k) const;
 
 public:
-  double P(const IntType &k) const override;
-  double logP(const IntType &k) const override;
-  double F(const IntType &k) const override;
-  double S(const IntType &k) const override;
+  double P(const IntType& k) const override;
+  double logP(const IntType& k) const override;
+  double F(const IntType& k) const override;
+  double S(const IntType& k) const override;
 
 private:
-  enum GENERATOR_ID { BERNOULLI_SUM, WAITING, REJECTION, POISSON };
+  enum GENERATOR_ID
+  {
+    BERNOULLI_SUM,
+    WAITING,
+    REJECTION,
+    POISSON
+  };
 
-  GENERATOR_ID GetIdOfUsedGenerator() const {
+  GENERATOR_ID GetIdOfUsedGenerator() const
+  {
     /// if (n is tiny and minpq is big) or (p ~= 0.5 and n is not that large),
     /// we just sum Bernoulli random variables
-    if ((n <= 3) || (n <= 13 && minpq > 0.025 * (n + 6)) ||
-        (n <= 200 && RandMath::areClose(p, 0.5)))
+    if((n <= 3) || (n <= 13 && minpq > 0.025 * (n + 6)) || (n <= 200 && RandMath::areClose(p, 0.5)))
       return BERNOULLI_SUM;
 
     /// for small [np] we use simple waiting algorithm
-    if ((npFloor <= 12) || (pRes > 0 && npFloor <= 16))
+    if((npFloor <= 12) || (pRes > 0 && npFloor <= 16))
       return WAITING;
 
     /// otherwise
@@ -107,18 +127,13 @@ private:
 
   IntType variateRejection() const;
   IntType variateWaiting(IntType number) const;
-  static IntType variateWaiting(IntType number, double probability,
-                                RandGenerator &randGenerator);
-  static IntType variateBernoulliSum(IntType number, double probability,
-                                     RandGenerator &randGenerator);
+  static IntType variateWaiting(IntType number, double probability, RandGenerator& randGenerator);
+  static IntType variateBernoulliSum(IntType number, double probability, RandGenerator& randGenerator);
 
 public:
   IntType Variate() const override;
-  static IntType
-  Variate(IntType number, double probability,
-          RandGenerator &randGenerator =
-              ProbabilityDistribution<IntType>::staticRandGenerator);
-  void Sample(std::vector<IntType> &outputData) const override;
+  static IntType Variate(IntType number, double probability, RandGenerator& randGenerator = ProbabilityDistribution<IntType>::staticRandGenerator);
+  void Sample(std::vector<IntType>& outputData) const override;
   void Reseed(unsigned long seed) const override;
 
   long double Mean() const override;
@@ -132,17 +147,26 @@ public:
    * @fn GetLogFactorialN
    * @return log(n!)
    */
-  inline double GetLogFactorialN() const { return lfactn; }
+  inline double GetLogFactorialN() const
+  {
+    return lfactn;
+  }
   /**
    * @fn GetLogProbability
    * @return log(p)
    */
-  inline double GetLogProbability() const { return logProb; }
+  inline double GetLogProbability() const
+  {
+    return logProb;
+  }
   /**
    * @fn GetLog1mProbability
    * @return log(1-p)
    */
-  inline double GetLog1mProbability() const { return log1mProb; }
+  inline double GetLog1mProbability() const
+  {
+    return log1mProb;
+  }
 
 private:
   std::complex<double> CFImpl(double t) const override;
@@ -153,7 +177,7 @@ public:
    * Fit probability p with maximum-likelihood estimation
    * @param sample
    */
-  void FitProbability(const std::vector<IntType> &sample);
+  void FitProbability(const std::vector<IntType>& sample);
 
   /**
    * @fn FitProbabilityBayes
@@ -163,9 +187,7 @@ public:
    * @param MAP if true, use MAP estimator
    * @return posterior distribution
    */
-  BetaRand<> FitProbabilityBayes(const std::vector<IntType> &sample,
-                                 const BetaDistribution<> &priorDistribution,
-                                 bool MAP = false);
+  BetaRand<> FitProbabilityBayes(const std::vector<IntType>& sample, const BetaDistribution<>& priorDistribution, bool MAP = false);
 
   /**
    * @fn FitProbabilityMinimax
@@ -173,7 +195,7 @@ public:
    * @param sample
    * @return posterior distribution
    */
-  BetaRand<> FitProbabilityMinimax(const std::vector<IntType> &sample);
+  BetaRand<> FitProbabilityMinimax(const std::vector<IntType>& sample);
 };
 
 /**
@@ -181,10 +203,13 @@ public:
  * Binomial distribution
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT BinomialRand : public BinomialDistribution<IntType> {
+class RANDLIB_EXPORT BinomialRand : public BinomialDistribution<IntType>
+{
 public:
   BinomialRand(int number = 1, double probability = 0.5)
-      : BinomialDistribution<IntType>(number, probability) {}
+  : BinomialDistribution<IntType>(number, probability)
+  {
+  }
   String Name() const override;
   using BinomialDistribution<IntType>::SetParameters;
 };

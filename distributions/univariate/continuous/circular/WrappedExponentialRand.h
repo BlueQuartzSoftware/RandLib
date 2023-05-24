@@ -10,8 +10,8 @@
  * Notation: X ~ WE(λ)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT WrappedExponentialRand
-    : public distributions::CircularDistribution<RealType> {
+class RANDLIB_EXPORT WrappedExponentialRand : public distributions::CircularDistribution<RealType>
+{
   double lambda = 1;              ///< rate λ
   double logLambda = 0;           ///< ln(λ)
   double scaledLambda = 2 * M_PI; ///< 2πλ
@@ -23,12 +23,15 @@ public:
   String Name() const override;
 
   void SetRate(double rate);
-  inline double GetRate() const { return lambda; }
+  inline double GetRate() const
+  {
+    return lambda;
+  }
 
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
   RealType Variate() const override;
 
   long double CircularMean() const override;

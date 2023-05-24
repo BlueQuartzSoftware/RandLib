@@ -10,19 +10,28 @@
  * Notation: X ~ Sech
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT SechRand
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT SechRand : public distributions::ContinuousDistribution<RealType>
+{
 public:
   SechRand();
 
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::INFINITE_T; }
-  RealType MinValue() const override { return -INFINITY; }
-  RealType MaxValue() const override { return INFINITY; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::INFINITE_T;
+  }
+  RealType MinValue() const override
+  {
+    return -INFINITY;
+  }
+  RealType MaxValue() const override
+  {
+    return INFINITY;
+  }
 
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
   RealType Variate() const override;
 
   long double Mean() const override;

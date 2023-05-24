@@ -3,16 +3,17 @@
 
 #include <string>
 
-#include "RandLib_global.h"
+#include "distributions/univariate/BasicRandGenerator.h"
 #include "math/NumericMath.h"
 #include "math/RandMath.h"
-#include "distributions/univariate/BasicRandGenerator.h"
 
 /**
  * @brief The ProbabilityDistribution class <BR>
  * Abstract class for all probability distributions
  */
-template <typename T> class ProbabilityDistribution {
+template <typename T>
+class ProbabilityDistribution
+{
 protected:
   static thread_local RandGenerator staticRandGenerator;
 
@@ -29,7 +30,9 @@ protected:
   String toStringWithPrecision(const double a_value, const int n = 6) const;
 
   ProbabilityDistribution();
-  virtual ~ProbabilityDistribution() {}
+  virtual ~ProbabilityDistribution()
+  {
+  }
 
 public:
   /**
@@ -55,29 +58,28 @@ public:
    * @param x
    * @return P(X ≤ x)
    */
-  virtual double F(const T &x) const = 0;
+  virtual double F(const T& x) const = 0;
 
   /**
    * @fn CumulativeDistributionFunction
    * @param x input vector
    * @param y output vector: y = P(X ≤ x)
    */
-  void CumulativeDistributionFunction(const std::vector<T> &x,
-                                      std::vector<double> &y) const;
+  void CumulativeDistributionFunction(const std::vector<T>& x, std::vector<double>& y) const;
 
   /**
    * @fn S
    * @param x
    * @return P(X > x)
    */
-  virtual double S(const T &x) const;
+  virtual double S(const T& x) const;
 
   /**
    * @fn SurvivalFunction
    * @param x input vector
    * @param y output vector: y = P(X > x)
    */
-  void SurvivalFunction(const std::vector<T> &x, std::vector<double> &y) const;
+  void SurvivalFunction(const std::vector<T>& x, std::vector<double>& y) const;
 
   /**
    * @fn Variate()
@@ -89,7 +91,7 @@ public:
    * @fn Sample
    * @param outputData
    */
-  virtual void Sample(std::vector<T> &outputData) const;
+  virtual void Sample(std::vector<T>& outputData) const;
 
   /**
    * @brief Reseed
@@ -98,7 +100,8 @@ public:
   virtual void Reseed(unsigned long seed) const;
 
 protected:
-  enum FIT_ERROR_TYPE {
+  enum FIT_ERROR_TYPE
+  {
     WRONG_SAMPLE,
     NOT_APPLICABLE,
     WRONG_RETURN,
@@ -107,16 +110,12 @@ protected:
     UNDEFINED_ERROR
   };
 
-  static constexpr char POSITIVITY_VIOLATION[] =
-      "All elements should be positive";
-  static constexpr char NON_NEGATIVITY_VIOLATION[] =
-      "All elements should be non-negative";
-  static constexpr char UPPER_LIMIT_VIOLATION[] =
-      "No element should be greater than ";
-  static constexpr char LOWER_LIMIT_VIOLATION[] =
-      "No element should be smaller than ";
+  static constexpr char POSITIVITY_VIOLATION[] = "All elements should be positive";
+  static constexpr char NON_NEGATIVITY_VIOLATION[] = "All elements should be non-negative";
+  static constexpr char UPPER_LIMIT_VIOLATION[] = "No element should be greater than ";
+  static constexpr char LOWER_LIMIT_VIOLATION[] = "No element should be smaller than ";
 
-  String fitErrorDescription(FIT_ERROR_TYPE fet, const String &explanation);
+  String fitErrorDescription(FIT_ERROR_TYPE fet, const String& explanation);
 };
 
 #endif // PROBABILITY_DISTRIBUTION_H

@@ -15,8 +15,8 @@
  * If X ~ Binomial(n, p), where p ~ Beta(α, β), then X ~ BB(n, α, β)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT BetaBinomialRand
-    : public distributions::DiscreteDistribution<IntType> {
+class RANDLIB_EXPORT BetaBinomialRand : public distributions::DiscreteDistribution<IntType>
+{
   IntType n = 1;      ///< number of experiments
   double pmfCoef = 0; ///< log(n!) - log(Γ(α + β + n)) - log(B(α, β))
   BetaRand<double> B{};
@@ -24,18 +24,36 @@ class RANDLIBSHARED_EXPORT BetaBinomialRand
 public:
   BetaBinomialRand(IntType number = 1, double shape1 = 1, double shape2 = 1);
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  IntType MinValue() const override { return 0; }
-  IntType MaxValue() const override { return n; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  IntType MinValue() const override
+  {
+    return 0;
+  }
+  IntType MaxValue() const override
+  {
+    return n;
+  }
 
   void SetParameters(IntType number, double shape1, double shape2);
-  inline IntType GetNumber() const { return n; }
-  inline double GetAlpha() const { return B.GetAlpha(); }
-  inline double GetBeta() const { return B.GetBeta(); }
+  inline IntType GetNumber() const
+  {
+    return n;
+  }
+  inline double GetAlpha() const
+  {
+    return B.GetAlpha();
+  }
+  inline double GetBeta() const
+  {
+    return B.GetBeta();
+  }
 
-  double P(const IntType &k) const override;
-  double logP(const IntType &k) const override;
-  double F(const IntType &k) const override;
+  double P(const IntType& k) const override;
+  double logP(const IntType& k) const override;
+  double F(const IntType& k) const override;
 
 private:
   IntType VariateUniform() const;
@@ -43,7 +61,7 @@ private:
 
 public:
   IntType Variate() const override;
-  void Sample(std::vector<IntType> &outputData) const override;
+  void Sample(std::vector<IntType>& outputData) const override;
 
   void Reseed(unsigned long seed) const override;
 

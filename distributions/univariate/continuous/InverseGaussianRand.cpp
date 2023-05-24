@@ -3,24 +3,24 @@
 #include "UniformRand.h"
 
 template <typename RealType>
-InverseGaussianRand<RealType>::InverseGaussianRand(double mean, double shape) {
+InverseGaussianRand<RealType>::InverseGaussianRand(double mean, double shape)
+{
   SetParameters(mean, shape);
 }
 
 template <typename RealType>
-String InverseGaussianRand<RealType>::Name() const {
-  return "Inverse-Gaussian(" + this->toStringWithPrecision(GetMean()) + ", " +
-         this->toStringWithPrecision(GetShape()) + ")";
+String InverseGaussianRand<RealType>::Name() const
+{
+  return "Inverse-Gaussian(" + this->toStringWithPrecision(GetMean()) + ", " + this->toStringWithPrecision(GetShape()) + ")";
 }
 
 template <typename RealType>
-void InverseGaussianRand<RealType>::SetParameters(double mean, double shape) {
-  if (mean <= 0.0)
-    throw std::invalid_argument(
-        "Inverse-Gaussian distribution: mean should be positive");
-  if (shape <= 0.0)
-    throw std::invalid_argument(
-        "Inverse-Gaussian distribution: shape should be positive");
+void InverseGaussianRand<RealType>::SetParameters(double mean, double shape)
+{
+  if(mean <= 0.0)
+    throw std::invalid_argument("Inverse-Gaussian distribution: mean should be positive");
+  if(shape <= 0.0)
+    throw std::invalid_argument("Inverse-Gaussian distribution: shape should be positive");
   mu = mean;
   lambda = shape;
 
@@ -29,13 +29,15 @@ void InverseGaussianRand<RealType>::SetParameters(double mean, double shape) {
 }
 
 template <typename RealType>
-double InverseGaussianRand<RealType>::f(const RealType &x) const {
+double InverseGaussianRand<RealType>::f(const RealType& x) const
+{
   return (x > 0.0) ? std::exp(logf(x)) : 0.0;
 }
 
 template <typename RealType>
-double InverseGaussianRand<RealType>::logf(const RealType &x) const {
-  if (x <= 0.0)
+double InverseGaussianRand<RealType>::logf(const RealType& x) const
+{
+  if(x <= 0.0)
     return -INFINITY;
   double y = -1.5 * std::log(x);
   double z = (x - mu);
@@ -46,8 +48,9 @@ double InverseGaussianRand<RealType>::logf(const RealType &x) const {
 }
 
 template <typename RealType>
-double InverseGaussianRand<RealType>::F(const RealType &x) const {
-  if (x <= 0.0)
+double InverseGaussianRand<RealType>::F(const RealType& x) const
+{
+  if(x <= 0.0)
     return 0.0;
   double b = std::sqrt(0.5 * lambda / x);
   double a = b * x / mu;
@@ -57,8 +60,9 @@ double InverseGaussianRand<RealType>::F(const RealType &x) const {
 }
 
 template <typename RealType>
-double InverseGaussianRand<RealType>::S(const RealType &x) const {
-  if (x <= 0.0)
+double InverseGaussianRand<RealType>::S(const RealType& x) const
+{
+  if(x <= 0.0)
     return 1.0;
   double b = std::sqrt(0.5 * lambda / x);
   double a = b * x / mu;
@@ -68,7 +72,8 @@ double InverseGaussianRand<RealType>::S(const RealType &x) const {
 }
 
 template <typename RealType>
-RealType InverseGaussianRand<RealType>::Variate() const {
+RealType InverseGaussianRand<RealType>::Variate() const
+{
   RealType X = NormalRand<RealType>::StandardVariate(this->localRandGenerator);
   RealType U = UniformRand<RealType>::StandardVariate(this->localRandGenerator);
   X *= X;
@@ -78,23 +83,26 @@ RealType InverseGaussianRand<RealType>::Variate() const {
   y -= mupX;
   y *= -0.5 / lambda;
   ++y;
-  if (U * (1 + y) > 1.0)
+  if(U * (1 + y) > 1.0)
     y = 1.0 / y;
   return mu * y;
 }
 
 template <typename RealType>
-long double InverseGaussianRand<RealType>::Mean() const {
+long double InverseGaussianRand<RealType>::Mean() const
+{
   return mu;
 }
 
 template <typename RealType>
-long double InverseGaussianRand<RealType>::Variance() const {
+long double InverseGaussianRand<RealType>::Variance() const
+{
   return mu * mu * mu / lambda;
 }
 
 template <typename RealType>
-std::complex<double> InverseGaussianRand<RealType>::CFImpl(double t) const {
+std::complex<double> InverseGaussianRand<RealType>::CFImpl(double t) const
+{
   double im = mu * mu;
   im *= t / lambda;
   std::complex<double> y(1, -im - im);
@@ -104,7 +112,8 @@ std::complex<double> InverseGaussianRand<RealType>::CFImpl(double t) const {
 }
 
 template <typename RealType>
-RealType InverseGaussianRand<RealType>::Mode() const {
+RealType InverseGaussianRand<RealType>::Mode() const
+{
   RealType aux = 1.5 * mu / lambda;
   RealType mode = 1 + aux * aux;
   mode = std::sqrt(mode);
@@ -113,12 +122,14 @@ RealType InverseGaussianRand<RealType>::Mode() const {
 }
 
 template <typename RealType>
-long double InverseGaussianRand<RealType>::Skewness() const {
+long double InverseGaussianRand<RealType>::Skewness() const
+{
   return 3 * std::sqrt(mu / lambda);
 }
 
 template <typename RealType>
-long double InverseGaussianRand<RealType>::ExcessKurtosis() const {
+long double InverseGaussianRand<RealType>::ExcessKurtosis() const
+{
   return 15 * mu / lambda;
 }
 

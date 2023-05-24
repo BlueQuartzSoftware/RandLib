@@ -25,7 +25,7 @@
 
 namespace helpers
 {
-template<class T>
+template <class T>
 using GCLIM = std::numeric_limits<T>;
 
 using namespace gcem;
@@ -37,86 +37,58 @@ using namespace gcem;
  * @return the absolute value of \c x, \f$ |x| \f$.
  */
 
-template<typename T>
-constexpr
-T
-abs(const T x)
-noexcept
+template <typename T>
+constexpr T abs(const T x) noexcept
 {
-    return( // deal with signed-zeros
-            x == T(0) ? \
-                T(0) :
-            // else
-            x < T(0) ? \
-                - x : x );
+  return ( // deal with signed-zeros
+      x == T(0) ? T(0) :
+                  // else
+          x < T(0) ? -x :
+                     x);
 }
 
-template<typename T>
-constexpr
-T
-mantissa(const T x)
-noexcept
+template <typename T>
+constexpr T mantissa(const T x) noexcept
 {
-    return( x < T(1) ? \
-                mantissa(x * T(10)) : 
-            x > T(10) ? \
-                mantissa(x / T(10)) :
-            // else
-                x );
+  return (x < T(1)  ? mantissa(x * T(10)) :
+          x > T(10) ? mantissa(x / T(10)) :
+                      // else
+                      x);
 }
 
-
-constexpr
-bool
-is_odd(const llint_t x)
-noexcept
+constexpr bool is_odd(const llint_t x) noexcept
 {
-    // return( x % llint_t(2) == llint_t(0) ? false : true );
-    return (x & 1U) != 0;
+  // return( x % llint_t(2) == llint_t(0) ? false : true );
+  return (x & 1U) != 0;
 }
 
-template<typename T>
-constexpr
-bool
-is_nan(const T x)
-noexcept
+template <typename T>
+constexpr bool is_nan(const T x) noexcept
 {
-    return x != x;
+  return x != x;
 }
 
-template<typename T>
-constexpr
-bool
-is_posinf(const T x)
-noexcept
+template <typename T>
+constexpr bool is_posinf(const T x) noexcept
 {
-    return x == GCLIM<T>::infinity();
+  return x == GCLIM<T>::infinity();
 }
 
-template<typename T>
-constexpr
-bool
-is_neginf(const T x)
-noexcept
+template <typename T>
+constexpr bool is_neginf(const T x) noexcept
 {
-    return x == - GCLIM<T>::infinity();
+  return x == -GCLIM<T>::infinity();
 }
 
-template<typename T>
-constexpr
-bool
-is_inf(const T x)
-noexcept
+template <typename T>
+constexpr bool is_inf(const T x) noexcept
 {
-    return( is_neginf(x) || is_posinf(x) );
+  return (is_neginf(x) || is_posinf(x));
 }
 
-template<typename T>
-constexpr
-bool
-is_finite(const T x)
-noexcept
+template <typename T>
+constexpr bool is_finite(const T x) noexcept
 {
-    return (!is_nan(x)) && (!is_inf(x));
+  return (!is_nan(x)) && (!is_inf(x));
 }
-}
+} // namespace helpers

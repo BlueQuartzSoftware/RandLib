@@ -1,8 +1,8 @@
 #ifndef GEOMETRICSTABLERAND_H
 #define GEOMETRICSTABLERAND_H
 
-#include "distributions/Distributions.h"
 #include "StableRand.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The GeneralGeometricStableDistribution class
@@ -10,8 +10,8 @@
  * and Geometric-Stable distributions
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT GeneralGeometricStableDistribution
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT GeneralGeometricStableDistribution : public distributions::ContinuousDistribution<RealType>
+{
   StableRand<RealType> Z{};
 
 protected:
@@ -30,19 +30,19 @@ protected:
   double log1pKappaSq = M_LN2; ///< log(1 + κ^2)
   double logKappa = 0;         /// log(κ)
 
-  GeneralGeometricStableDistribution(double exponent, double skewness,
-                                     double scale = 1.0, double location = 0.0,
-                                     double shift = 0.0);
-  virtual ~GeneralGeometricStableDistribution() {}
+  GeneralGeometricStableDistribution(double exponent, double skewness, double scale = 1.0, double location = 0.0, double shift = 0.0);
+  virtual ~GeneralGeometricStableDistribution()
+  {
+  }
 
-  void SetParameters(double exponent, double skewness, double scale = 1.0,
-                     double location = 0.0, double shift = 0.);
+  void SetParameters(double exponent, double skewness, double scale = 1.0, double location = 0.0, double shift = 0.);
   void SetLocation(double location);
   void SetShift(double shift);
   void SetScale(double scale);
   void SetAsymmetry(double asymmetry);
 
-  enum DISTRIBUTION_TYPE {
+  enum DISTRIBUTION_TYPE
+  {
     LAPLACE,            ///< α = 2, μ = 0
     ASYMMETRIC_LAPLACE, ///< α = 2, μ ≠ 0
     CAUCHY,             ///< α = 1, β = 0
@@ -52,14 +52,25 @@ protected:
     GENERAL             ///< the rest
   };
 
-  DISTRIBUTION_TYPE distributionType =
-      LAPLACE; ///< type of distribution (Laplace by default)
+  DISTRIBUTION_TYPE distributionType = LAPLACE; ///< type of distribution (Laplace by default)
 
 public:
-  inline double GetExponent() const { return alpha; }
-  inline double GetSkewness() const { return beta; }
-  inline double GetScale() const { return gamma; }
-  inline double GetLogScale() const { return logGamma; }
+  inline double GetExponent() const
+  {
+    return alpha;
+  }
+  inline double GetSkewness() const
+  {
+    return beta;
+  }
+  inline double GetScale() const
+  {
+    return gamma;
+  }
+  inline double GetLogScale() const
+  {
+    return logGamma;
+  }
 
   SUPPORT_TYPE SupportType() const override;
   RealType MinValue() const override;
@@ -76,9 +87,9 @@ private:
   double pdfByCauchy(double x) const;
 
 public:
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
 
 private:
   double variateForUnityExponent(double z) const;
@@ -88,7 +99,7 @@ private:
 
 public:
   RealType Variate() const override;
-  void Sample(std::vector<RealType> &outputData) const override;
+  void Sample(std::vector<RealType>& outputData) const override;
   void Reseed(unsigned long seed) const override;
 
   long double Mean() const override;
@@ -125,12 +136,13 @@ protected:
  * arbitrary β
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT GeometricStableRand
-    : public GeneralGeometricStableDistribution<RealType> {
+class RANDLIB_EXPORT GeometricStableRand : public GeneralGeometricStableDistribution<RealType>
+{
 public:
-  GeometricStableRand(double exponent = 2, double skewness = 0,
-                      double scale = M_SQRT2, double location = 0);
-  virtual ~GeometricStableRand() {}
+  GeometricStableRand(double exponent = 2, double skewness = 0, double scale = M_SQRT2, double location = 0);
+  virtual ~GeometricStableRand()
+  {
+  }
 
   String Name() const override;
 
@@ -141,7 +153,10 @@ public:
   void SetParameters(double exponent, double skewness);
   void SetLocation(double location);
   void SetScale(double scale);
-  inline double GetLocation() const { return this->mu; }
+  inline double GetLocation() const
+  {
+    return this->mu;
+  }
 };
 
 #endif // GEOMETRICSTABLERAND_H

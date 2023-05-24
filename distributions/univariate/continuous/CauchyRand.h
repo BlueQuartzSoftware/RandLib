@@ -1,8 +1,8 @@
 #ifndef CAUCHYRAND_H
 #define CAUCHYRAND_H
 
-#include "distributions/Distributions.h"
 #include "StableRand.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The CauchyRand class <BR>
@@ -18,23 +18,31 @@
  * If X, Y ~ Normal(0, 1), then X / Y ~ Cauchy(0, 1)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT CauchyRand : public StableDistribution<RealType> {
+class RANDLIB_EXPORT CauchyRand : public StableDistribution<RealType>
+{
 public:
   CauchyRand(double location = 0, double scale = 1);
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::INFINITE_T; }
-  RealType MinValue() const override { return -INFINITY; }
-  RealType MaxValue() const override { return INFINITY; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::INFINITE_T;
+  }
+  RealType MinValue() const override
+  {
+    return -INFINITY;
+  }
+  RealType MaxValue() const override
+  {
+    return INFINITY;
+  }
 
 public:
-  double f(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
   RealType Variate() const override;
 
-  static RealType
-  StandardVariate(RandGenerator &randGenerator =
-                      ProbabilityDistribution<RealType>::staticRandGenerator);
+  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
 
 private:
   RealType quantileImpl(double p) const override;

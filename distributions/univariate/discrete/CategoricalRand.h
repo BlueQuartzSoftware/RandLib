@@ -16,24 +16,36 @@
  * If X ~ Uniform-Discrete(0, K), then X ~ Cat(p, ..., p) with p = 1 / (K + 1)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT CategoricalRand
-    : public distributions::DiscreteDistribution<IntType> {
+class RANDLIB_EXPORT CategoricalRand : public distributions::DiscreteDistribution<IntType>
+{
   std::vector<double> prob{1.0}; ///< vector of probabilities
   IntType K = 1;                 ///< number of possible outcomes
 
 public:
-  explicit CategoricalRand(std::vector<double> &&probabilities = {1.0});
+  explicit CategoricalRand(std::vector<double>&& probabilities = {1.0});
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  IntType MinValue() const override { return 0; }
-  IntType MaxValue() const override { return K - 1; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  IntType MinValue() const override
+  {
+    return 0;
+  }
+  IntType MaxValue() const override
+  {
+    return K - 1;
+  }
 
-  void SetProbabilities(std::vector<double> &&probabilities);
-  std::vector<double> GetProbabilities() { return prob; }
+  void SetProbabilities(std::vector<double>&& probabilities);
+  std::vector<double> GetProbabilities()
+  {
+    return prob;
+  }
 
-  double P(const IntType &k) const override;
-  double logP(const IntType &k) const override;
-  double F(const IntType &k) const override;
+  double P(const IntType& k) const override;
+  double logP(const IntType& k) const override;
+  double F(const IntType& k) const override;
   IntType Variate() const override;
 
   long double Mean() const override;

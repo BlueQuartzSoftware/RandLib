@@ -15,26 +15,26 @@
  * X ~ NB(1, p)
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT GeometricRand : public PascalRand<IntType> {
+class RANDLIB_EXPORT GeometricRand : public PascalRand<IntType>
+{
 public:
   explicit GeometricRand(double probability = 0.5)
-      : PascalRand<IntType>(1, probability) {}
+  : PascalRand<IntType>(1, probability)
+  {
+  }
   String Name() const override;
 
 public:
   void SetProbability(double probability);
 
-  double P(const IntType &k) const override;
-  double logP(const IntType &k) const override;
-  double F(const IntType &k) const override;
-  double S(const IntType &k) const override;
+  double P(const IntType& k) const override;
+  double logP(const IntType& k) const override;
+  double F(const IntType& k) const override;
+  double S(const IntType& k) const override;
   IntType Variate() const override;
-  static IntType
-  Variate(double probability,
-          RandGenerator &randGenerator =
-              ProbabilityDistribution<IntType>::staticRandGenerator);
+  static IntType Variate(double probability, RandGenerator& randGenerator = ProbabilityDistribution<IntType>::staticRandGenerator);
 
-  void Sample(std::vector<IntType> &outputData) const override;
+  void Sample(std::vector<IntType>& outputData) const override;
 
   IntType Median() const override;
 

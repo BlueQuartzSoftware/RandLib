@@ -27,53 +27,36 @@
 namespace checks
 {
 using namespace gcem;
-template<typename T>
-constexpr
-llint_t
-find_exponent(const T x, const llint_t exponent)
-noexcept
+template <typename T>
+constexpr llint_t find_exponent(const T x, const llint_t exponent) noexcept
 {
-    return( // < 1
-            x < T(1e-03)  ? \
-                find_exponent(x * T(1e+04), exponent - llint_t(4)) :
-            x < T(1e-01)  ? \
-                find_exponent(x * T(1e+02), exponent - llint_t(2)) :
-            x < T(1)  ? \
-                find_exponent(x * T(10), exponent - llint_t(1)) :
-            // > 10
-            x > T(10) ? \
-                find_exponent(x / T(10), exponent + llint_t(1)) :
-            x > T(1e+02) ? \
-                find_exponent(x / T(1e+02), exponent + llint_t(2)) :
-            x > T(1e+04) ? \
-                find_exponent(x / T(1e+04), exponent + llint_t(4)) :
-            // else
-                exponent );
+  return ( // < 1
+      x < T(1e-03) ? find_exponent(x * T(1e+04), exponent - llint_t(4)) :
+      x < T(1e-01) ? find_exponent(x * T(1e+02), exponent - llint_t(2)) :
+      x < T(1)     ? find_exponent(x * T(10), exponent - llint_t(1)) :
+                     // > 10
+          x > T(10) ? find_exponent(x / T(10), exponent + llint_t(1)) :
+          x > T(1e+02)  ? find_exponent(x / T(1e+02), exponent + llint_t(2)) :
+          x > T(1e+04)  ? find_exponent(x / T(1e+04), exponent + llint_t(4)) :
+                          // else
+                      exponent);
 }
 
-template<typename T>
-constexpr
-llint_t
-find_whole(const T x)
-noexcept
+template <typename T>
+constexpr llint_t find_whole(const T x) noexcept
 {
-    return( helpers::abs(x - internal::floor_check(x)) >= T(0.5) ? \
-            // if 
-                static_cast<llint_t>(internal::floor_check(x) + nonstd::sgn(x)) :
-            // else 
-                static_cast<llint_t>(internal::floor_check(x)) );
+  return (helpers::abs(x - internal::floor_check(x)) >= T(0.5) ? // if
+              static_cast<llint_t>(internal::floor_check(x) + nonstd::sgn(x)) :
+              // else
+              static_cast<llint_t>(internal::floor_check(x)));
 }
 
-template<typename T>
-constexpr
-T
-find_fraction(const T x)
-noexcept
+template <typename T>
+constexpr T find_fraction(const T x) noexcept
 {
-    return( helpers::abs(x - internal::floor_check(x)) >= T(0.5) ? \
-            // if 
-                x - internal::floor_check(x) - nonstd::sgn(x) : 
-            //else 
-                x - internal::floor_check(x) );
+  return (helpers::abs(x - internal::floor_check(x)) >= T(0.5) ? // if
+              x - internal::floor_check(x) - nonstd::sgn(x) :
+              // else
+              x - internal::floor_check(x));
 }
-}
+} // namespace checks

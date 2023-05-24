@@ -1,8 +1,8 @@
 #ifndef STUDENTTRAND_H
 #define STUDENTTRAND_H
 
-#include "distributions/Distributions.h"
 #include "NakagamiRand.h"
+#include "distributions/Distributions.h"
 
 /**
  * @brief The StudentTRand class <BR>
@@ -13,8 +13,8 @@
  * X -> Normal(μ, σ) for t -> ∞
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT StudentTRand
-    : public distributions::ContinuousDistribution<RealType> {
+class RANDLIB_EXPORT StudentTRand : public distributions::ContinuousDistribution<RealType>
+{
   double nu = 1;       ///< degree ν
   double mu = 0;       ///< location μ
   double sigma = 1;    ///< scale σ
@@ -25,27 +25,44 @@ class RANDLIBSHARED_EXPORT StudentTRand
   double logBetaFun = M_LNPI; ///< log(B(0.5 * ν, 0.5))
 
 public:
-  explicit StudentTRand(double degree = 1.0, double location = 0.0,
-                        double scale = 1.0);
+  explicit StudentTRand(double degree = 1.0, double location = 0.0, double scale = 1.0);
 
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::INFINITE_T; }
-  RealType MinValue() const override { return -INFINITY; }
-  RealType MaxValue() const override { return INFINITY; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::INFINITE_T;
+  }
+  RealType MinValue() const override
+  {
+    return -INFINITY;
+  }
+  RealType MaxValue() const override
+  {
+    return INFINITY;
+  }
 
   void SetDegree(double degree);
   void SetLocation(double location);
   void SetScale(double scale);
-  inline double GetDegree() const { return nu; }
-  inline double GetLocation() const { return mu; }
-  inline double GetScale() const { return sigma; }
+  inline double GetDegree() const
+  {
+    return nu;
+  }
+  inline double GetLocation() const
+  {
+    return mu;
+  }
+  inline double GetScale() const
+  {
+    return sigma;
+  }
 
-  double f(const RealType &x) const override;
-  double logf(const RealType &x) const override;
-  double F(const RealType &x) const override;
-  double S(const RealType &x) const override;
+  double f(const RealType& x) const override;
+  double logf(const RealType& x) const override;
+  double F(const RealType& x) const override;
+  double S(const RealType& x) const override;
   RealType Variate() const override;
-  void Sample(std::vector<RealType> &outputData) const override;
+  void Sample(std::vector<RealType>& outputData) const override;
   void Reseed(unsigned long seed) const override;
 
   long double Mean() const override;

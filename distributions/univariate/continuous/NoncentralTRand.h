@@ -13,7 +13,7 @@
 // * @brief The NoncentralTRand class <BR>
 // * Notation: Noncentral-t(ν, μ)
 // */
-//class RANDLIBSHARED_EXPORT NoncentralTRand : public distributions::ContinuousDistribution {
+// class RANDLIB_EXPORT NoncentralTRand : public distributions::ContinuousDistribution {
 //  double nu, mu;
 //  long double PhiMu, PhimMu;
 //  double sqrt1p2oNu;
@@ -31,7 +31,7 @@
 //
 //  StudentTRand<> T;
 //
-//public:
+// public:
 //  explicit NoncentralTRand(double degree = 1, double noncentrality = 0);
 //
 //  std::string Name() const override;
@@ -51,7 +51,7 @@
 //   */
 //  inline double GetNoncentrality() const { return mu; }
 //
-//private:
+// private:
 //  double cdfSeries(const double &x, const nuStruct &degreeCoef,
 //                   double noncentrality) const;
 //  double cdfComplSeries(const double &x, const nuStruct &degreeCoef,
@@ -69,7 +69,7 @@
 //   */
 //  double pdfCommon(const double &x, double noncentrality) const;
 //
-//public:
+// public:
 //  double f(const double &x) const override;
 //  double logf(const double &x) const override;
 //  double F(const double &x) const override;
@@ -83,7 +83,7 @@
 //  double Skewness() const override;
 //  double ExcessKurtosis() const override;
 //
-//private:
+// private:
 //  double quantileImpl(double p) const override;
 //  double quantileImpl1m(double p) const override;
 //};

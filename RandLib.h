@@ -1,6 +1,14 @@
 #ifndef RANDLIB
 #define RANDLIB
 
-#include "distributions/Distributions.h"
+#include "RandLib_export.hpp"
+
+enum RANDLIB_EXPORT SUPPORT_TYPE
+{
+  FINITE_T,
+  RIGHTSEMIFINITE_T,
+  LEFTSEMIFINITE_T,
+  INFINITE_T
+};
 
 #endif // RANDLIB

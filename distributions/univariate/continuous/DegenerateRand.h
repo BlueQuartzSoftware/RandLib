@@ -11,23 +11,35 @@
  *
  * Notation: X ~ δ(a)
  */
-class RANDLIBSHARED_EXPORT DegenerateRand
-    : public distributions::ContinuousDistribution<double> {
+class RANDLIB_EXPORT DegenerateRand : public distributions::ContinuousDistribution<double>
+{
   double a = 0; ///< value
 
 public:
   explicit DegenerateRand(double value = 0);
   String Name() const override;
-  SUPPORT_TYPE SupportType() const override { return SUPPORT_TYPE::FINITE_T; }
-  double MinValue() const override { return a; }
-  double MaxValue() const override { return a; }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
+  double MinValue() const override
+  {
+    return a;
+  }
+  double MaxValue() const override
+  {
+    return a;
+  }
 
   void SetValue(double value);
-  inline double GetValue() const { return a; }
+  inline double GetValue() const
+  {
+    return a;
+  }
 
-  double f(const double &x) const override;
-  double logf(const double &x) const override;
-  double F(const double &x) const override;
+  double f(const double& x) const override;
+  double logf(const double& x) const override;
+  double F(const double& x) const override;
   double Variate() const override;
 
   long double Mean() const override;
@@ -50,7 +62,7 @@ public:
    * @fn Fit
    * @param sample
    */
-  void Fit(const std::vector<double> &sample);
+  void Fit(const std::vector<double>& sample);
 };
 
 #endif // DEGENERATERAND_H

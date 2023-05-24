@@ -3,7 +3,9 @@
 
 #include "distributions/Distributions.h"
 
-template <typename T, typename P> class RANDLIBSHARED_EXPORT ExponentialFamily {
+template <typename T, typename P>
+class RANDLIB_EXPORT ExponentialFamily
+{
 public:
   ExponentialFamily() = default;
   virtual ~ExponentialFamily() = default;
