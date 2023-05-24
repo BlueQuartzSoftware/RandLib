@@ -1,4 +1,4 @@
-#include "PlanckRand.h"
+#include "PlanckRand.hpp"
 
 template <typename RealType>
 PlanckRand<RealType>::PlanckRand(double shape, double scale)
@@ -196,7 +196,7 @@ template <typename RealType>
 std::complex<double> PlanckRand<RealType>::CFImpl(double t) const
 {
   if(a >= 1)
-    return distributions::ContinuousDistribution<RealType>::CFImpl(t);
+    return randlib::ContinuousDistribution<RealType>::CFImpl(t);
 
   /// We have singularity point at 0 for real part,
   /// so we split the integral in two intervals:

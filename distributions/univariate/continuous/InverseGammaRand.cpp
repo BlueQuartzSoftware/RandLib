@@ -1,4 +1,4 @@
-#include "InverseGammaRand.h"
+#include "InverseGammaRand.hpp"
 
 template <typename RealType>
 InverseGammaRand<RealType>::InverseGammaRand(double shape, double rate)

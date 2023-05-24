@@ -1,5 +1,5 @@
-#include "MarchenkoPasturRand.h"
-#include "UniformRand.h"
+#include "MarchenkoPasturRand.hpp"
+#include "UniformRand.hpp"
 
 template <typename RealType>
 MarchenkoPasturRand<RealType>::MarchenkoPasturRand(double ratio, double scale)
@@ -334,7 +334,7 @@ RealType MarchenkoPasturRand<RealType>::quantileImpl(double p) const
   RealType minInitValue = sigmaSq * a;
   RealType maxInitValue = sigmaSq * b;
   RealType initValue = minInitValue + p * (maxInitValue - minInitValue);
-  return distributions::ContinuousDistribution<RealType>::quantileImpl(p, initValue);
+  return randlib::ContinuousDistribution<RealType>::quantileImpl(p, initValue);
 }
 
 template <typename RealType>
@@ -345,14 +345,14 @@ RealType MarchenkoPasturRand<RealType>::quantileImpl1m(double p) const
   RealType minInitValue = sigmaSq * a;
   RealType maxInitValue = sigmaSq * b;
   RealType initValue = maxInitValue - p * (maxInitValue - minInitValue);
-  return distributions::ContinuousDistribution<RealType>::quantileImpl1m(p, initValue);
+  return randlib::ContinuousDistribution<RealType>::quantileImpl1m(p, initValue);
 }
 
 template <typename RealType>
 std::complex<double> MarchenkoPasturRand<RealType>::CFImpl(double t) const
 {
   if(lambda < 1)
-    return distributions::ContinuousDistribution<RealType>::CFImpl(t);
+    return randlib::ContinuousDistribution<RealType>::CFImpl(t);
   /// otherwise we have singularity at point 0
   if(lambda == 1)
   {

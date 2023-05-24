@@ -1,0 +1,191 @@
+#pragma once
+
+#include "distributions/ContinuousDistributions.hpp"
+
+#include "distributions/univariate/continuous/NormalRand.hpp"
+
+namespace randlib
+{
+/**
+ * @brief The BivariateNormalRand class <BR>
+ * Bivariate Gaussian (normal) distribution
+ *
+ * Notation: X ~ N(μ1, μ2, σ1, ρ, σ2)
+ */
+template <typename RealType = double>
+class RANDLIB_EXPORT BivariateNormalRand : public randlib::ContinuousBivariateDistribution<NormalRand<RealType>, NormalRand<RealType>, RealType>
+{
+  double mu1 = 0;                      ///< first location μ1
+  double mu2 = 0;                      ///< second location μ2
+  double sigma1 = 1;                   ///< first scale σ1
+  double sigma2 = 1;                   ///< second scale σ2
+  double rho = 0;                      ///< correlation coefficient ρ
+  double pdfCoef = 1 + M_LN2 + M_LNPI; ///< coefficient for faster pdf calculation
+  double sqrt1mroSq = 1;               ///< √(1 - ρ)
+
+public:
+  BivariateNormalRand(double location1, double location2, double scale1, double scale2, double correlation)
+  {
+    SetLocations(location1, location2);
+    SetCovariance(scale1, scale2, correlation);
+  }
+
+  String Name() const override
+  {
+    return "Bivariate Normal( (" + this->toStringWithPrecision(GetFirstLocation()) + ", " + this->toStringWithPrecision(GetSecondLocation()) + "), (" + this->toStringWithPrecision(GetFirstScale()) +
+           ", " + this->toStringWithPrecision(GetSecondScale()) + ", " + this->toStringWithPrecision(GetCorrelation()) + ") )";
+  }
+
+  void SetLocations(double location1, double location2)
+  {
+    mu1 = location1;
+    mu2 = location2;
+    this->X.SetLocation(mu1);
+    this->Y.SetLocation(mu2);
+  }
+
+  void SetCovariance(double scale1, double scale2, double correlation)
+  {
+    if(scale1 <= 0.0 || scale2 <= 0.0)
+      throw std::invalid_argument("Scales of Bivariate-Normal distribution "
+                                  "should be positive, but they're equal to " +
+                                  std::to_string(scale1) + " and " + std::to_string(scale2) + " respectively");
+    if(std::fabs(correlation) > 1.0)
+      throw std::invalid_argument("Correlation of Bivariate-Normal distribution should be in interval "
+                                  "[-1, 1], but it's equal to " +
+                                  std::to_string(correlation));
+    sigma1 = scale1;
+    sigma2 = scale2;
+    rho = correlation;
+
+    this->X.SetScale(sigma1);
+    this->Y.SetScale(sigma2);
+
+    sqrt1mroSq = 0.5 * std::log1pl(-rho * rho);
+    pdfCoef = this->X.GetLogScale() + this->Y.GetLogScale() + sqrt1mroSq + M_LN2 + M_LNPI;
+    sqrt1mroSq = std::exp(sqrt1mroSq);
+  }
+
+  inline DoublePair GetLocation()
+  {
+    return this->Mean();
+  }
+
+  inline double GetFirstLocation() const
+  {
+    return mu1;
+  }
+
+  inline double GetSecondLocation() const
+  {
+    return mu2;
+  }
+
+  inline double GetFirstScale() const
+  {
+    return sigma1;
+  }
+
+  inline double GetSecondScale() const
+  {
+    return sigma2;
+  }
+
+  inline double GetCorrelation() const
+  {
+    return rho;
+  }
+
+  double f(const Pair<RealType>& point) const override
+  {
+    RealType xAdj = (point.first - mu1) / sigma1, yAdj = (point.second - mu2) / sigma2;
+    if(rho == 1.0) /// f(x, y) = δ(xAdj - yAdj)
+    {
+      return (xAdj - yAdj == 0) ? INFINITY : 0.0;
+    }
+    if(rho == -1.0) /// f(x, y) = δ(xAdj + yAdj)
+    {
+      return (xAdj + yAdj == 0) ? INFINITY : 0.0;
+    }
+    return std::exp(logf(point));
+  }
+
+  double logf(const Pair<RealType>& point) const override
+  {
+    if(rho == 0.0) // log(f(x, y)) = log(f(x)) + log(f(y))
+    {
+      return this->X.logf(point.first) + this->Y.logf(point.second);
+    }
+    RealType xAdj = (point.first - mu1) / sigma1, yAdj = (point.second - mu2) / sigma2;
+    if(rho == 1.0) /// log(f(x, y)) = log(δ(xAdj - yAdj))
+    {
+      return (xAdj - yAdj == 0) ? INFINITY : -INFINITY;
+    }
+    if(rho == -1.0) /// log(f(x, y)) = log(δ(xAdj + yAdj))
+    {
+      return (xAdj + yAdj == 0) ? INFINITY : -INFINITY;
+    }
+    RealType z = xAdj * xAdj - 2 * rho * xAdj * yAdj + yAdj * yAdj;
+    return -(pdfCoef + 0.5 * z / (sqrt1mroSq * sqrt1mroSq));
+  }
+
+  double F(const Pair<RealType>& point) const override
+  {
+    if(rho == 0.0) /// F(x, y) = F(x)F(y)
+    {
+      return this->X.F(point.first) * this->Y.F(point.second);
+    }
+    /// Unnumbered equation between (3) and (4) in Section 2.2 of Genz (2004),
+    /// integrating in terms of theta between asin(ρ) and +/- π/2
+    RealType p1, p2 = 0.0;
+    RealType x = point.first, y = point.second;
+    RealType xAdj = (x - mu1) / sigma1, yAdj = (y - mu2) / sigma2;
+    if(rho > 0)
+    {
+      p1 = (xAdj < yAdj) ? this->X.F(x) : this->Y.F(y);
+    }
+    else
+    {
+      p1 = std::max(this->X.F(x) - this->Y.F(-y), 0.0);
+    }
+
+    if(std::fabs(rho) < 1.0)
+    {
+      RealType lowLimit = std::asin(rho);
+      RealType highLimit = RandMath::sign(rho) * M_PI_2;
+      p2 = RandMath::integral(
+          [this, xAdj, yAdj](double theta) {
+            /// Integrand is exp(-(x^2 + y^2 - 2xysin(θ)) / (2cos(θ)^2))
+            RealType cosTheta = std::cos(theta);
+            RealType tanTheta = std::tan(theta);
+            RealType integrand = xAdj * tanTheta - yAdj / cosTheta;
+            integrand *= integrand;
+            integrand += xAdj * xAdj;
+            integrand = std::exp(-0.5 * integrand);
+            return integrand;
+          },
+          lowLimit, highLimit);
+    }
+    return p1 - 0.5 * p2 / M_PI;
+  }
+
+  Pair<RealType> Variate() const override
+  {
+    RealType Z1 = NormalRand<RealType>::StandardVariate(this->localRandGenerator);
+    RealType Z2 = NormalRand<RealType>::StandardVariate(this->localRandGenerator);
+    RealType x = mu1 + sigma1 * Z1;
+    RealType y = mu2 + sigma2 * (rho * Z1 + sqrt1mroSq * Z2);
+    return std::make_pair(x, y);
+  }
+
+  long double Correlation() const override
+  {
+    return rho;
+  }
+
+  Pair<RealType> Mode() const override
+  {
+    return std::make_pair(mu1, mu2);
+  }
+};
+} // namespace randlib

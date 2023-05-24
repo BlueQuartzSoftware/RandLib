@@ -1,4 +1,4 @@
-#include "IrwinHallRand.h"
+#include "IrwinHallRand.hpp"
 
 template <typename RealType>
 IrwinHallRand<RealType>::IrwinHallRand(size_t number)

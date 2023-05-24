@@ -1,4 +1,4 @@
-#include "HyperGeometricRand.h"
+#include "HyperGeometricRand.hpp"
 
 template <typename IntType>
 HyperGeometricRand<IntType>::HyperGeometricRand(IntType totalSize, IntType drawsNum, IntType successesNum)

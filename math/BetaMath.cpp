@@ -1,26 +1,9 @@
-#include "BetaMath.h"
+#include "BetaMath.hpp"
 
-namespace RandMath
+using namespace randlib::RandMath;
+
+namespace
 {
-
-long double logBeta(long double a, long double b)
-{
-  if(a <= 0 || b <= 0)
-    throw std::invalid_argument("Parameters (a, b) of beta function should be both positive");
-  double beta = std::betal(a, b);
-  if(std::isfinite(beta))
-    return std::log(beta);
-  double apb = a + b;
-  int roundA = std::round(a), roundB = std::round(b);
-  int roundApB = std::round(apb);
-  long double lgammaA = (a == roundA) ? lfact(roundA - 1) : std::lgammal(a);
-  long double lgammaB = lgammaA;
-  if(a != b)
-    lgammaB = (b == roundB) ? lfact(roundB - 1) : std::lgammal(b);
-  long double lgammaApB = (apb == roundApB) ? lfact(roundApB - 1) : std::lgammal(apb);
-  return lgammaA + lgammaB - lgammaApB;
-}
-
 double ibetaPowerSeries1(double x, double a, double b, double logBetaFun, double logX, double log1mX)
 {
   double addon = 1.0, sum = 0.0;
@@ -98,6 +81,25 @@ double ibetaContinuedFraction2(double x, double a, double b, int number, double 
   y *= F / (1.0 - F);
   return y;
 }
+} // namespace
+
+long double logBeta(long double a, long double b)
+{
+  if(a <= 0 || b <= 0)
+    throw std::invalid_argument("Parameters (a, b) of beta function should be both positive");
+  double beta = std::betal(a, b);
+  if(std::isfinite(beta))
+    return std::log(beta);
+  double apb = a + b;
+  int roundA = std::round(a), roundB = std::round(b);
+  int roundApB = std::round(apb);
+  long double lgammaA = (a == roundA) ? randlib::RandMath::lfact(roundA - 1) : std::lgammal(a);
+  long double lgammaB = lgammaA;
+  if(a != b)
+    lgammaB = (b == roundB) ? randlib::RandMath::lfact(roundB - 1) : std::lgammal(b);
+  long double lgammaApB = (apb == roundApB) ? randlib::RandMath::lfact(roundApB - 1) : std::lgammal(apb);
+  return lgammaA + lgammaB - lgammaApB;
+}
 
 double ibeta(double x, double a, double b, double logBetaFun, double logX, double log1mX)
 {
@@ -130,7 +132,7 @@ double ibeta(double x, double a, double b, double logBetaFun, double logX, doubl
     /// equivalent continued fraction #1
     double ecd = ibetacontinuedFraction1(x, a, b, number, logBetaFun, logX, log1mX);
     double apn = a + number, bmn = b - number;
-    double residue = (b == number) ? 0.0 : ibetaPowerSeries1(x, apn, bmn, logBeta(apn, bmn), logX, log1mX);
+    double residue = (b == number) ? 0.0 : ibetaPowerSeries1(x, apn, bmn, randlib::RandMath::logBeta(apn, bmn), logX, log1mX);
     return ecd + residue;
   }
 
@@ -140,7 +142,7 @@ double ibeta(double x, double a, double b, double logBetaFun, double logX, doubl
   /// equivalent continued fraction #2
   double ecd = ibetaContinuedFraction2(x, a, b, number, logBetaFun, logX, log1mX);
   double apn = a + number;
-  double residue = ibetaPowerSeries2(x, apn, b, logBeta(apn, b), logX, log1mX);
+  double residue = ibetaPowerSeries2(x, apn, b, randlib::RandMath::logBeta(apn, b), logX, log1mX);
   return ecd + residue;
 }
 
@@ -162,9 +164,7 @@ double ibeta(double x, double a, double b)
     double y = b * std::log1pl(-x);
     return -std::expm1l(y);
   }
-  double logBetaFun = logBeta(a, b);
+  double logBetaFun = randlib::RandMath::logBeta(a, b);
   double logX = std::log(x), log1mX = std::log1pl(-x);
-  return ibeta(x, a, b, logBetaFun, logX, log1mX);
+  return randlib::RandMath::ibeta(x, a, b, logBetaFun, logX, log1mX);
 }
-
-} // namespace RandMath

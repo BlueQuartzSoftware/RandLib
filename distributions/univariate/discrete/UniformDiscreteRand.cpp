@@ -1,4 +1,4 @@
-#include "UniformDiscreteRand.h"
+#include "UniformDiscreteRand.hpp"
 
 template <typename IntType>
 UniformDiscreteRand<IntType>::UniformDiscreteRand(IntType minValue, IntType maxValue)

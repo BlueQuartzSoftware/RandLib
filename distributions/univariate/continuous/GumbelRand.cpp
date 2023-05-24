@@ -1,5 +1,5 @@
-#include "GumbelRand.h"
-#include "ExponentialRand.h"
+#include "GumbelRand.hpp"
+#include "ExponentialRand.hpp"
 
 #include "external/log.hpp"
 

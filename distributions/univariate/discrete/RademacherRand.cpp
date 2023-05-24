@@ -1,5 +1,5 @@
-#include "RademacherRand.h"
-#include "BernoulliRand.h"
+#include "RademacherRand.hpp"
+#include "BernoulliRand.hpp"
 
 RademacherRand::RademacherRand()
 {

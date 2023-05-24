@@ -1,9 +1,9 @@
-#include "BinomialRand.h"
-#include "BernoulliRand.h"
+#include "BinomialRand.hpp"
+#include "BernoulliRand.hpp"
 
-#include "distributions/univariate/continuous/ExponentialRand.h"
-#include "distributions/univariate/continuous/NormalRand.h"
-#include "distributions/univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/ExponentialRand.hpp"
+#include "distributions/univariate/continuous/NormalRand.hpp"
+#include "distributions/univariate/continuous/UniformRand.hpp"
 
 template <typename IntType>
 BinomialDistribution<IntType>::BinomialDistribution(IntType number, double probability)

@@ -1,4 +1,4 @@
-#include "SkellamRand.h"
+#include "SkellamRand.hpp"
 
 template <typename IntType>
 SkellamRand<IntType>::SkellamRand(double rate1, double rate2)
@@ -92,7 +92,7 @@ long double SkellamRand<IntType>::Variance() const
 template <typename IntType>
 IntType SkellamRand<IntType>::Median() const
 {
-  return distributions::DiscreteDistribution<IntType>::quantileImpl(0.5, mu1 - mu2);
+  return randlib::DiscreteDistribution<IntType>::quantileImpl(0.5, mu1 - mu2);
 }
 
 template <typename IntType>

@@ -1,52 +1,13 @@
-﻿#include "RandMath.h"
-#include "NumericMath.h"
+﻿#include "RandMath.hpp"
+#include "NumericMath.hpp"
+
 #include <functional>
 
-namespace RandMath
-{
+using namespace randlib;
+using namespace randlib::RandMath;
 
-int sign(double x)
+namespace
 {
-  return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
-}
-
-double atan(double x)
-{
-  /// For small absolute values we use standard technique
-  /// Otherwise we use relation
-  /// atan(x) = +/-π/2 - atan(1/x)
-  /// to avoid numeric problems
-  if(x == 0.0)
-    return 0.0;
-  if(x > 1.0)
-    return M_PI_2 - std::atan(1.0 / x);
-  return (x < -1.0) ? -M_PI_2 - std::atan(1.0 / x) : std::atan(x);
-}
-
-double softplus(double x)
-{
-  if(x < 20.0)
-    return std::log1pl(std::exp(x));
-  return (x < 35.0) ? x + std::exp(-x) : x;
-}
-
-double log1mexp(double x)
-{
-  return (x < -M_LN2) ? std::log1pl(-std::exp(x)) : std::log(-std::expm1l(x));
-}
-
-double logexpm1l(double x)
-{
-  if(x < 20.0)
-    return std::log(std::expm1l(x));
-  return (x < 35.0) ? x - std::exp(-x) : x;
-}
-
-double log2mexp(double x)
-{
-  return std::log1pl(-std::expm1l(x));
-}
-
 double erfinvChebyshevSeries(double x, long double t, const long double* array, int size)
 {
   /// We approximate inverse erf via Chebyshev polynomials
@@ -222,149 +183,6 @@ double erfinvAux4(double p)
   return erfinvChebyshevSeries(p, p * p / 0.32 - 1.0, xi, xiSize);
 }
 
-double erfinv(double p)
-{
-  /// Consider special cases
-  if(p < 0.0)
-    return -erfinv(-p);
-  if(p > 1.0)
-    throw std::invalid_argument("Argument p should be in interval [-1, 1]");
-  if(p == 1.0)
-    return INFINITY;
-  if(p == 0.0)
-    return 0.0;
-  if(p < 0.8)
-    return erfinvAux4(p);
-  /// Handle tails
-  double beta = std::sqrt(-std::log1pl(-p * p));
-  if(p < 0.9975)
-    return erfinvAux3(beta);
-  return (1.0 - p < 5e-16) ? erfinvAux1(beta) : erfinvAux2(beta);
-}
-
-double erfcinv(double p)
-{
-  /// Consider special cases
-  if(p > 1.0)
-    return -erfcinv(2.0 - p);
-  if(p == 0.0)
-    return INFINITY;
-  if(p == 1.0)
-    return 0.0;
-  if(p > 0.2)
-    return erfinvAux4(1.0 - p);
-  double pSq = p * p, p2 = 2 * p;
-  double beta = std::sqrt(-std::log(p2 - pSq));
-  if(p > 0.0025)
-    return erfinvAux3(beta);
-  return (p > 5e-16) ? erfinvAux2(beta) : erfinvAux1(beta);
-}
-
-double xexpxsqerfc(double x)
-{
-  static constexpr int MAX_X = 10;
-  static constexpr int N = 10;
-  if(x < MAX_X)
-  {
-    double y = x * x;
-    y += std::log(std::erfc(x));
-    return x * std::exp(y);
-  }
-  double log2xSq = M_LN2 + 2 * std::log(x);
-  double sum = 0.0;
-  for(int n = 1; n != N; ++n)
-  {
-    double add = RandMath::ldfact(2 * n - 1);
-    add -= n * log2xSq;
-    add = std::exp(add);
-    sum += (n & 1) ? -add : add;
-  }
-  return (1.0 + sum) / M_SQRTPI;
-}
-
-double harmonicNumber(double exponent, int number)
-{
-  if(number < 1)
-    return 0;
-  if(exponent == 1)
-    return M_EULER + digamma(number + 1);
-  if(exponent == 2)
-    return M_PI_SQ / 6.0 - trigamma(number + 1);
-  double res = 1.0;
-  for(int i = 2; i <= number; ++i)
-    res += std::pow(i, -exponent);
-  return res;
-}
-
-long double logBesselI(double nu, double x)
-{
-  if(x < 0)
-  {
-    double roundNu = std::round(nu);
-    bool nuIsInt = areClose(nu, roundNu);
-    if(nuIsInt)
-    {
-      int nuInt = roundNu;
-      return (nuInt % 2) ? NAN : logBesselI(nu, -x);
-    }
-    return -INFINITY;
-  }
-
-  if(x == 0)
-  {
-    if(nu == 0)
-      return 0.0;
-    double roundNu = std::round(nu);
-    bool nuIsInt = areClose(nu, roundNu);
-    return (nu > 0 || nuIsInt) ? -INFINITY : INFINITY;
-  }
-
-  if(std::fabs(nu) == 0.5)
-  {
-    /// log(sinh(x)) or log(cosh(x))
-    long double y = x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
-    y += (nu > 0) ? RandMath::softplus(-2 * x) : RandMath::log1mexp(-2 * x);
-    return y;
-  }
-
-  if(nu < 0)
-  {
-    /// I(ν, x) = I(−ν, x) - 2 / π sin(πν) K(ν, x)
-    long double besseli = std::cyl_bessel_il(-nu, x);
-    long double sinPiNu = -std::sin(M_PI * nu);
-    long double y = 0;
-    if(sinPiNu == 0 || RandMath::areClose(nu, std::round(nu)))
-      y = besseli;
-    else
-    {
-      long double besselk = std::cyl_bessel_kl(-nu, x);
-      y = besseli - M_2_PI * sinPiNu * besselk;
-    }
-    return (y <= 0) ? -INFINITY : std::log(y);
-  }
-
-  long double besseli = std::cyl_bessel_il(nu, x); // TODO: expand Hankel asymptotic expansions
-  return std::isfinite(besseli) ? std::log(besseli) : x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
-}
-
-long double logBesselK(double nu, double x)
-{
-  if(nu < 0.0)
-    return NAN; /// K(-ν, x) = -K(ν, x) < 0
-
-  if(x == 0.0)
-    return INFINITY;
-
-  long double besselk = 0;
-  if(nu == 0.5 || (besselk = std::cyl_bessel_kl(nu, x)) == 0)
-    return 0.5 * (M_LNPI - M_LN2 - std::log(x)) - x;
-
-  if(!std::isfinite(besselk)) // TODO: expand Hankel asymptotic expansions
-    return (nu == 0) ? std::log(-std::log(x)) : std::lgammal(nu) - M_LN2 - nu * std::log(0.5 * x);
-
-  return std::log(besselk);
-}
-
 /**
  * @fn WLambert
  * @param x
@@ -390,34 +208,6 @@ double WLambert(double x, double w0, double epsilon)
     w -= step;
   } while(std::fabs(step) > epsilon);
   return w;
-}
-
-double W0Lambert(double x, double epsilon)
-{
-  double w = 0;
-  if(x < -M_1_E)
-    throw std::invalid_argument("Argument x should be greater than -1/e, but it's equal to " + std::to_string(x));
-  if(x > 10)
-  {
-    double logX = std::log(x);
-    double loglogX = std::log(logX);
-    w = logX - loglogX;
-  }
-  return WLambert(x, w, epsilon);
-}
-
-double Wm1Lambert(double x, double epsilon)
-{
-  double w = -2;
-  if(x < -M_1_E || x > 0)
-    throw std::invalid_argument("Argument x should be greater than -1/e and smaller or equal to 0, but it's equal to " + std::to_string(x));
-  if(x > -0.1)
-  {
-    double logmX = std::log(-x);
-    double logmlogmX = std::log(-logmX);
-    w = logmX - logmlogmX;
-  }
-  return WLambert(x, w, epsilon);
 }
 
 /**
@@ -611,8 +401,222 @@ double MarcumQIntergralRepresentation(double mu, double x, double y, double sqrt
   double integral = RandMath::integral(integrandPtr, -M_PI, M_PI);
   return 0.5 * std::exp(-x - y + phi) / M_PI * integral;
 }
+} // namespace
 
-double MarcumP(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
+int randlib::RandMath::sign(double x)
+{
+  return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+}
+
+double randlib::RandMath::atan(double x)
+{
+  /// For small absolute values we use standard technique
+  /// Otherwise we use relation
+  /// atan(x) = +/-π/2 - atan(1/x)
+  /// to avoid numeric problems
+  if(x == 0.0)
+    return 0.0;
+  if(x > 1.0)
+    return M_PI_2 - std::atan(1.0 / x);
+  return (x < -1.0) ? -M_PI_2 - std::atan(1.0 / x) : std::atan(x);
+}
+
+double randlib::RandMath::softplus(double x)
+{
+  if(x < 20.0)
+    return std::log1pl(std::exp(x));
+  return (x < 35.0) ? x + std::exp(-x) : x;
+}
+
+double randlib::RandMath::log1mexp(double x)
+{
+  return (x < -M_LN2) ? std::log1pl(-std::exp(x)) : std::log(-std::expm1l(x));
+}
+
+double randlib::RandMath::logexpm1l(double x)
+{
+  if(x < 20.0)
+    return std::log(std::expm1l(x));
+  return (x < 35.0) ? x - std::exp(-x) : x;
+}
+
+double randlib::RandMath::log2mexp(double x)
+{
+  return std::log1pl(-std::expm1l(x));
+}
+
+double randlib::RandMath::erfinv(double p)
+{
+  /// Consider special cases
+  if(p < 0.0)
+    return -randlib::RandMath::erfinv(-p);
+  if(p > 1.0)
+    throw std::invalid_argument("Argument p should be in interval [-1, 1]");
+  if(p == 1.0)
+    return INFINITY;
+  if(p == 0.0)
+    return 0.0;
+  if(p < 0.8)
+    return erfinvAux4(p);
+  /// Handle tails
+  double beta = std::sqrt(-std::log1pl(-p * p));
+  if(p < 0.9975)
+    return erfinvAux3(beta);
+  return (1.0 - p < 5e-16) ? erfinvAux1(beta) : erfinvAux2(beta);
+}
+
+double randlib::RandMath::erfcinv(double p)
+{
+  /// Consider special cases
+  if(p > 1.0)
+    return -randlib::RandMath::erfcinv(2.0 - p);
+  if(p == 0.0)
+    return INFINITY;
+  if(p == 1.0)
+    return 0.0;
+  if(p > 0.2)
+    return erfinvAux4(1.0 - p);
+  double pSq = p * p, p2 = 2 * p;
+  double beta = std::sqrt(-std::log(p2 - pSq));
+  if(p > 0.0025)
+    return erfinvAux3(beta);
+  return (p > 5e-16) ? erfinvAux2(beta) : erfinvAux1(beta);
+}
+
+double randlib::RandMath::xexpxsqerfc(double x)
+{
+  static constexpr int MAX_X = 10;
+  static constexpr int N = 10;
+  if(x < MAX_X)
+  {
+    double y = x * x;
+    y += std::log(std::erfc(x));
+    return x * std::exp(y);
+  }
+  double log2xSq = M_LN2 + 2 * std::log(x);
+  double sum = 0.0;
+  for(int n = 1; n != N; ++n)
+  {
+    double add = RandMath::ldfact(2 * n - 1);
+    add -= n * log2xSq;
+    add = std::exp(add);
+    sum += (n & 1) ? -add : add;
+  }
+  return (1.0 + sum) / M_SQRTPI;
+}
+
+double randlib::RandMath::harmonicNumber(double exponent, int number)
+{
+  if(number < 1)
+    return 0;
+  if(exponent == 1)
+    return M_EULER + digamma(number + 1);
+  if(exponent == 2)
+    return M_PI_SQ / 6.0 - trigamma(number + 1);
+  double res = 1.0;
+  for(int i = 2; i <= number; ++i)
+    res += std::pow(i, -exponent);
+  return res;
+}
+
+long double randlib::RandMath::logBesselI(double nu, double x)
+{
+  if(x < 0)
+  {
+    double roundNu = std::round(nu);
+    bool nuIsInt = areClose(nu, roundNu);
+    if(nuIsInt)
+    {
+      int nuInt = roundNu;
+      return (nuInt % 2) ? NAN : randlib::RandMath::logBesselI(nu, -x);
+    }
+    return -INFINITY;
+  }
+
+  if(x == 0)
+  {
+    if(nu == 0)
+      return 0.0;
+    double roundNu = std::round(nu);
+    bool nuIsInt = areClose(nu, roundNu);
+    return (nu > 0 || nuIsInt) ? -INFINITY : INFINITY;
+  }
+
+  if(std::fabs(nu) == 0.5)
+  {
+    /// log(sinh(x)) or log(cosh(x))
+    long double y = x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
+    y += (nu > 0) ? RandMath::softplus(-2 * x) : RandMath::log1mexp(-2 * x);
+    return y;
+  }
+
+  if(nu < 0)
+  {
+    /// I(ν, x) = I(−ν, x) - 2 / π sin(πν) K(ν, x)
+    long double besseli = std::cyl_bessel_il(-nu, x);
+    long double sinPiNu = -std::sin(M_PI * nu);
+    long double y = 0;
+    if(sinPiNu == 0 || RandMath::areClose(nu, std::round(nu)))
+      y = besseli;
+    else
+    {
+      long double besselk = std::cyl_bessel_kl(-nu, x);
+      y = besseli - M_2_PI * sinPiNu * besselk;
+    }
+    return (y <= 0) ? -INFINITY : std::log(y);
+  }
+
+  long double besseli = std::cyl_bessel_il(nu, x); // TODO: expand Hankel asymptotic expansions
+  return std::isfinite(besseli) ? std::log(besseli) : x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
+}
+
+long double randlib::RandMath::logBesselK(double nu, double x)
+{
+  if(nu < 0.0)
+    return NAN; /// K(-ν, x) = -K(ν, x) < 0
+
+  if(x == 0.0)
+    return INFINITY;
+
+  long double besselk = 0;
+  if(nu == 0.5 || (besselk = std::cyl_bessel_kl(nu, x)) == 0)
+    return 0.5 * (M_LNPI - M_LN2 - std::log(x)) - x;
+
+  if(!std::isfinite(besselk)) // TODO: expand Hankel asymptotic expansions
+    return (nu == 0) ? std::log(-std::log(x)) : std::lgammal(nu) - M_LN2 - nu * std::log(0.5 * x);
+
+  return std::log(besselk);
+}
+
+double randlib::RandMath::W0Lambert(double x, double epsilon)
+{
+  double w = 0;
+  if(x < -M_1_E)
+    throw std::invalid_argument("Argument x should be greater than -1/e, but it's equal to " + std::to_string(x));
+  if(x > 10)
+  {
+    double logX = std::log(x);
+    double loglogX = std::log(logX);
+    w = logX - loglogX;
+  }
+  return WLambert(x, w, epsilon);
+}
+
+double randlib::RandMath::Wm1Lambert(double x, double epsilon)
+{
+  double w = -2;
+  if(x < -M_1_E || x > 0)
+    throw std::invalid_argument("Argument x should be greater than -1/e and smaller or equal to 0, but it's equal to " + std::to_string(x));
+  if(x > -0.1)
+  {
+    double logmX = std::log(-x);
+    double logmlogmX = std::log(-logmX);
+    w = logmX - logmlogmX;
+  }
+  return WLambert(x, w, epsilon);
+}
+
+double randlib::RandMath::MarcumP(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
 {
   /* 1 - ok
    * 2 - ok
@@ -653,24 +657,22 @@ double MarcumP(double mu, double x, double y, double sqrtX, double sqrtY, double
       0, y);
 }
 
-double MarcumP(double mu, double x, double y)
+double randlib::RandMath::MarcumP(double mu, double x, double y)
 {
   double sqrtX = std::sqrt(x), sqrtY = std::sqrt(y);
   double logX = std::log(x), logY = std::log(y);
-  return MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
+  return randlib::RandMath::MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
 }
 
-double MarcumQ(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
+double randlib::RandMath::MarcumQ(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
 {
   // TODO: implement and use, when mu + x > y
-  return 1.0 - MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
+  return 1.0 - randlib::RandMath::MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
 }
 
-double MarcumQ(double mu, double x, double y)
+double randlib::RandMath::MarcumQ(double mu, double x, double y)
 {
   double sqrtX = std::sqrt(x), sqrtY = std::sqrt(y);
   double logX = std::log(x), logY = std::log(y);
-  return MarcumQ(mu, x, y, sqrtX, sqrtY, logX, logY);
+  return randlib::RandMath::MarcumQ(mu, x, y, sqrtX, sqrtY, logX, logY);
 }
-
-} // namespace RandMath

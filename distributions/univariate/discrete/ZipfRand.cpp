@@ -1,6 +1,6 @@
-#include "ZipfRand.h"
+#include "ZipfRand.hpp"
 
-#include "distributions/univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/UniformRand.hpp"
 
 template <typename IntType>
 ZipfRand<IntType>::ZipfRand(double exponent, IntType number)

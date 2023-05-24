@@ -1,6 +1,6 @@
-#include "InverseGaussianRand.h"
-#include "NormalRand.h"
-#include "UniformRand.h"
+#include "InverseGaussianRand.hpp"
+#include "NormalRand.hpp"
+#include "UniformRand.hpp"
 
 template <typename RealType>
 InverseGaussianRand<RealType>::InverseGaussianRand(double mean, double shape)

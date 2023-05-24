@@ -1,4 +1,4 @@
-#include "LogisticRand.h"
+#include "LogisticRand.hpp"
 
 template <typename RealType>
 LogisticRand<RealType>::LogisticRand(double location, double scale)

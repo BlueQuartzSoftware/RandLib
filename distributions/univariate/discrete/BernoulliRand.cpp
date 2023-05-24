@@ -1,7 +1,7 @@
-#include "BernoulliRand.h"
+#include "BernoulliRand.hpp"
 
-#include "distributions/univariate/BasicRandGenerator.h"
-#include "distributions/univariate/continuous/UniformRand.h"
+#include "distributions/univariate/BasicRandGenerator.hpp"
+#include "distributions/univariate/continuous/UniformRand.hpp"
 
 BernoulliRand::BernoulliRand(double probability)
 : BinomialDistribution(1, probability)

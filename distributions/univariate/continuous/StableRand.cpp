@@ -1,9 +1,9 @@
-#include "StableRand.h"
-#include "CauchyRand.h"
-#include "ExponentialRand.h"
-#include "LevyRand.h"
-#include "NormalRand.h"
-#include "UniformRand.h"
+#include "StableRand.hpp"
+#include "CauchyRand.hpp"
+#include "ExponentialRand.hpp"
+#include "LevyRand.hpp"
+#include "NormalRand.hpp"
+#include "UniformRand.hpp"
 
 #include <algorithm>
 #include <functional>
@@ -991,7 +991,7 @@ RealType StableDistribution<RealType>::Mode() const
     return mu;
   if(distributionType == LEVY)
     return mu + beta * gamma / 3.0;
-  return distributions::ContinuousDistribution<RealType>::Mode();
+  return randlib::ContinuousDistribution<RealType>::Mode();
 }
 
 template <typename RealType>
@@ -1000,7 +1000,7 @@ RealType StableDistribution<RealType>::Median() const
   /// For symmetric and normal distributions mode is μ
   if(beta == 0 || distributionType == NORMAL)
     return mu;
-  return distributions::ContinuousDistribution<RealType>::Median();
+  return randlib::ContinuousDistribution<RealType>::Median();
 }
 
 template <typename RealType>
@@ -1065,7 +1065,7 @@ RealType StableDistribution<RealType>::quantileImpl(double p) const
   case LEVY:
     return (beta > 0) ? quantileLevy(p) : 2 * mu - quantileLevy1m(p);
   default:
-    return distributions::ContinuousDistribution<RealType>::quantileImpl(p);
+    return randlib::ContinuousDistribution<RealType>::quantileImpl(p);
   }
 }
 
@@ -1081,7 +1081,7 @@ RealType StableDistribution<RealType>::quantileImpl1m(double p) const
   case LEVY:
     return (beta > 0) ? quantileLevy1m(p) : 2 * mu - quantileLevy(p);
   default:
-    return distributions::ContinuousDistribution<RealType>::quantileImpl1m(p);
+    return randlib::ContinuousDistribution<RealType>::quantileImpl1m(p);
   }
 }
 

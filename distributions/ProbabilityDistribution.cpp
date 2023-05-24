@@ -1,4 +1,4 @@
-#include "ProbabilityDistribution.h"
+#include "ProbabilityDistribution.hpp"
 #include <iomanip>
 #include <sstream>
 

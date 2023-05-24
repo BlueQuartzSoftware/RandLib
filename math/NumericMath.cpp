@@ -1,7 +1,7 @@
-#include "NumericMath.h"
+#include "NumericMath.hpp"
 
-namespace RandMath
-{
+using namespace randlib;
+using namespace randlib::RandMath;
 
 /**
  * @fn adaptiveSimpsonsAux
@@ -36,7 +36,7 @@ double adaptiveSimpsonsAux(const std::function<double(double)>& funPtr, double a
 double integral(const std::function<double(double)>& funPtr, double a, double b, double epsilon, int maxRecursionDepth)
 {
   if(a > b)
-    return -integral(funPtr, b, a, epsilon, maxRecursionDepth);
+    return -randlib::RandMath::integral(funPtr, b, a, epsilon, maxRecursionDepth);
   if(a == b)
     return 0.0;
   double c = .5 * (a + b), h = (b - a) / 6.0;
@@ -107,5 +107,3 @@ bool findRootNewtonFirstOrder2d(const std::function<DoublePair(DoublePair)>& fun
   } while(++iter < MAX_ITER);
   return false;
 }
-
-} // namespace RandMath

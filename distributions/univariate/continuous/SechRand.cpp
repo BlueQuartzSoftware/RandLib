@@ -1,5 +1,5 @@
-#include "SechRand.h"
-#include "CauchyRand.h"
+#include "SechRand.hpp"
+#include "CauchyRand.hpp"
 
 template <typename RealType>
 SechRand<RealType>::SechRand()

@@ -1,6 +1,6 @@
-#include "UniformRand.h"
+#include "UniformRand.hpp"
 
-#include "distributions/univariate/BasicRandGenerator.h"
+#include "distributions/univariate/BasicRandGenerator.hpp"
 
 template <typename RealType>
 UniformRand<RealType>::UniformRand(double minValue, double maxValue)

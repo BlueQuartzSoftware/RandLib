@@ -1,7 +1,7 @@
-#include "GeometricRand.h"
+#include "GeometricRand.hpp"
 
-#include "distributions/univariate/continuous/ExponentialRand.h"
-#include "distributions/univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/ExponentialRand.hpp"
+#include "distributions/univariate/continuous/UniformRand.hpp"
 
 template <typename IntType>
 String GeometricRand<IntType>::Name() const

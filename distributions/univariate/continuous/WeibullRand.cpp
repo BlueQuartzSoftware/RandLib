@@ -1,5 +1,5 @@
-#include "WeibullRand.h"
-#include "ExponentialRand.h"
+#include "WeibullRand.hpp"
+#include "ExponentialRand.hpp"
 
 template <typename RealType>
 WeibullRand<RealType>::WeibullRand(double scale, double shape)
@@ -160,7 +160,7 @@ std::complex<double> WeibullRand<RealType>::CFImpl(double t) const
   if(k >= 1)
   {
     if(lambdaT > 0.5)
-      return distributions::ContinuousDistribution<RealType>::CFImpl(t);
+      return randlib::ContinuousDistribution<RealType>::CFImpl(t);
     /// for λt < 0.5, the worst case scenario for series expansion is n ~ 70
     long double re = 0.0, im = 0.0;
     long double addon = 0.0;

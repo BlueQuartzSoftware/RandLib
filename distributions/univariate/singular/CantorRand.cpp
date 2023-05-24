@@ -1,7 +1,7 @@
-#include "CantorRand.h"
+#include "CantorRand.hpp"
 
-#include "distributions/univariate/continuous/UniformRand.h"
-#include "distributions/univariate/discrete/BernoulliRand.h"
+#include "distributions/univariate/continuous/UniformRand.hpp"
+#include "distributions/univariate/discrete/BernoulliRand.hpp"
 
 double CantorRand::table[CantorRand::n] = {0};
 const bool CantorRand::dummy = CantorRand::SetupTable();

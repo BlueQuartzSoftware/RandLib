@@ -1,4 +1,4 @@
-#include "ExponentialFamily.h"
+#include "ExponentialFamily.hpp"
 
 template <typename T, typename P>
 P ExponentialFamily<T, P>::NaturalParameters() const

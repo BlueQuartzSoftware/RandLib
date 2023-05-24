@@ -1,6 +1,6 @@
-#include "KolmogorovSmirnovRand.h"
-#include "ExponentialRand.h"
-#include "UniformRand.h"
+#include "KolmogorovSmirnovRand.hpp"
+#include "ExponentialRand.hpp"
+#include "UniformRand.hpp"
 
 template <typename RealType>
 KolmogorovSmirnovRand<RealType>::KolmogorovSmirnovRand()

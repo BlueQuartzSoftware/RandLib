@@ -1,4 +1,4 @@
-#include "NoncentralChiSquaredRand.h"
+#include "NoncentralChiSquaredRand.hpp"
 
 template <typename RealType>
 NoncentralChiSquaredRand<RealType>::NoncentralChiSquaredRand(double degree, double noncentrality)
@@ -168,7 +168,7 @@ long double NoncentralChiSquaredRand<RealType>::Variance() const
 template <typename RealType>
 RealType NoncentralChiSquaredRand<RealType>::Mode() const
 {
-  return (k <= 2) ? 0.0 : distributions::ContinuousDistribution<RealType>::Mode();
+  return (k <= 2) ? 0.0 : randlib::ContinuousDistribution<RealType>::Mode();
 }
 
 template <typename RealType>

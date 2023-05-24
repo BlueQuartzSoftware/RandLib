@@ -1,6 +1,6 @@
-#include "BetaBinomialRand.h"
-#include "BinomialRand.h"
-#include "UniformDiscreteRand.h"
+#include "BetaBinomialRand.hpp"
+#include "BinomialRand.hpp"
+#include "UniformDiscreteRand.hpp"
 
 template <typename IntType>
 BetaBinomialRand<IntType>::BetaBinomialRand(IntType number, double shape1, double shape2)

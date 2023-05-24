@@ -1,4 +1,4 @@
-#include "YuleRand.h"
+#include "YuleRand.hpp"
 
 template <typename IntType>
 YuleRand<IntType>::YuleRand(double shape)

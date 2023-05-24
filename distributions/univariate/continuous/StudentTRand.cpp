@@ -1,6 +1,6 @@
-#include "StudentTRand.h"
-#include "CauchyRand.h"
-#include "NormalRand.h"
+#include "StudentTRand.hpp"
+#include "CauchyRand.hpp"
+#include "NormalRand.hpp"
 
 template <typename RealType>
 StudentTRand<RealType>::StudentTRand(double degree, double location, double scale)
@@ -221,7 +221,7 @@ RealType StudentTRand<RealType>::quantileImpl(double p) const
     double beta = std::cos(std::acos(alpha) / 3.0) / alpha - 1;
     return mu + sigma * 2 * RandMath::sign(temp) * std::sqrt(beta);
   }
-  return distributions::ContinuousDistribution<RealType>::quantileImpl(p);
+  return randlib::ContinuousDistribution<RealType>::quantileImpl(p);
 }
 
 template <typename RealType>
@@ -239,7 +239,7 @@ RealType StudentTRand<RealType>::quantileImpl1m(double p) const
     double beta = std::cos(std::acos(alpha) / 3.0) / alpha - 1;
     return mu + sigma * 2 * RandMath::sign(temp) * std::sqrt(beta);
   }
-  return distributions::ContinuousDistribution<RealType>::quantileImpl1m(p);
+  return randlib::ContinuousDistribution<RealType>::quantileImpl1m(p);
 }
 
 template <typename RealType>

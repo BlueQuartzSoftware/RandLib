@@ -1,5 +1,5 @@
-#include "RaisedCosineRand.h"
-#include "UniformRand.h"
+#include "RaisedCosineRand.hpp"
+#include "UniformRand.hpp"
 
 template <typename RealType>
 RaisedCosineDistribution<RealType>::RaisedCosineDistribution(double location, double scale)

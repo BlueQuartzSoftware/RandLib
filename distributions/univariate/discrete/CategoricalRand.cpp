@@ -1,5 +1,5 @@
-#include "CategoricalRand.h"
-#include "distributions/univariate/continuous/UniformRand.h"
+#include "CategoricalRand.hpp"
+#include "distributions/univariate/continuous/UniformRand.hpp"
 
 template <typename IntType>
 CategoricalRand<IntType>::CategoricalRand(std::vector<double>&& probabilities)

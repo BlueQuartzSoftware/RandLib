@@ -1,4 +1,4 @@
-#include "NegativeHyperGeometricRand.h"
+#include "NegativeHyperGeometricRand.hpp"
 
 template <typename IntType>
 NegativeHyperGeometricRand<IntType>::NegativeHyperGeometricRand(IntType totalSize, IntType totalSuccessesNum, IntType limitSuccessesNum)

@@ -1,7 +1,7 @@
-#include "ZetaRand.h"
+#include "ZetaRand.hpp"
 
-#include "distributions/univariate/continuous/ParetoRand.h"
-#include "distributions/univariate/continuous/UniformRand.h"
+#include "distributions/univariate/continuous/ParetoRand.hpp"
+#include "distributions/univariate/continuous/UniformRand.hpp"
 
 template <typename IntType>
 ZetaRand<IntType>::ZetaRand(double exponent)

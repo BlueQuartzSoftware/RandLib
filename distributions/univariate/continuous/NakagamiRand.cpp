@@ -1,6 +1,6 @@
-#include "NakagamiRand.h"
-#include "ExponentialRand.h"
-#include "NormalRand.h"
+#include "NakagamiRand.hpp"
+#include "ExponentialRand.hpp"
+#include "NormalRand.hpp"
 
 #include "external/pow.hpp"
 #include "external/sqrt.hpp"
@@ -166,7 +166,7 @@ template <typename RealType>
 std::complex<double> NakagamiDistribution<RealType>::CFImpl(double t) const
 {
   if(mu >= 0.5)
-    return distributions::ContinuousDistribution<RealType>::CFImpl(t);
+    return randlib::ContinuousDistribution<RealType>::CFImpl(t);
 
   double re = this->ExpectedValue(
                   [this, t](double x) {

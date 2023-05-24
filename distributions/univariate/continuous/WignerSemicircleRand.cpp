@@ -1,4 +1,4 @@
-#include "WignerSemicircleRand.h"
+#include "WignerSemicircleRand.hpp"
 
 template <typename RealType>
 WignerSemicircleRand<RealType>::WignerSemicircleRand(double radius)

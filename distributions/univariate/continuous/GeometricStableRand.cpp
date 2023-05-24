@@ -1,5 +1,5 @@
-#include "GeometricStableRand.h"
-#include "LaplaceRand.h"
+#include "GeometricStableRand.hpp"
+#include "LaplaceRand.hpp"
 
 template <typename RealType>
 GeneralGeometricStableDistribution<RealType>::GeneralGeometricStableDistribution(double exponent, double skewness, double scale, double location, double shift)
@@ -489,7 +489,7 @@ RealType GeneralGeometricStableDistribution<RealType>::Median() const
 {
   if(distributionType == LAPLACE || distributionType == ASYMMETRIC_LAPLACE)
     return quantileLaplace(0.5);
-  return distributions::ContinuousDistribution<RealType>::Median();
+  return randlib::ContinuousDistribution<RealType>::Median();
 }
 
 template <typename RealType>
@@ -498,7 +498,7 @@ RealType GeneralGeometricStableDistribution<RealType>::Mode() const
   // TODO: calculate mode for more cases
   if(alpha == 1 || alpha == 2)
     return m;
-  return distributions::ContinuousDistribution<RealType>::Mode();
+  return randlib::ContinuousDistribution<RealType>::Mode();
 }
 
 template <typename RealType>

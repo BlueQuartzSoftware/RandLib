@@ -1,5 +1,5 @@
-#include "LevyRand.h"
-#include "NormalRand.h"
+#include "LevyRand.hpp"
+#include "NormalRand.hpp"
 
 template <typename RealType>
 LevyRand<RealType>::LevyRand(double location, double scale)

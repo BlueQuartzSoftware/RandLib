@@ -3,9 +3,9 @@
  */
 //
 //
-//#include "NoncentralTRand.h"
+//#include "NoncentralTRand.hpp"
 //
-//#include "NormalRand.h"
+//#include "NormalRand.hpp"
 //#include <functional>
 //
 // NoncentralTRand::NoncentralTRand(double degree, double noncentrality)

@@ -1,4 +1,4 @@
-#include "LogNormalRand.h"
+#include "LogNormalRand.hpp"
 
 template <typename RealType>
 LogNormalRand<RealType>::LogNormalRand(double location, double squaredScale)

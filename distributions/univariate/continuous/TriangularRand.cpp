@@ -1,5 +1,6 @@
-#include "TriangularRand.h"
-#include "UniformRand.h"
+#include "TriangularRand.hpp"
+
+#include "UniformRand.hpp"
 
 template <typename RealType>
 TriangularRand<RealType>::TriangularRand(double lowerLimit, double mode, double upperLimit)

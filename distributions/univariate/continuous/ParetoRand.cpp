@@ -1,5 +1,5 @@
-#include "ParetoRand.h"
-#include "UniformRand.h"
+#include "ParetoRand.hpp"
+#include "UniformRand.hpp"
 
 template <typename RealType>
 ParetoRand<RealType>::ParetoRand(double shape, double scale)
