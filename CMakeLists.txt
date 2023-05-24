@@ -51,7 +51,6 @@ set(RANDLIB_HDRS
 
     # Overarching
     ${RandLib_SOURCE_DIR}/RandLib.h
-    ${RandLib_SOURCE_DIR}/RandLib_global.h
 
     # Math
     ${RandLib_SOURCE_DIR}/math/BetaMath.h
