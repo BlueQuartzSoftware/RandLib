@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RandLib_export.hpp"
 #include "RandLib.hpp"
+#include "RandLib_export.hpp"
 
 #include "math/RandMath.hpp"
 
@@ -785,88 +785,15 @@ private:
 };
 
 /**
- * @brief The FreeRateGammaDistribution class <BR>
- * Abstract class for Gamma distribution with arbitrary scale/rate
- */
-template <typename RealType = double>
-class RANDLIB_EXPORT FreeRateGammaDistribution : public GammaDistribution<RealType>
-{
-protected:
-  FreeRateGammaDistribution(double shape, double rate)
-  : GammaDistribution<RealType>(shape, rate)
-  {
-  }
-
-public:
-  /**
-   * @fn SetRate
-   * set rate β
-   * @param rate
-   */
-  void SetRate(double rate)
-  {
-    this->SetParameters(this->alpha, rate);
-  }
-
-  /**
-   * @fn SetScale
-   * set scale θ = 1/β
-   * @param scale
-   */
-  void SetScale(double scale)
-  {
-    SetRate(1.0 / scale);
-  }
-
-  /**
-   * @fn FitRate
-   * set rate, estimated via maximum-likelihood method if unbiased = false,
-   * otherwise set rate, returned by uniformly minimum variance unbiased
-   * estimator
-   * @param sample
-   */
-  void FitRate(const std::vector<RealType>& sample, bool unbiased = false)
-  {
-    /// Sanity check
-    if(!this->allElementsArePositive(sample))
-      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->POSITIVITY_VIOLATION));
-    double mean = this->GetSampleMean(sample);
-    double coef = this->alpha - (unbiased ? 1.0 / sample.size() : 0.0);
-    this->SetParameters(this->alpha, coef / mean);
-  }
-
-  /**
-   * @fn FitRateBayes
-   * set rate, returned by bayesian estimation
-   * @param sample
-   * @param priorDistribution
-   * @return posterior distribution
-   */
-  GammaRand<RealType> FitRateBayes(const std::vector<RealType>& sample, const GammaDistribution<RealType>& priorDistribution, bool MAP = false)
-  {
-    /// Sanity check
-    if(!this->allElementsArePositive(sample))
-      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->POSITIVITY_VIOLATION));
-    double kappa = priorDistribution.GetShape();
-    double gamma = priorDistribution.GetRate();
-    double newShape = this->alpha * sample.size() + kappa;
-    double newRate = this->GetSampleSum(sample) + gamma;
-    GammaRand<RealType> posteriorDistribution(newShape, newRate);
-    this->SetParameters(this->alpha, MAP ? posteriorDistribution.Mode() : posteriorDistribution.Mean());
-    return posteriorDistribution;
-  }
-};
-
-/**
  * @brief The GammaRand class <BR>
  * Gamma distribution
  */
 template <typename RealType = double>
-class RANDLIB_EXPORT GammaRand : public FreeRateGammaDistribution<RealType>, public ExponentialFamily<RealType, DoublePair>
+class RANDLIB_EXPORT GammaRand : public GammaDistribution<RealType>, public ExponentialFamily<RealType, DoublePair>
 {
 public:
   GammaRand(double shape = 1, double rate = 1)
-  : FreeRateGammaDistribution<RealType>(shape, rate)
+  : GammaDistribution<RealType>(shape, rate)
   {
   }
 
@@ -992,6 +919,63 @@ public:
     H += this->alpha;
     return H;
   }
+  /**
+   * @fn SetRate
+   * set rate β
+   * @param rate
+   */
+  void SetRate(double rate)
+  {
+    this->SetParameters(this->alpha, rate);
+  }
+
+  /**
+   * @fn SetScale
+   * set scale θ = 1/β
+   * @param scale
+   */
+  void SetScale(double scale)
+  {
+    SetRate(1.0 / scale);
+  }
+
+  /**
+   * @fn FitRate
+   * set rate, estimated via maximum-likelihood method if unbiased = false,
+   * otherwise set rate, returned by uniformly minimum variance unbiased
+   * estimator
+   * @param sample
+   */
+  void FitRate(const std::vector<RealType>& sample, bool unbiased = false)
+  {
+    /// Sanity check
+    if(!this->allElementsArePositive(sample))
+      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->POSITIVITY_VIOLATION));
+    double mean = this->GetSampleMean(sample);
+    double coef = this->alpha - (unbiased ? 1.0 / sample.size() : 0.0);
+    this->SetParameters(this->alpha, coef / mean);
+  }
+
+  /**
+   * @fn FitRateBayes
+   * set rate, returned by bayesian estimation
+   * @param sample
+   * @param priorDistribution
+   * @return posterior distribution
+   */
+  GammaRand<RealType> FitRateBayes(const std::vector<RealType>& sample, const GammaDistribution<RealType>& priorDistribution, bool MAP = false)
+  {
+    /// Sanity check
+    if(!this->allElementsArePositive(sample))
+      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->POSITIVITY_VIOLATION));
+    double kappa = priorDistribution.GetShape();
+    double gamma = priorDistribution.GetRate();
+    double newShape = this->alpha * sample.size() + kappa;
+    double newRate = this->GetSampleSum(sample) + gamma;
+    GammaRand<RealType> posteriorDistribution(newShape, newRate);
+    this->SetParameters(this->alpha, MAP ? posteriorDistribution.Mode() : posteriorDistribution.Mean());
+    return posteriorDistribution;
+  }
 };
 
 /**
@@ -1025,6 +1009,79 @@ public:
   inline size_t GetDegree() const
   {
     return static_cast<int>(2 * this->alpha);
+  }
+};
+
+/**
+ * @brief The FreeRateGammaDistribution class <BR>
+ * Abstract class for Gamma distribution with arbitrary scale/rate
+ */
+template <typename RealType = double>
+class RANDLIB_EXPORT FreeRateGammaDistribution : public GammaDistribution<RealType>
+{
+protected:
+  FreeRateGammaDistribution(double shape, double rate)
+  : GammaDistribution<RealType>(shape, rate)
+  {
+  }
+
+public:
+  /**
+   * @fn SetRate
+   * set rate β
+   * @param rate
+   */
+  void SetRate(double rate)
+  {
+    this->SetParameters(this->alpha, rate);
+  }
+
+  /**
+   * @fn SetScale
+   * set scale θ = 1/β
+   * @param scale
+   */
+  void SetScale(double scale)
+  {
+    SetRate(1.0 / scale);
+  }
+
+  /**
+   * @fn FitRate
+   * set rate, estimated via maximum-likelihood method if unbiased = false,
+   * otherwise set rate, returned by uniformly minimum variance unbiased
+   * estimator
+   * @param sample
+   */
+  void FitRate(const std::vector<RealType>& sample, bool unbiased = false)
+  {
+    /// Sanity check
+    if(!this->allElementsArePositive(sample))
+      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->POSITIVITY_VIOLATION));
+    double mean = this->GetSampleMean(sample);
+    double coef = this->alpha - (unbiased ? 1.0 / sample.size() : 0.0);
+    this->SetParameters(this->alpha, coef / mean);
+  }
+
+  /**
+   * @fn FitRateBayes
+   * set rate, returned by bayesian estimation
+   * @param sample
+   * @param priorDistribution
+   * @return posterior distribution
+   */
+  GammaRand<RealType> FitRateBayes(const std::vector<RealType>& sample, const GammaDistribution<RealType>& priorDistribution, bool MAP = false)
+  {
+    /// Sanity check
+    if(!this->allElementsArePositive(sample))
+      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->POSITIVITY_VIOLATION));
+    double kappa = priorDistribution.GetShape();
+    double gamma = priorDistribution.GetRate();
+    double newShape = this->alpha * sample.size() + kappa;
+    double newRate = this->GetSampleSum(sample) + gamma;
+    GammaRand<RealType> posteriorDistribution(newShape, newRate);
+    this->SetParameters(this->alpha, MAP ? posteriorDistribution.Mode() : posteriorDistribution.Mean());
+    return posteriorDistribution;
   }
 };
 
