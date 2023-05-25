@@ -221,7 +221,7 @@ public:
     long double mu = this->Mean(); /// var is finite, so is mu
 
     long double sum = this->ExpectedValue(
-        [this, mu](double x) {
+        [mu](double x) {
           double xmmu = x - mu;
           double skewness = xmmu * xmmu * xmmu;
           return skewness;
@@ -245,7 +245,7 @@ public:
     long double mu = this->Mean(); /// var is finite, so is mu
 
     long double sum = this->ExpectedValue(
-        [this, mu](double x) {
+        [mu](double x) {
           double xmmu = x - mu;
           double kurtosisSqrt = xmmu * xmmu;
           double kurtosis = kurtosisSqrt * kurtosisSqrt;
@@ -655,9 +655,9 @@ protected:
     if(leftBound == rightBound)
       return std::complex<double>(std::cos(t * leftBound), std::sin(t * leftBound));
 
-    double re = this->ExpectedValue([this, t](double x) { return std::cos(t * x); }, leftBound, rightBound);
+    double re = this->ExpectedValue([t](double x) { return std::cos(t * x); }, leftBound, rightBound);
 
-    double im = this->ExpectedValue([this, t](double x) { return std::sin(t * x); }, leftBound, rightBound);
+    double im = this->ExpectedValue([t](double x) { return std::sin(t * x); }, leftBound, rightBound);
 
     return std::complex<double>(re, im);
   }

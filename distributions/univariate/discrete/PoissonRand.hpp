@@ -170,7 +170,7 @@ public:
     return k;
   }
 
-  void Sample(std::vector<IntType>& outputData) const
+  void Sample(std::vector<IntType>& outputData) const override
   {
     if(generateByInversion())
     {
