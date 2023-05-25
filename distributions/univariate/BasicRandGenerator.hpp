@@ -1,10 +1,12 @@
-#ifndef BASICRANDGENERATOR_H
-#define BASICRANDGENERATOR_H
+#pragma once
 
 #include "RandLib_export.hpp"
+
 #include <cstddef>
 #include <type_traits>
 
+namespace randlib
+{
 /**
  * @brief The RandEngine class
  */
@@ -178,5 +180,4 @@ typedef BasicRandGenerator<JLKiss64RandEngine> RandGenerator;
 #else
 typedef BasicRandGenerator<JKissRandEngine> RandGenerator;
 #endif
-
-#endif // BASICRANDGENERATOR_H
+} // namespace randlib

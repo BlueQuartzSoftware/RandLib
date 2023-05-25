@@ -1,8 +1,13 @@
 #pragma once
 
-#include "distributions/univariate/continuous/BetaRand.hpp"
+#include "RandLib_export.hpp"
+#include "RandLib.hpp"
+
+#include "math/RandMath.hpp"
 
 #include "distributions/ContinuousDistributions.hpp"
+
+#include "distributions/univariate/continuous/BetaRand.hpp"
 
 namespace randlib
 {

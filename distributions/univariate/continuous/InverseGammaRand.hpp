@@ -1,8 +1,13 @@
 #pragma once
 
-#include "GammaRand.hpp"
+#include "RandLib.hpp"
+#include "RandLib_export.hpp"
+
+#include "math/RandMath.hpp"
 
 #include "distributions/ContinuousDistributions.hpp"
+
+#include "distributions/univariate/continuous/GammaRand.hpp"
 
 namespace randlib
 {
@@ -25,9 +30,15 @@ class RANDLIB_EXPORT InverseGammaRand : public randlib::ContinuousDistribution<R
   randlib::GammaRand<RealType> X{};
 
 public:
-  InverseGammaRand(double shape = 1, double rate = 1);
+  InverseGammaRand(double shape = 1, double rate = 1)
+  {
+    SetParameters(shape, rate);
+  }
 
-  String Name() const override;
+  String Name() const override
+  {
+    return "Inverse-Gamma(" + this->toStringWithPrecision(GetShape()) + ", " + this->toStringWithPrecision(GetRate()) + ")";
+  }
 
   SUPPORT_TYPE SupportType() const override
   {
@@ -44,7 +55,17 @@ public:
     return INFINITY;
   }
 
-  void SetParameters(double shape, double rate);
+  void SetParameters(double shape, double rate)
+  {
+    if(shape <= 0.0)
+      throw std::invalid_argument("Inverse-Gamma distribution: shape should be positive");
+    if(rate <= 0.0)
+      throw std::invalid_argument("Inverse-Gamma distribution: rate should be positive");
+    X.SetParameters(shape, rate);
+    alpha = X.GetShape();
+    beta = X.GetRate();
+    pdfCoef = alpha * X.GetLogRate() - X.GetLogGammaShape();
+  }
 
   inline double GetShape() const
   {
@@ -66,39 +87,96 @@ public:
     return X.GetLogRate();
   }
 
-  double logf(const RealType& x) const override;
+  double logf(const RealType& x) const override
+  {
+    if(x <= 0.0)
+      return -INFINITY;
+    double logX = std::log(x);
+    double y = -(alpha - 1.0) * logX;
+    y -= beta / x;
+    y += pdfCoef;
+    return y - 2 * logX;
+  }
 
-  double F(const RealType& x) const override;
+  double F(const RealType& x) const override
+  {
+    return (x > 0.0) ? X.S(1.0 / x) : 0.0;
+  }
 
-  double S(const RealType& x) const override;
+  double S(const RealType& x) const override
+  {
+    return (x > 0.0) ? X.F(1.0 / x) : 1.0;
+  }
 
-  RealType Variate() const override;
+  RealType Variate() const override
+  {
+    return 1.0 / X.Variate();
+  }
 
-  void Sample(std::vector<RealType>& outputData) const override;
+  void Sample(std::vector<RealType>& outputData) const override
+  {
+    X.Sample(outputData);
+    for(RealType& var : outputData)
+      var = 1.0 / var;
+  }
 
-  void Reseed(unsigned long seed) const override;
+  void Reseed(unsigned long seed) const override
+  {
+    X.Reseed(seed);
+  }
 
-  long double Mean() const override;
+  long double Mean() const override
+  {
+    return (alpha > 1) ? beta / (alpha - 1) : INFINITY;
+  }
 
-  long double Variance() const override;
+  long double Variance() const override
+  {
+    if(alpha <= 2)
+      return INFINITY;
+    double var = beta / (alpha - 1);
+    var *= var;
+    return var / (alpha - 2);
+  }
 
-  RealType Median() const override;
+  RealType Median() const override
+  {
+    return 1.0 / X.Median();
+  }
 
-  RealType Mode() const override;
+  RealType Mode() const override
+  {
+    return beta / (alpha + 1);
+  }
 
-  long double Skewness() const override;
+  long double Skewness() const override
+  {
+    return (alpha > 3) ? 4 * std::sqrt(alpha - 2) / (alpha - 3) : INFINITY;
+  }
 
-  long double ExcessKurtosis() const override;
+  long double ExcessKurtosis() const override
+  {
+    if(alpha <= 4)
+      return INFINITY;
+    long double numerator = 30 * alpha - 66.0;
+    long double denominator = (alpha - 3) * (alpha - 4);
+    return numerator / denominator;
+  }
 
-private:
-  RealType quantileImpl(double p) const override;
-
-  RealType quantileImpl1m(double p) const override;
-
-public:
   double GetLogGammaShape() const
   {
     return X.GetLogGammaShape();
+  }
+
+private:
+  RealType quantileImpl(double p) const override
+  {
+    return 1.0 / X.Quantile1m(p);
+  }
+
+  RealType quantileImpl1m(double p) const override
+  {
+    return 1.0 / X.Quantile(p);
   }
 };
 } // namespace randlib

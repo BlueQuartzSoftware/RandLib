@@ -4,6 +4,8 @@
 #include <thread>
 #include <time.h>
 
+using namespace randlib;
+
 unsigned long RandEngine::mix(unsigned long a, unsigned long b, unsigned long c)
 {
   // clang-format off

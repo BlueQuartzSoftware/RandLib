@@ -1,13 +1,19 @@
-#ifndef UNIFORMRAND_H
-#define UNIFORMRAND_H
+#pragma once
 
 #include "RandLib.hpp"
+#include "RandLib_export.hpp"
 
-#include "BetaRand.hpp"
-#include "ParetoRand.hpp"
+#include "math/RandMath.hpp"
+
+#include "distributions/univariate/BasicRandGenerator.hpp"
+
 #include "distributions/ContinuousDistributions.hpp"
 
-namespace randlib {
+#include "distributions/univariate/continuous/BetaRand.hpp"
+#include "distributions/univariate/continuous/ParetoRand.hpp"
+
+namespace randlib
+{
 /**
  * @brief The UniformRand class <BR>
  * Uniform continuous distribution
@@ -20,129 +26,303 @@ namespace randlib {
  * X ~ B(1, 1, a, b) <BR>
  * (X - a) / (b - a) ~ IH(1)
  */
-    template<typename RealType = double>
-    class RANDLIB_EXPORT UniformRand : public randlib::BetaDistribution<RealType> {
-    public:
-        UniformRand(double minValue = 0, double maxValue = 1);
+template <typename RealType = double>
+class RANDLIB_EXPORT UniformRand : public randlib::BetaDistribution<RealType>
+{
+public:
+  UniformRand(double minValue = 0, double maxValue = 1)
+  : BetaDistribution<RealType>(1, 1, minValue, maxValue)
+  {
+  }
 
-        randlib::String Name() const override;
+  randlib::String Name() const override
+  {
+    return "Uniform(" + this->toStringWithPrecision(MinValue()) + ", " + this->toStringWithPrecision(MaxValue()) + ")";
+  }
 
-        using randlib::BetaDistribution<RealType>::SetSupport;
+  using randlib::BetaDistribution<RealType>::SetSupport;
 
-        SUPPORT_TYPE SupportType() const override {
-            return SUPPORT_TYPE::FINITE_T;
-        }
+  SUPPORT_TYPE SupportType() const override
+  {
+    return SUPPORT_TYPE::FINITE_T;
+  }
 
-        RealType MinValue() const override {
-            return this->a;
-        }
+  RealType MinValue() const override
+  {
+    return this->a;
+  }
 
-        RealType MaxValue() const override {
-            return this->b;
-        }
+  RealType MaxValue() const override
+  {
+    return this->b;
+  }
 
-        double f(const RealType &x) const override;
+  double f(const RealType& x) const override
+  {
+    return (x < this->a || x > this->b) ? 0.0 : this->bmaInv;
+  }
 
-        double logf(const RealType &x) const override;
+  double logf(const RealType& x) const override
+  {
+    return (x < this->a || x > this->b) ? -INFINITY : -this->logbma;
+  }
 
-        double F(const RealType &x) const override;
+  double F(const RealType& x) const override
+  {
+    if(x < this->a)
+      return 0.0;
+    return (x > this->b) ? 1.0 : this->bmaInv * (x - this->a);
+  }
 
-        double S(const RealType &x) const override;
+  double S(const RealType& x) const override
+  {
+    if(x < this->a)
+      return 1.0;
+    return (x > this->b) ? 0.0 : this->bmaInv * (this->b - x);
+  }
 
-        RealType Variate() const override;
+  RealType Variate() const override
+  {
+    return this->a + StandardVariate(this->localRandGenerator) * this->bma;
+  }
 
-        /**
-         * @fn StandardVariate
-         * @param randGenerator
-         * @return a random number on interval (0,1) if no preprocessors are specified
-         */
-        static RealType
-        StandardVariate(RandGenerator &randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
+  /**
+   * @fn StandardVariate
+   * @param randGenerator
+   * @return a random number on interval (0,1) if no preprocessors are specified
+   */
+  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator)
+  {
+#ifdef RANDLIB_UNIDBL
+    /// generates this->a random number on [0,1) with 53-bit resolution, using 2
+    /// 32-bit integer variate
+    double x;
+    unsigned int a, b;
+    this->a = randGenerator.Variate() >> 6; /// Upper 26 bits
+    b = randGenerator.Variate() >> 5;       /// Upper 27 bits
+    x = (this->a * 134217728.0 + this->b) / 9007199254740992.0;
+    return x;
+#elif defined(RANDLIB_JLKISS64)
+    /// generates this->a random number on [0,1) with 53-bit resolution, using
+    /// 64-bit integer variate
+    double x;
+    unsigned long long this->a = randGenerator.Variate();
+    this->a = (this->a >> 12) | 0x3FF0000000000000ULL; /// Take upper 52 bit
+    *(reinterpret_cast<unsigned long long*>(&x)) = a;  /// Make this->a double from bits
+    return x - 1.0;
+#else
+    RealType x = randGenerator.Variate();
+    x += 0.5;
+    x /= 4294967296.0;
+    return x;
+#endif
+  }
 
-        /**
-         * @fn StandardVariateClosed
-         * @param randGenerator
-         * @return a random number on interval [0,1]
-         */
-        static RealType
-        StandardVariateClosed(RandGenerator &randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
+  /**
+   * @fn StandardVariateClosed
+   * @param randGenerator
+   * @return a random number on interval [0,1]
+   */
+  static RealType StandardVariateClosed(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator)
+  {
+    RealType x = randGenerator.Variate();
+    return x / 4294967295.0;
+  }
 
-        /**
-         * @fn StandardVariateHalfClosed
-         * @param randGenerator
-         * @return a random number on interval [0,1)
-         */
-        static RealType StandardVariateHalfClosed(
-                RandGenerator &randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
+  /**
+   * @fn StandardVariateHalfClosed
+   * @param randGenerator
+   * @return a random number on interval [0,1)
+   */
+  static RealType StandardVariateHalfClosed(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator)
+  {
+    RealType x = randGenerator.Variate();
+    return x / 4294967296.0;
+  }
 
-        void Sample(std::vector<RealType> &outputData) const override;
+  void Sample(std::vector<RealType>& outputData) const override
+  {
+    for(RealType& var : outputData)
+      var = this->Variate();
+  }
 
-        long double Mean() const override;
+  long double Mean() const override
+  {
+    return 0.5 * (this->b + this->a);
+  }
 
-        long double Variance() const override;
+  long double Variance() const override
+  {
+    return this->bma * this->bma / 12;
+  }
 
-        RealType Median() const override;
+  RealType Median() const override
+  {
+    return 0.5 * (this->b + this->a);
+  }
 
-        RealType Mode() const override;
+  RealType Mode() const override
+  {
+    /// this can be any value in [a, b]
+    return 0.5 * (this->b + this->a);
+  }
 
-        long double Skewness() const override;
+  long double Skewness() const override
+  {
+    return 0.0;
+  }
 
-        long double ExcessKurtosis() const override;
+  long double ExcessKurtosis() const override
+  {
+    return -1.2;
+  }
 
-    private:
-        RealType quantileImpl(double p) const override;
+  long double Entropy() const
+  {
+    return (this->b == this->a) ? -INFINITY : std::log(this->bma);
+  }
 
-        RealType quantileImpl1m(double p) const override;
+  double LikelihoodFunction(const std::vector<RealType>& sample) const override
+  {
+    bool sampleIsInsideInterval = this->allElementsAreNotSmallerThan(this->a, sample) && this->allElementsAreNotGreaterThan(this->b, sample);
+    return sampleIsInsideInterval ? std::pow(this->bma, -sample.size()) : 0.0;
+  }
 
-        std::complex<double> CFImpl(double t) const override;
+  double LogLikelihoodFunction(const std::vector<RealType>& sample) const override
+  {
+    bool sampleIsInsideInterval = this->allElementsAreNotSmallerThan(this->a, sample) && this->allElementsAreNotGreaterThan(this->b, sample);
+    int sample_size = sample.size();
+    return sampleIsInsideInterval ? -sample_size * this->logbma : -INFINITY;
+  }
 
-        static constexpr char TOO_LARGE_A[] = "Minimum element of the sample is smaller than lower boundary returned "
-                                              "by method: ";
-        static constexpr char TOO_SMALL_B[] = "Maximum element of the sample is greater than upper boundary returned "
-                                              "by method: ";
+  /**
+   * @fn FitMinimum
+   * fit minimum with maximum-likelihood estimator if unbiased == false,
+   * fit minimum using UMVU estimator otherwise
+   * @param sample
+   */
+  void FitMinimum(const std::vector<RealType>& sample, bool unbiased = false)
+  {
+    if(!this->allElementsAreNotGreaterThan(this->b, sample))
+      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->UPPER_LIMIT_VIOLATION + this->toStringWithPrecision(this->b)));
+    RealType minVar = *std::min_element(sample.begin(), sample.end());
 
-    public:
-        long double Entropy() const;
+    if(unbiased)
+    {
+      int n = sample.size();
+      /// E[min] = b - n / (n + 1) * (this->b - this->a)
+      RealType minVarAdj = (minVar * (n + 1) - this->b) / n;
+      if(!this->allElementsAreNotSmallerThan(minVarAdj, sample))
+        throw std::runtime_error(this->fitErrorDescription(this->WRONG_RETURN, TOO_LARGE_A + this->toStringWithPrecision(minVarAdj)));
+      SetSupport(minVarAdj, this->b);
+    }
+    else
+    {
+      SetSupport(minVar, this->b);
+    }
+  }
 
-        double LikelihoodFunction(const std::vector<RealType> &sample) const override;
+  /**
+   * @fn FitMaximum
+   * fit maximum with maximum-likelihood estimator if unbiased == false,
+   * fit maximum using UMVU estimator otherwise
+   * @param sample
+   */
+  void FitMaximum(const std::vector<RealType>& sample, bool unbiased = false)
+  {
+    if(!this->allElementsAreNotSmallerThan(this->a, sample))
+      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->LOWER_LIMIT_VIOLATION + this->toStringWithPrecision(this->a)));
+    RealType maxVar = *std::max_element(sample.begin(), sample.end());
 
-        double LogLikelihoodFunction(const std::vector<RealType> &sample) const override;
+    if(unbiased)
+    {
+      int n = sample.size();
+      /// E[max] = (this->b - this->a) * n / (n + 1) + a
+      RealType maxVarAdj = (maxVar * (n + 1) - this->a) / n;
+      if(!this->allElementsAreNotGreaterThan(maxVarAdj, sample))
+        throw std::runtime_error(this->fitErrorDescription(this->WRONG_RETURN, TOO_SMALL_B + this->toStringWithPrecision(maxVarAdj)));
+      SetSupport(this->a, maxVarAdj);
+    }
+    else
+    {
+      SetSupport(this->a, maxVar);
+    }
+  }
 
-        /**
-         * @fn FitMinimum
-         * fit minimum with maximum-likelihood estimator if unbiased == false,
-         * fit minimum using UMVU estimator otherwise
-         * @param sample
-         */
-        void FitMinimum(const std::vector<RealType> &sample, bool unbiased = false);
+  /**
+   * @fn Fit
+   * fit support with maximum-likelihood estimator if unbiased == false,
+   * fit support using UMVU estimator otherwise
+   * @param sample
+   */
+  void Fit(const std::vector<RealType>& sample, bool unbiased = false)
+  {
+    double minVar = *std::min_element(sample.begin(), sample.end());
+    double maxVar = *std::max_element(sample.begin(), sample.end());
+    if(unbiased)
+    {
+      int n = sample.size();
+      /// E[min] = b - n / (n + 1) * (this->b - this->a)
+      RealType minVarAdj = (minVar * n - maxVar) / (n - 1);
+      /// E[max] = (this->b - this->a) * n / (n + 1) + a
+      RealType maxVarAdj = (maxVar * n - minVar) / (n - 1);
+      if(!this->allElementsAreNotSmallerThan(minVarAdj, sample))
+        throw std::runtime_error(this->fitErrorDescription(this->WRONG_RETURN, TOO_LARGE_A + this->toStringWithPrecision(minVarAdj)));
+      if(!this->allElementsAreNotGreaterThan(maxVarAdj, sample))
+        throw std::runtime_error(this->fitErrorDescription(this->WRONG_RETURN, TOO_SMALL_B + this->toStringWithPrecision(maxVarAdj)));
+      SetSupport(minVarAdj, maxVarAdj);
+    }
+    else
+    {
+      SetSupport(minVar, maxVar);
+    }
+  }
 
-        /**
-         * @fn FitMaximum
-         * fit maximum with maximum-likelihood estimator if unbiased == false,
-         * fit maximum using UMVU estimator otherwise
-         * @param sample
-         */
-        void FitMaximum(const std::vector<RealType> &sample, bool unbiased = false);
+  /**
+   * @fn FitMaximumBayes
+   * fit maximum parameter, using Bayesian estimation
+   * @param sample
+   * @param priorDistribution
+   * @param MAP if true, use MAP estimator
+   * @return posterior distribution
+   */
+  ParetoRand<RealType> FitMaximumBayes(const std::vector<RealType>& sample, const ParetoRand<RealType>& priorDistribution, bool MAP = false)
+  {
+    if(!this->allElementsAreNotSmallerThan(this->a, sample))
+      throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->LOWER_LIMIT_VIOLATION + this->toStringWithPrecision(this->a)));
+    double maxVar = *std::max_element(sample.begin(), sample.end());
+    int n = sample.size();
+    double newShape = priorDistribution.GetShape() + n;
+    double newScale = std::max(priorDistribution.GetScale(), maxVar - this->a);
+    ParetoRand<RealType> posteriorDistribution(newShape, newScale);
+    double theta = MAP ? posteriorDistribution.Mode() : posteriorDistribution.Mean();
+    SetSupport(this->a, this->a + theta);
+    return posteriorDistribution;
+  }
 
-        /**
-         * @fn Fit
-         * fit support with maximum-likelihood estimator if unbiased == false,
-         * fit support using UMVU estimator otherwise
-         * @param sample
-         */
-        void Fit(const std::vector<RealType> &sample, bool unbiased = false);
+private:
+  RealType quantileImpl(double p) const override
+  {
+    return this->a + this->bma * p;
+  }
 
-        /**
-         * @fn FitMaximumBayes
-         * fit maximum parameter, using Bayesian estimation
-         * @param sample
-         * @param priorDistribution
-         * @param MAP if true, use MAP estimator
-         * @return posterior distribution
-         */
-        ParetoRand<RealType>
-        FitMaximumBayes(const std::vector<RealType> &sample, const ParetoRand<RealType> &priorDistribution,
-                        bool MAP = false);
-    };
-}
-#endif // UNIFORMRAND_H
+  RealType quantileImpl1m(double p) const override
+  {
+    return this->b - this->bma * p;
+  }
+
+  std::complex<double> CFImpl(double t) const override
+  {
+    double cosX = std::cos(t * this->b), sinX = std::sin(t * this->b);
+    double cosY = std::cos(t * this->a), sinY = std::sin(t * this->a);
+    std::complex<double> numerator(cosX - cosY, sinX - sinY);
+    std::complex<double> denominator(0, t * this->bma);
+    return numerator / denominator;
+  }
+
+  static constexpr char TOO_LARGE_A[] = "Minimum element of the sample is smaller than lower boundary returned "
+                                        "by method: ";
+  static constexpr char TOO_SMALL_B[] = "Maximum element of the sample is greater than upper boundary returned "
+                                        "by method: ";
+};
+} // namespace randlib

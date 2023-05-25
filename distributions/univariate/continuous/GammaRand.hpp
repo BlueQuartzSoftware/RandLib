@@ -1,14 +1,17 @@
 #pragma once
 
 #include "RandLib_export.hpp"
+#include "RandLib.hpp"
+
+#include "math/RandMath.hpp"
 
 #include "distributions/ContinuousDistributions.hpp"
+
+#include "distributions/univariate/ExponentialFamily.hpp"
 
 #include "distributions/univariate/continuous/ExponentialRand.hpp"
 #include "distributions/univariate/continuous/NormalRand.hpp"
 #include "distributions/univariate/continuous/UniformRand.hpp"
-
-#include "distributions/univariate/ExponentialFamily.hpp"
 
 namespace randlib
 {

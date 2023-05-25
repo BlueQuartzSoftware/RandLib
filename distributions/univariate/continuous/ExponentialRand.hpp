@@ -1,5 +1,14 @@
 #pragma once
 
+#include "RandLib.hpp"
+#include "RandLib_export.hpp"
+
+#include "math/RandMath.hpp"
+
+#include "distributions/ContinuousDistributions.hpp"
+
+#include "distributions/univariate/BasicRandGenerator.hpp"
+
 #include "distributions/univariate/continuous/GammaRand.hpp"
 #include "distributions/univariate/continuous/UniformRand.hpp"
 
@@ -58,7 +67,7 @@ private:
 
   std::complex<double> CFImpl(double t) const override
   {
-      return 1.0 / std::complex<double>(1.0, -this->theta * t);
+    return 1.0 / std::complex<double>(1.0, -this->theta * t);
   }
 
 public:
@@ -69,114 +78,114 @@ public:
 
   String Name() const override
   {
-      return "Exponential(" + this->toStringWithPrecision(this->GetRate()) + ")";
+    return "Exponential(" + this->toStringWithPrecision(this->GetRate()) + ")";
   }
 
   double SufficientStatistic(RealType x) const override
   {
-      return x;
+    return x;
   }
 
   double SourceParameters() const override
   {
-      return this->beta;
+    return this->beta;
   }
 
-    double SourceToNatural(double rate) const override
-    {
-        return -rate;
-    }
+  double SourceToNatural(double rate) const override
+  {
+    return -rate;
+  }
 
   double LogNormalizer(double theta) const override
   {
-      return -std::log(-theta);
+    return -std::log(-theta);
   }
 
-    double LogNormalizerGradient(double theta) const override
-    {
-        return -1.0 / theta;
-    }
+  double LogNormalizerGradient(double theta) const override
+  {
+    return -1.0 / theta;
+  }
 
   double CarrierMeasure(RealType) const override
   {
-      return 0.0;
+    return 0.0;
   }
 
   double CrossEntropyAdjusted(double rate) const override
   {
-      return rate * this->theta - std::log(rate);
+    return rate * this->theta - std::log(rate);
   }
 
   double EntropyAdjusted() const override
   {
-      return 1.0 - this->logBeta;
+    return 1.0 - this->logBeta;
   }
 
   double f(const RealType& x) const override
   {
-      return (x < 0.0) ? 0.0 : this->beta * std::exp(-this->beta * x);
+    return (x < 0.0) ? 0.0 : this->beta * std::exp(-this->beta * x);
   }
 
   double logf(const RealType& x) const override
   {
-      return (x < 0.0) ? -INFINITY : this->logBeta - this->beta * x;
+    return (x < 0.0) ? -INFINITY : this->logBeta - this->beta * x;
   }
 
-    double F(const RealType& x) const override
-    {
-        return (x > 0.0) ? -std::expm1l(-this->beta * x) : 0.0;
-    }
+  double F(const RealType& x) const override
+  {
+    return (x > 0.0) ? -std::expm1l(-this->beta * x) : 0.0;
+  }
 
   double S(const RealType& x) const override
   {
-      return (x > 0.0) ? std::exp(-this->beta * x) : 1.0;
+    return (x > 0.0) ? std::exp(-this->beta * x) : 1.0;
   }
 
-    RealType Variate() const override
-    {
-        return this->theta * StandardVariate(this->localRandGenerator);
-    }
+  RealType Variate() const override
+  {
+    return this->theta * StandardVariate(this->localRandGenerator);
+  }
 
   void Sample(std::vector<RealType>& outputData) const override
   {
-      for(RealType& var : outputData)
-          var = this->Variate();
+    for(RealType& var : outputData)
+      var = this->Variate();
   }
 
   static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator)
   {
-      /// Ziggurat algorithm
-      size_t iter = 0;
-      do
-      {
-          int stairId = randGenerator.Variate() & 255;
-          /// Get horizontal coordinate
-          RealType x = UniformRand<RealType>::StandardVariate(randGenerator) * ziggurat[stairId].second;
-          if(x < ziggurat[stairId + 1].second) /// if we are under the upper stair - accept
-              return x;
-          if(stairId == 0) /// if we catch the tail
-              return ziggurat[1].second + StandardVariate(randGenerator);
-          RealType height = ziggurat[stairId].first - ziggurat[stairId - 1].first;
-          if(ziggurat[stairId - 1].first + height * UniformRand<RealType>::StandardVariate(randGenerator) < std::exp(-x)) /// if we are under the curve - accept
-              return x;
-          /// rejection - go back
-      } while(++iter <= ProbabilityDistribution<RealType>::MAX_ITER_REJECTION);
-      /// fail due to some error
-      throw std::runtime_error("Exponential distribution: sampling failed");
+    /// Ziggurat algorithm
+    size_t iter = 0;
+    do
+    {
+      int stairId = randGenerator.Variate() & 255;
+      /// Get horizontal coordinate
+      RealType x = UniformRand<RealType>::StandardVariate(randGenerator) * ziggurat[stairId].second;
+      if(x < ziggurat[stairId + 1].second) /// if we are under the upper stair - accept
+        return x;
+      if(stairId == 0) /// if we catch the tail
+        return ziggurat[1].second + StandardVariate(randGenerator);
+      RealType height = ziggurat[stairId].first - ziggurat[stairId - 1].first;
+      if(ziggurat[stairId - 1].first + height * UniformRand<RealType>::StandardVariate(randGenerator) < std::exp(-x)) /// if we are under the curve - accept
+        return x;
+      /// rejection - go back
+    } while(++iter <= ProbabilityDistribution<RealType>::MAX_ITER_REJECTION);
+    /// fail due to some error
+    throw std::runtime_error("Exponential distribution: sampling failed");
   }
 
   long double Entropy() const
   {
-      return this->EntropyAdjusted();
+    return this->EntropyAdjusted();
   }
 
   long double Moment(int n) const
   {
-      if(n < 0)
-          return 0;
-      if(n == 0)
-          return 1;
-      return std::exp(RandMath::lfact(n) - n * this->logBeta);
+    if(n < 0)
+      return 0;
+    if(n == 0)
+      return 1;
+    return std::exp(RandMath::lfact(n) - n * this->logBeta);
   }
 
   long double ThirdMoment() const override

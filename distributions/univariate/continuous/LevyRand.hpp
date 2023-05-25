@@ -1,8 +1,17 @@
-#ifndef LEVYRAND_H
-#define LEVYRAND_H
+#pragma once
 
-#include "StableRand.hpp"
+#include "RandLib.hpp"
+#include "RandLib_export.hpp"
 
+#include "math/RandMath.hpp"
+
+#include "distributions/ContinuousDistributions.hpp"
+
+#include "distributions/univariate/continuous/NormalRand.hpp"
+#include "distributions/univariate/continuous/StableRand.hpp"
+
+namespace randlib
+{
 /**
  * @brief The LevyRand class <BR>
  * Levy distribution
@@ -21,31 +30,81 @@ template <typename RealType = double>
 class RANDLIB_EXPORT LevyRand : public StableDistribution<RealType>
 {
 public:
-  LevyRand(double location = 0, double scale = 1);
-  String Name() const override;
+  LevyRand(double location = 0, double scale = 1)
+          : StableDistribution<RealType>(0.5, 1, scale, location)
+  {
+  }
 
-public:
-  double f(const RealType& x) const override;
-  double logf(const RealType& x) const override;
-  double F(const RealType& x) const override;
-  double S(const RealType& x) const override;
-  RealType Variate() const override;
+  String Name() const override
+  {
+      return "Levy(" + this->toStringWithPrecision(this->GetLocation()) + ", " + this->toStringWithPrecision(this->GetScale()) + ")";
+  }
 
-  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator);
+    double f(const RealType& x) const override
+    {
+        return this->pdfLevy(x);
+    }
+
+  double logf(const RealType& x) const override
+  {
+      return this->logpdfLevy(x);
+  }
+
+  double F(const RealType& x) const override
+  {
+      return this->cdfLevy(x);
+  }
+
+  double S(const RealType& x) const override
+  {
+      return this->cdfLevyCompl(x);
+  }
+
+  RealType Variate() const override
+  {
+      RealType rv = NormalRand<RealType>::StandardVariate(this->localRandGenerator);
+      rv *= rv;
+      rv = this->gamma / rv;
+      return this->mu + rv;
+  }
+
+  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType>::staticRandGenerator)
+  {
+      RealType rv = NormalRand<RealType>::StandardVariate(randGenerator);
+      return 1.0 / (rv * rv);
+  }
+
+    /**
+     * @fn FitScale
+     * Fit scale using maximum-likelihoood estimator
+     * @param sample
+     */
+    void FitScale(const std::vector<RealType>& sample)
+    {
+        /// Sanity check
+        if(!this->allElementsAreNotSmallerThan(this->mu, sample))
+            throw std::invalid_argument(this->fitErrorDescription(this->WRONG_SAMPLE, this->LOWER_LIMIT_VIOLATION + this->toStringWithPrecision(this->mu)));
+        long double invSum = 0.0;
+        for(RealType var : sample)
+            invSum += 1.0 / (var - this->mu);
+        invSum = 1.0 / invSum;
+        this->SetScale(sample.size() * invSum);
+    }
 
 private:
-  RealType quantileImpl(double p) const override;
-  RealType quantileImpl1m(double p) const override;
+  RealType quantileImpl(double p) const override
+  {
+      return this->quantileLevy(p);
+  }
 
-  std::complex<double> CFImpl(double t) const override;
+  RealType quantileImpl1m(double p) const override
+  {
+      return this->quantileLevy1m(p);
+  }
 
-public:
-  /**
-   * @fn FitScale
-   * Fit scale using maximum-likelihoood estimator
-   * @param sample
-   */
-  void FitScale(const std::vector<RealType>& sample);
+  std::complex<double> CFImpl(double t) const override
+  {
+      return this->cfLevy(t);
+  }
 };
-
-#endif // LEVYRAND_H
+} // namespace randlib

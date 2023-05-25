@@ -1,12 +1,16 @@
-#ifndef PROBABILITY_DISTRIBUTION_H
-#define PROBABILITY_DISTRIBUTION_H
+#pragma once
 
-#include <string>
-
-#include "distributions/univariate/BasicRandGenerator.hpp"
 #include "math/NumericMath.hpp"
 #include "math/RandMath.hpp"
 
+#include "distributions/univariate/BasicRandGenerator.hpp"
+
+#include <iomanip>
+#include <sstream>
+#include <string>
+
+namespace randlib
+{
 /**
  * @brief The ProbabilityDistribution class <BR>
  * Abstract class for all probability distributions
@@ -15,26 +19,14 @@ template <typename T>
 class ProbabilityDistribution
 {
 protected:
-  static thread_local RandGenerator staticRandGenerator;
+  ProbabilityDistribution() = default;
 
-  mutable RandGenerator localRandGenerator{};
-
-  /**
-   * @brief MAX_ITER_REJECTION
-   * upper boundary for maximum amount of iterations in rejection methods
-   * one thousand should be enough to be sure there is a bug
-   * (or rejection method is too slow to be used)
-   */
-  static constexpr size_t MAX_ITER_REJECTION = 1000;
-
-  String toStringWithPrecision(const double a_value, const int n = 6) const;
-
-  ProbabilityDistribution();
-  virtual ~ProbabilityDistribution()
-  {
-  }
+  virtual ~ProbabilityDistribution() = default;
 
 public:
+  //-------------------------------------------------------------------------------------------
+  // PURE VIRTUAL
+  //-------------------------------------------------------------------------------------------
   /**
    * @fn Name
    * @return title of distribution, for instance "Normal(0, 1)"
@@ -61,45 +53,95 @@ public:
   virtual double F(const T& x) const = 0;
 
   /**
-   * @fn CumulativeDistributionFunction
-   * @param x input vector
-   * @param y output vector: y = P(X ≤ x)
+   * @fn Variate()
+   * @return random variable
    */
-  void CumulativeDistributionFunction(const std::vector<T>& x, std::vector<double>& y) const;
+  virtual T Variate() const = 0;
+
+  //-------------------------------------------------------------------------------------------
+  // VIRTUAL
+  //-------------------------------------------------------------------------------------------
 
   /**
    * @fn S
    * @param x
    * @return P(X > x)
    */
-  virtual double S(const T& x) const;
+  virtual double S(const T& x) const
+  {
+    return 1.0 - this->F(x);
+  }
+
+  /**
+   * @fn Sample
+   * @param outputData
+   */
+  virtual void Sample(std::vector<T>& outputData) const
+  {
+    for(T& var : outputData)
+      var = this->Variate();
+  }
+
+  /**
+   * @brief Reseed
+   * @param seed
+   */
+  virtual void Reseed(unsigned long seed) const
+  {
+    this->localRandGenerator.Reseed(seed);
+  }
+
+  //-------------------------------------------------------------------------------------------
+  // NON-VIRTUAL
+  //-------------------------------------------------------------------------------------------
+  /**
+   * @fn CumulativeDistributionFunction
+   * @param x input vector
+   * @param y output vector: y = P(X ≤ x)
+   */
+  void CumulativeDistributionFunction(const std::vector<T>& x, std::vector<double>& y) const
+  {
+    size_t size = x.size();
+    if(size > y.size())
+      return;
+    for(size_t i = 0; i != size; ++i)
+      y[i] = this->F(x[i]);
+  }
 
   /**
    * @fn SurvivalFunction
    * @param x input vector
    * @param y output vector: y = P(X > x)
    */
-  void SurvivalFunction(const std::vector<T>& x, std::vector<double>& y) const;
-
-  /**
-   * @fn Variate()
-   * @return random variable
-   */
-  virtual T Variate() const = 0;
-
-  /**
-   * @fn Sample
-   * @param outputData
-   */
-  virtual void Sample(std::vector<T>& outputData) const;
-
-  /**
-   * @brief Reseed
-   * @param seed
-   */
-  virtual void Reseed(unsigned long seed) const;
+  void SurvivalFunction(const std::vector<T>& x, std::vector<double>& y) const
+  {
+    size_t size = x.size();
+    if(size > y.size())
+      return;
+    for(size_t i = 0; i != size; ++i)
+      y[i] = this->S(x[i]);
+  }
 
 protected:
+  static thread_local RandGenerator staticRandGenerator;
+
+  mutable RandGenerator localRandGenerator{};
+
+  /**
+   * @brief MAX_ITER_REJECTION
+   * upper boundary for maximum amount of iterations in rejection methods
+   * one thousand should be enough to be sure there is a bug
+   * (or rejection method is too slow to be used)
+   */
+  static constexpr size_t MAX_ITER_REJECTION = 1000;
+
+  String toStringWithPrecision(const double a_value, const int n = 6) const
+  {
+    std::ostringstream out;
+    out << std::setprecision(n) << a_value;
+    return out.str();
+  }
+
   enum FIT_ERROR_TYPE
   {
     WRONG_SAMPLE,
@@ -115,7 +157,31 @@ protected:
   static constexpr char UPPER_LIMIT_VIOLATION[] = "No element should be greater than ";
   static constexpr char LOWER_LIMIT_VIOLATION[] = "No element should be smaller than ";
 
-  String fitErrorDescription(FIT_ERROR_TYPE fet, const String& explanation);
+  String fitErrorDescription(FIT_ERROR_TYPE fet, const String& explanation)
+  {
+    String error = this->Name() + ": ";
+    switch(fet)
+    {
+    case WRONG_SAMPLE:
+      error += "Sample couldn't be generated by this distribution. ";
+      break;
+    case NOT_APPLICABLE:
+      error += "Method cannot be applied here. ";
+      break;
+    case WRONG_RETURN:
+      error += "Method returns invalid parameters. ";
+      break;
+    case TOO_FEW_ELEMENTS:
+      error += "Sample is too small. ";
+      break;
+    case WRONG_LEVEL:
+      error += "Significance level should be positive and smaller than 1. ";
+      break;
+    case UNDEFINED_ERROR:
+    default:
+      error += "Unknown type of error. ";
+    }
+    return error + explanation;
+  }
 };
-
-#endif // PROBABILITY_DISTRIBUTION_H
+} // namespace randlib

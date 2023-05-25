@@ -145,63 +145,12 @@ set(RANDLIB_SRCS
     ${RandLib_SOURCE_DIR}/math/NumericMath.cpp
     ${RandLib_SOURCE_DIR}/math/RandMath.cpp
 
-    # Abstract Distribution
-    ${RandLib_SOURCE_DIR}/distributions/ProbabilityDistribution.cpp
-
     # Univariate Distributions
     ## Helper
     ${RandLib_SOURCE_DIR}/distributions/univariate/BasicRandGenerator.cpp
 
-    ## Abstract Parents
-    ${RandLib_SOURCE_DIR}/distributions/univariate/ExponentialFamily.cpp
-
     ## Continuous
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/GeometricStableRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/GumbelRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/InverseGammaRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/InverseGaussianRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/IrwinHallRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/KolmogorovSmirnovRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/LaplaceRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/LevyRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/LogisticRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/LogNormalRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/MarchenkoPasturRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NakagamiRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NoncentralChiSquaredRand.cpp
     #${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NoncentralTRand.cpp # This was left out of original library...
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/NormalRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/ParetoRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/PlanckRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/RaisedCosineRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/SechRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/StableRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/StudentTRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/TriangularRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/UniformRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/WeibullRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/WignerSemicircleRand.cpp
-
-    ## Discrete
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/BernoulliRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/BetaBinomialRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/BinomialRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/CategoricalRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/GeometricRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/HyperGeometricRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/LogarithmicRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/NegativeBinomialRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/NegativeHyperGeometricRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/PoissonRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/RademacherRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/SkellamRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/UniformDiscreteRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/YuleRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/ZetaRand.cpp
-    ${RandLib_SOURCE_DIR}/distributions/univariate/discrete/ZipfRand.cpp
-
-    ## Singular
-    ${RandLib_SOURCE_DIR}/distributions/univariate/singular/CantorRand.cpp
 )
 
 target_sources(RandLib
