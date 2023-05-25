@@ -1,6 +1,8 @@
 #pragma once
 
-#include "RandMath.hpp"
+#include "math/Constants.hpp"
+
+#include <algorithm>
 
 /// Numerical procedures
 

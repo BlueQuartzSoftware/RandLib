@@ -3,8 +3,6 @@
 #include "RandLib_export.hpp"
 #include "RandLib.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/DiscreteDistributions.hpp"
 
 #include "distributions/univariate/discrete/BinomialRand.hpp"

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RandMath.hpp"
+#include "math/GammaMath.hpp"
 
-/// Beta-related functions
+#include <complex>
 
 namespace randlib::RandMath
 {

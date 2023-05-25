@@ -3,13 +3,10 @@
 #include "RandLib.hpp"
 #include "RandLib_export.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/ContinuousDistributions.hpp"
 
 #include "distributions/univariate/continuous/CauchyRand.hpp"
 #include "distributions/univariate/continuous/NakagamiRand.hpp"
-#include "distributions/univariate/continuous/NormalRand.hpp"
 
 namespace randlib
 {

@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <thread>
-#include <time.h>
+#include <ctime>
 
 using namespace randlib;
 

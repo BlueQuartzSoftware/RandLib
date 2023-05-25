@@ -3,12 +3,10 @@
 #include "RandLib.hpp"
 #include "RandLib_export.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/ContinuousDistributions.hpp"
 
-#include "distributions/univariate/continuous/LaplaceRand.hpp"
 #include "distributions/univariate/continuous/StableRand.hpp"
+#include "distributions/univariate/continuous/LaplaceRand.hpp"
 
 namespace randlib
 {

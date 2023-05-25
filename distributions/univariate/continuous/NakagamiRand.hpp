@@ -3,13 +3,9 @@
 #include "RandLib.hpp"
 #include "RandLib_export.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/ContinuousDistributions.hpp"
 
 #include "distributions/univariate/continuous/ExponentialRand.hpp"
-#include "distributions/univariate/continuous/GammaRand.hpp"
-#include "distributions/univariate/continuous/NormalRand.hpp"
 
 #include "external/pow.hpp"
 #include "external/sqrt.hpp"

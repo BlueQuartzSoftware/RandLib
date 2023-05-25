@@ -3,12 +3,9 @@
 #include "RandLib.hpp"
 #include "RandLib_export.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/DiscreteDistributions.hpp"
 
 #include "distributions/univariate/discrete/BernoulliRand.hpp"
-#include "distributions/univariate/discrete/BetaBinomialRand.hpp"
 
 namespace randlib
 {

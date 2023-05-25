@@ -2,6 +2,8 @@
 
 #include "RandMath.hpp"
 
+#include <complex>
+
 /// Gamma-related functions
 
 namespace randlib::RandMath

@@ -3,12 +3,7 @@
 #include "RandLib.hpp"
 #include "RandLib_export.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/DiscreteDistributions.hpp"
-
-#include "distributions/univariate/continuous/ParetoRand.hpp"
-#include "distributions/univariate/continuous/UniformRand.hpp"
 
 namespace randlib
 {

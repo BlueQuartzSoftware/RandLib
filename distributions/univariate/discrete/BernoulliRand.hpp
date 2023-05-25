@@ -3,13 +3,8 @@
 #include "RandLib.hpp"
 #include "RandLib_export.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/ProbabilityDistribution.hpp"
 
-#include "distributions/univariate/BasicRandGenerator.hpp"
-
-#include "distributions/univariate/continuous/UniformRand.hpp"
 #include "distributions/univariate/discrete/BinomialRand.hpp"
 
 namespace randlib

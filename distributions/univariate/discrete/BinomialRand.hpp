@@ -3,15 +3,9 @@
 #include "RandLib.hpp"
 #include "RandLib_export.hpp"
 
-#include "math/RandMath.hpp"
-
 #include "distributions/DiscreteDistributions.hpp"
 
 #include "distributions/univariate/discrete/BernoulliRand.hpp"
-#include "distributions/univariate/continuous/BetaRand.hpp"
-#include "distributions/univariate/continuous/ExponentialRand.hpp"
-#include "distributions/univariate/continuous/NormalRand.hpp"
-#include "distributions/univariate/continuous/UniformRand.hpp"
 #include "distributions/univariate/discrete/GeometricRand.hpp"
 
 namespace randlib
@@ -531,7 +525,7 @@ private:
         reject = (Y >= delta1);
         if(!reject)
         {
-          float W = randlib::ExponentialRand<float>::StandardVariate(this->localRandGenerator);
+          float W = ExponentialRand<float>::StandardVariate(this->localRandGenerator);
           X = std::floor(Y);
           V = -W - 0.5 * N * N + c;
         }
