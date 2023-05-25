@@ -903,7 +903,10 @@ protected:
 
     if(this->SupportType() == FINITE_T)
     {
-      if(!RandMath::findRootNewtonFirstOrder<RealType>([this, p](const RealType& x) { return this->F(x) - p; }, this->MinValue(), this->MaxValue(), initValue))
+      if(!RandMath::findRootBrentFirstOrder<RealType>(
+              [this, p](const RealType &x) {
+                  return this->F(x) - p;
+              }, this->MinValue(), this->MaxValue(), initValue))
         throw std::runtime_error("Continuous distribution: failure in numeric procedure");
       return initValue;
     }
@@ -953,7 +956,10 @@ protected:
 
     if(this->SupportType() == FINITE_T)
     {
-      if(!RandMath::findRootNewtonFirstOrder<RealType>([this, p](const RealType& x) { return this->S(x) - p; }, this->MinValue(), this->MaxValue(), initValue))
+      if(!RandMath::findRootBrentFirstOrder<RealType>(
+              [this, p](const RealType &x) {
+                  return this->S(x) - p;
+              }, this->MinValue(), this->MaxValue(), initValue))
         throw std::runtime_error("Continuous distribution: failure in numeric procedure");
       return initValue;
     }
