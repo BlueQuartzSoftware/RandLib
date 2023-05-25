@@ -8,31 +8,12 @@
 #include <utility>
 #include <vector>
 
-#include "BetaMath.hpp"
-#include "Constants.hpp"
-#include "GammaMath.hpp"
+#include "math/NumericMath.hpp"
 
 #include "RandLib_export.hpp"
 
 namespace randlib::RandMath
 {
-/**
- * @fn areClose
- * @param a
- * @param b
- * @param eps
- * @return |a - b| < eps * max(a, b)
- */
-template <typename RealType>
-bool areClose(RealType a, RealType b, RealType eps = 1e-6)
-{
-  if(a == b)
-    return true;
-  RealType fa = std::fabs(a);
-  RealType fb = std::fabs(b);
-  return std::fabs(b - a) < eps * std::max(fa, fb);
-}
-
 /**
  * @fn sign
  * @param x
@@ -90,21 +71,6 @@ double erfinv(double p);
 double erfcinv(double p);
 
 /**
- * @brief xexpxsqerfc
- * @param x
- * @return x * exp(x^2) * erfc(x)
- */
-double xexpxsqerfc(double x);
-
-/**
- * @fn harmonicNumber
- * @param exponent
- * @param number
- * @return sum_{i=1}^{number} i^{-exponent}
- */
-double harmonicNumber(double exponent, int number);
-
-/**
  * @fn logBesselI
  * Calculates logarithm of modified Bessel function of the 1st kind
  * @param nu
@@ -137,48 +103,4 @@ double W0Lambert(double x, double epsilon = 1e-11);
  * @return W-1 branch of Lambert W function
  */
 double Wm1Lambert(double x, double epsilon = 1e-11);
-
-/**
- * @fn MarcumP
- * @param mu
- * @param x
- * @param y
- * @param sqrtX √x
- * @param sqrtY √y
- * @param logX log(x)
- * @param logY log(y)
- * @return 1 - Marcum Q-function
- */
-double MarcumP(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY);
-
-/**
- * @fn MarcumP
- * @param mu
- * @param x
- * @param y
- * @return 1 - Marcum Q-function
- */
-double MarcumP(double mu, double x, double y);
-
-/**
- * @fn MarcumQ
- * @param mu
- * @param x
- * @param y
- * @param sqrtX √x
- * @param sqrtY √y
- * @param logX log(x)
- * @param logY log(y)
- * @return Marcum Q-function
- */
-double MarcumQ(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY);
-
-/**
- * @fn MarcumQ
- * @param mu
- * @param x
- * @param y
- * @return Marcum Q-function
- */
-double MarcumQ(double mu, double x, double y);
 } // namespace randlib::RandMath

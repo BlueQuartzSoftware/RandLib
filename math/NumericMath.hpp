@@ -10,6 +10,23 @@ namespace randlib::RandMath
 {
 
 /**
+ * @fn areClose
+ * @param a
+ * @param b
+ * @param eps
+ * @return |a - b| < eps * max(a, b)
+ */
+template <typename RealType>
+bool areClose(RealType a, RealType b, RealType eps = 1e-6)
+{
+  if(a == b)
+    return true;
+  RealType fa = std::fabs(a);
+  RealType fb = std::fabs(b);
+  return std::fabs(b - a) < eps * std::max(fa, fb);
+}
+
+/**
  * @fn integral
  * @param funPtr integrand
  * @param a lower boundary
@@ -513,4 +530,4 @@ bool findMin(const std::function<double(RealType)>& funPtr, RealType closePoint,
   }
 }
 
-} // namespace RandMath
+} // namespace randlib::RandMath

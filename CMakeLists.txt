@@ -56,6 +56,7 @@ set(RANDLIB_HDRS
     ${RandLib_SOURCE_DIR}/math/BetaMath.hpp
     ${RandLib_SOURCE_DIR}/math/Constants.hpp
     ${RandLib_SOURCE_DIR}/math/GammaMath.hpp
+    ${RandLib_SOURCE_DIR}/math/MarcumMath.hpp
     ${RandLib_SOURCE_DIR}/math/NumericMath.hpp
     ${RandLib_SOURCE_DIR}/math/RandMath.hpp
 
@@ -142,6 +143,7 @@ set(RANDLIB_SRCS
     # Math
     ${RandLib_SOURCE_DIR}/math/BetaMath.cpp
     ${RandLib_SOURCE_DIR}/math/GammaMath.cpp
+    ${RandLib_SOURCE_DIR}/math/MarcumMath.cpp
     ${RandLib_SOURCE_DIR}/math/NumericMath.cpp
     ${RandLib_SOURCE_DIR}/math/RandMath.cpp
 
