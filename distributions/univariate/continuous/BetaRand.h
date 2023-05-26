@@ -100,6 +100,7 @@ protected:
      * @param shape2 β
      */
     void SetShapes(double shape1, double shape2);
+
     /**
      * @fn SetSupport
      * @param minValue a

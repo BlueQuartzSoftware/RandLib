@@ -191,6 +191,7 @@ double harmonicNumber(double exponent, int number)
     return res;
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 long double logBesselI(double nu, double x)
 {
     if (x < 0) {
@@ -236,6 +237,7 @@ long double logBesselI(double nu, double x)
     return std::isfinite(besseli) ? std::log(besseli) : x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
 }
 
+
 long double logBesselK(double nu, double x)
 {
     if (nu < 0.0)
@@ -253,7 +255,17 @@ long double logBesselK(double nu, double x)
 
     return std::log(besselk);
 }
+#else
+long double logBesselI(double nu, double x)
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+long double logBesselK(double nu, double x)
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
 
+#endif
 /**
  * @fn WLambert
  * @param x

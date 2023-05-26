@@ -5,6 +5,11 @@
 #include "InverseGammaRand.h"
 #include "../../bivariate/NormalInverseGammaRand.h"
 
+#include "log.hpp"
+#include "sqrt.hpp"
+
+#include <array>
+
 /**
  * @brief The NormalZiggurat class
  * Class for ziggurat making
@@ -26,7 +31,7 @@ class RANDLIBSHARED_EXPORT NormalZiggurat {
         table[1].first = 0.002609072746106362l;
         for (size_t i = 2; i < TABLE_SIZE - 1; ++i) {
             /// such y_i that f(x_{i+1}) = y_i
-            table[i].second = std::sqrt(-2 * std::log(table[i - 1].first));
+            table[i].second = nonstd::sqrt(-2 * nonstd::log(table[i - 1].first));
             table[i].first = table[i - 1].first + A / table[i].second;
         }
         return table;

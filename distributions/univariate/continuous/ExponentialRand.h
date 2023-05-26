@@ -2,6 +2,9 @@
 #define EXPONENTIALRAND_H
 
 #include "GammaRand.h"
+#include "log.hpp"
+
+#include <array>
 #include <functional>
 
 /**
@@ -25,7 +28,7 @@ class RANDLIBSHARED_EXPORT ExpZiggurat {
         table[1].first = 0.0009672692823271745203l;
         for (size_t i = 2; i < TABLE_SIZE - 1; ++i) {
             /// such y_i that f(x_{i+1}) = y_i
-            table[i].second = -std::log(table[i - 1].first);
+            table[i].second = -nonstd::log(table[i - 1].first);
             table[i].first = table[i - 1].first + A / table[i].second;
         }
         return table;

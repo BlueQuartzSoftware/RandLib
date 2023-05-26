@@ -116,6 +116,7 @@ void PlanckRand<RealType>::Sample(std::vector<RealType> &outputData) const
         var /= Z.Variate();
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename RealType >
 long double PlanckRand<RealType>::Mean() const
 {
@@ -133,7 +134,19 @@ long double PlanckRand<RealType>::SecondMoment() const
     secondMoment /= Z.GetZetaFunction();
     return secondMoment;
 }
+#else
+template<typename RealType>
+long double PlanckRand<RealType>::Mean() const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
 
+template<typename RealType>
+long double PlanckRand<RealType>::SecondMoment() const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+#endif
 template < typename RealType >
 long double PlanckRand<RealType>::Variance() const
 {
@@ -151,6 +164,7 @@ RealType PlanckRand<RealType>::Mode() const
     return (y + a) / b;
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename RealType >
 long double PlanckRand<RealType>::ThirdMoment() const
 {
@@ -160,7 +174,13 @@ long double PlanckRand<RealType>::ThirdMoment() const
     thirdMoment /= Z.GetZetaFunction();
     return thirdMoment;
 }
-
+#else
+template<typename RealType>
+long double PlanckRand<RealType>::ThirdMoment() const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+#endif
 template < typename RealType >
 long double PlanckRand<RealType>::Skewness() const
 {
@@ -174,6 +194,7 @@ long double PlanckRand<RealType>::Skewness() const
     return numerator / denominator;
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename RealType >
 long double PlanckRand<RealType>::FourthMoment() const
 {
@@ -184,6 +205,13 @@ long double PlanckRand<RealType>::FourthMoment() const
     fourthMoment /= Z.GetZetaFunction();
     return fourthMoment;
 }
+#else
+template<typename RealType>
+long double PlanckRand<RealType>::FourthMoment() const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+#endif
 
 template < typename RealType >
 long double PlanckRand<RealType>::ExcessKurtosis() const

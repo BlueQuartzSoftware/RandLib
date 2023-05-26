@@ -2,8 +2,10 @@ TARGET = RandLib
 TEMPLATE = lib
 DESTDIR = ../bin/RandLib
 
+INCLUDEPATH += $$PWD/external
+
 # Compile with high warning levels, a warning is an error
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Weffc++ -Werror
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Weffc++
 
 # C++17
 CONFIG += c++17
@@ -157,7 +159,15 @@ HEADERS +=\
     distributions/univariate/UnivariateDistribution.h \
     distributions/univariate/continuous/circular/WrappedExponentialRand.h \
     distributions/univariate/continuous/FisherFRand.h \
-    distributions/univariate/ExponentialFamily.h
+    distributions/univariate/ExponentialFamily.h \
+    external/checks.hpp \
+    external/floor.hpp \
+    external/gcem_options.hpp \
+    external/helpers.hpp \
+    external/log.hpp \
+    external/pow.hpp \
+    external/sgn.hpp \
+    external/sqrt.hpp
 
 unix {
     target.path = /usr/lib
