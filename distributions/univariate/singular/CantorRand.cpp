@@ -2,6 +2,8 @@
 #include "../discrete/BernoulliRand.h"
 #include "../continuous/UniformRand.h"
 
+#include "math/NumericMath.h"
+
 double CantorRand::table[CantorRand::n] = {0};
 const bool CantorRand::dummy = CantorRand::SetupTable();
 
@@ -72,7 +74,7 @@ long double CantorRand::Variance() const
 
 double CantorRand::quantileImpl(double p, double initValue) const
 {
-    if (!RandMath::findRootNewtonFirstOrder<double>([this, p] (double x)
+    if (!RandMath::findRootBrentFirstOrder<double>([this, p] (double x)
     {
         return F(x) - p;
     }, 0.0, 1.0, initValue))
@@ -87,7 +89,7 @@ double CantorRand::quantileImpl(double p) const
 
 double CantorRand::quantileImpl1m(double p, double initValue) const
 {
-    if (!RandMath::findRootNewtonFirstOrder<double>([this, p] (double x)
+    if (!RandMath::findRootBrentFirstOrder<double>([this, p] (double x)
     {
         return S(x) - p;
     }, 0.0, 1.0, initValue))

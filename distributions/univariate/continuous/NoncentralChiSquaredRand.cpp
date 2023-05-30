@@ -1,5 +1,7 @@
 #include "NoncentralChiSquaredRand.h"
 
+#include "math/MarcumMath.h"
+
 template < typename RealType >
 NoncentralChiSquaredRand<RealType>::NoncentralChiSquaredRand(double degree, double noncentrality)
 {

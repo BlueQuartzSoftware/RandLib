@@ -1,7 +1,6 @@
 #include "NumericMath.h"
 
-using namespace randlib;
-using namespace randlib::RandMath;
+using namespace RandMath;
 
 /**
  * @fn adaptiveSimpsonsAux
@@ -36,7 +35,7 @@ double adaptiveSimpsonsAux(const std::function<double(double)>& funPtr, double a
 double integral(const std::function<double(double)>& funPtr, double a, double b, double epsilon, int maxRecursionDepth)
 {
   if(a > b)
-    return -randlib::RandMath::integral(funPtr, b, a, epsilon, maxRecursionDepth);
+    return -RandMath::integral(funPtr, b, a, epsilon, maxRecursionDepth);
   if(a == b)
     return 0.0;
   double c = .5 * (a + b), h = (b - a) / 6.0;

@@ -1,5 +1,6 @@
 #include "ZipfRand.h"
-#include "../continuous/UniformRand.h"
+
+#include "math/GammaMath.h"
 
 template < typename IntType >
 ZipfRand<IntType>::ZipfRand(double exponent, IntType number)

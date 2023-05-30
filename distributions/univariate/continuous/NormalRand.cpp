@@ -1,9 +1,10 @@
 #include "NormalRand.h"
 #include "UniformRand.h"
 #include "ExponentialRand.h"
-#include "../BasicRandGenerator.h"
 #include "GammaRand.h"
 #include "StudentTRand.h"
+
+#include "math/GammaMath.h"
 
 template < typename RealType >
 NormalRand<RealType>::NormalRand(double location, double variance)

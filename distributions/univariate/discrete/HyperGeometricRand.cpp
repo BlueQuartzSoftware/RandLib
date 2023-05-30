@@ -1,5 +1,7 @@
 #include "HyperGeometricRand.h"
 
+#include "math/GammaMath.h"
+
 template < typename IntType >
 HyperGeometricRand<IntType>::HyperGeometricRand(IntType totalSize, IntType drawsNum, IntType successesNum)
 {

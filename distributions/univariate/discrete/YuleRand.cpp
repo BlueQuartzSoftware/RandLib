@@ -1,5 +1,7 @@
 #include "YuleRand.h"
 
+#include "math/GammaMath.h"
+
 template < typename IntType >
 YuleRand<IntType>::YuleRand(double shape) :
 X(shape, 1.0)

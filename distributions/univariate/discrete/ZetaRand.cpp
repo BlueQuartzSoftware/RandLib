@@ -1,6 +1,7 @@
 #include "ZetaRand.h"
 #include "../continuous/UniformRand.h"
-#include "../continuous/ParetoRand.h"
+
+#include "math/GammaMath.h"
 
 template < typename IntType >
 ZetaRand<IntType>::ZetaRand(double exponent)

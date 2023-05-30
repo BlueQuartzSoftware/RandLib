@@ -1,5 +1,6 @@
 #include "SkellamRand.h"
-#include "../continuous/NoncentralChiSquaredRand.h"
+
+#include "math/MarcumMath.h"
 
 template < typename IntType >
 SkellamRand<IntType>::SkellamRand(double rate1, double rate2)

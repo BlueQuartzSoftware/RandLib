@@ -1,5 +1,7 @@
 #include "IrwinHallRand.h"
 
+#include "math/GammaMath.h"
+
 template < typename RealType >
 IrwinHallRand<RealType>::IrwinHallRand(size_t number)
 {

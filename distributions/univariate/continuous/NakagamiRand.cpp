@@ -4,6 +4,8 @@
 
 #include "pow.hpp"
 
+#include "math/GammaMath.h"
+
 template < typename RealType >
 NakagamiDistribution<RealType>::NakagamiDistribution(double shape, double spread)
 {
@@ -165,14 +167,14 @@ std::complex<double> NakagamiDistribution<RealType>::CFImpl(double t) const
     if (mu >= 0.5)
         return ContinuousDistribution<RealType>::CFImpl(t);
 
-    double re = this->ExpectedValue([this, t] (double x)
+    double re = this->ExpectedValue([t] (double x)
     {
         if (x == 0.0)
             return 0.0;
         return std::cos(t * x) - 1.0;
     }, 0, INFINITY) + 1.0;
 
-    double im = this->ExpectedValue([this, t] (double x)
+    double im = this->ExpectedValue([t] (double x)
     {
         return std::sin(t * x);
     }, 0, INFINITY);

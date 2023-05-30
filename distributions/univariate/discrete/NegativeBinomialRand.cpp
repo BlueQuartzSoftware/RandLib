@@ -1,7 +1,9 @@
 #include "NegativeBinomialRand.h"
 #include "../continuous/UniformRand.h"
-#include "../continuous/ExponentialRand.h"
 #include "PoissonRand.h"
+
+#include "math/GammaMath.h"
+#include "math/BetaMath.h"
 
 template< typename IntType, typename T>
 NegativeBinomialDistribution<IntType, T>::NegativeBinomialDistribution(T number, double probability)

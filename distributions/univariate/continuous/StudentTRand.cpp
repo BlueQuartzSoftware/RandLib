@@ -2,6 +2,8 @@
 #include "NormalRand.h"
 #include "CauchyRand.h"
 
+#include "math/BetaMath.h"
+
 template < typename RealType >
 StudentTRand<RealType>::StudentTRand(double degree, double location, double scale)
 {

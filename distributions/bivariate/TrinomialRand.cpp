@@ -1,5 +1,8 @@
 #include "TrinomialRand.h"
 
+#include "math/GammaMath.h"
+#include "math/BetaMath.h"
+
 template< typename IntType >
 TrinomialRand<IntType>::TrinomialRand(int number, double probability1, double probability2)
 {

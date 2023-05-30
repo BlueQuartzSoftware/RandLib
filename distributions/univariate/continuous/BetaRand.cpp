@@ -1,7 +1,8 @@
 #include "BetaRand.h"
-#include "../discrete/BernoulliRand.h"
 #include "UniformRand.h"
 #include "ExponentialRand.h"
+
+#include "math/BetaMath.h"
 
 template < typename RealType >
 BetaDistribution<RealType>::BetaDistribution(double shape1, double shape2, double minValue, double maxValue)

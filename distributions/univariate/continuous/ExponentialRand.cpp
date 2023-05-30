@@ -1,6 +1,7 @@
 #include "ExponentialRand.h"
 #include "UniformRand.h"
-#include "../BasicRandGenerator.h"
+
+#include "math/GammaMath.h"
 
 template < typename RealType >
 String ExponentialRand<RealType>::Name() const

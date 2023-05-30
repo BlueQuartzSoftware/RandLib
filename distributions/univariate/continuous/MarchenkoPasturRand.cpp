@@ -1,6 +1,8 @@
 #include "MarchenkoPasturRand.h"
 #include "UniformRand.h"
 
+#include "math/GammaMath.h"
+
 template < typename RealType >
 MarchenkoPasturRand<RealType>::MarchenkoPasturRand(double ratio, double scale)
 {
@@ -347,22 +349,22 @@ std::complex<double> MarchenkoPasturRand<RealType>::CFImpl(double t) const
     /// otherwise we have singularity at point 0
     if (lambda == 1) {
         /// we split integrand for real part on (cos(tx)-1)f(x) and f(x)
-        double re = this->ExpectedValue([this, t] (double x)
+        double re = this->ExpectedValue([t] (double x)
         {
             return std::cos(t * x) - 1.0;
         }, 0, 4 * sigmaSq);
-        double im = this->ExpectedValue([this, t] (double x)
+        double im = this->ExpectedValue([t] (double x)
         {
             return std::sin(t * x);
         }, 0, 4 * sigmaSq);
         return std::complex<double>(1.0 + re, im);
     }
     /// for λ > 1 we split integral on 2 parts: at point 0 and the rest
-    double re = this->ExpectedValue([this, t] (double x)
+    double re = this->ExpectedValue([t] (double x)
     {
         return std::cos(t * x);
     }, sigmaSq * a, sigmaSq * b);
-    double im = this->ExpectedValue([this, t] (double x)
+    double im = this->ExpectedValue([t] (double x)
     {
         return std::sin(t * x);
     }, sigmaSq * a, sigmaSq * b);

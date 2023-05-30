@@ -1,6 +1,7 @@
 #include "PoissonRand.h"
 #include "../continuous/UniformRand.h"
-#include "../continuous/ExponentialRand.h"
+
+#include "math/GammaMath.h"
 
 template < typename IntType >
 PoissonRand<IntType>::PoissonRand(double rate)

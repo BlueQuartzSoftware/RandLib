@@ -4,8 +4,6 @@
 #include <cmath>
 #include <string>
 
-namespace randlib
-{
 constexpr long double MIN_POSITIVE = 1e-21l;
 
 template <typename T>
@@ -151,4 +149,3 @@ constexpr long double M_CATALAN = 0.91596559417721901505l;
 #ifndef M_PI_SQ
 constexpr long double M_PI_SQ = 9.86960440108935861883l;
 #endif
-} // namespace randlib

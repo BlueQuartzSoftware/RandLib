@@ -2,7 +2,7 @@
 
 #include "math/GammaMath.h"
 
-namespace randlib::RandMath
+namespace RandMath
 {
 /**
  * @fn MarcumP

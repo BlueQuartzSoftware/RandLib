@@ -2,8 +2,7 @@
 
 #include <functional>
 
-using namespace randlib;
-using namespace randlib::RandMath;
+using namespace RandMath;
 
 namespace
 {
@@ -210,12 +209,12 @@ double WLambert(double x, double w0, double epsilon)
 }
 } // namespace
 
-int randlib::RandMath::sign(double x)
+int RandMath::sign(double x)
 {
   return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 }
 
-double randlib::RandMath::atan(double x)
+double RandMath::atan(double x)
 {
   /// For small absolute values we use standard technique
   /// Otherwise we use relation
@@ -228,35 +227,35 @@ double randlib::RandMath::atan(double x)
   return (x < -1.0) ? -M_PI_2 - std::atan(1.0 / x) : std::atan(x);
 }
 
-double randlib::RandMath::softplus(double x)
+double RandMath::softplus(double x)
 {
   if(x < 20.0)
     return std::log1pl(std::exp(x));
   return (x < 35.0) ? x + std::exp(-x) : x;
 }
 
-double randlib::RandMath::log1mexp(double x)
+double RandMath::log1mexp(double x)
 {
   return (x < -M_LN2) ? std::log1pl(-std::exp(x)) : std::log(-std::expm1l(x));
 }
 
-double randlib::RandMath::logexpm1l(double x)
+double RandMath::logexpm1l(double x)
 {
   if(x < 20.0)
     return std::log(std::expm1l(x));
   return (x < 35.0) ? x - std::exp(-x) : x;
 }
 
-double randlib::RandMath::log2mexp(double x)
+double RandMath::log2mexp(double x)
 {
   return std::log1pl(-std::expm1l(x));
 }
 
-double randlib::RandMath::erfinv(double p)
+double RandMath::erfinv(double p)
 {
   /// Consider special cases
   if(p < 0.0)
-    return -randlib::RandMath::erfinv(-p);
+    return -RandMath::erfinv(-p);
   if(p > 1.0)
     throw std::invalid_argument("Argument p should be in interval [-1, 1]");
   if(p == 1.0)
@@ -272,11 +271,11 @@ double randlib::RandMath::erfinv(double p)
   return (1.0 - p < 5e-16) ? erfinvAux1(beta) : erfinvAux2(beta);
 }
 
-double randlib::RandMath::erfcinv(double p)
+double RandMath::erfcinv(double p)
 {
   /// Consider special cases
   if(p > 1.0)
-    return -randlib::RandMath::erfcinv(2.0 - p);
+    return -RandMath::erfcinv(2.0 - p);
   if(p == 0.0)
     return INFINITY;
   if(p == 1.0)
@@ -290,7 +289,7 @@ double randlib::RandMath::erfcinv(double p)
   return (p > 5e-16) ? erfinvAux2(beta) : erfinvAux1(beta);
 }
 
-long double randlib::RandMath::logBesselI(double nu, double x)
+long double RandMath::logBesselI(double nu, double x)
 {
   if(x < 0)
   {
@@ -299,7 +298,7 @@ long double randlib::RandMath::logBesselI(double nu, double x)
     if(nuIsInt)
     {
       int nuInt = roundNu;
-      return (nuInt % 2) ? NAN : randlib::RandMath::logBesselI(nu, -x);
+      return (nuInt % 2) ? NAN : RandMath::logBesselI(nu, -x);
     }
     return -INFINITY;
   }
@@ -341,7 +340,7 @@ long double randlib::RandMath::logBesselI(double nu, double x)
   return std::isfinite(besseli) ? std::log(besseli) : x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
 }
 
-long double randlib::RandMath::logBesselK(double nu, double x)
+long double RandMath::logBesselK(double nu, double x)
 {
   if(nu < 0.0)
     return NAN; /// K(-ν, x) = -K(ν, x) < 0
@@ -359,7 +358,7 @@ long double randlib::RandMath::logBesselK(double nu, double x)
   return std::log(besselk);
 }
 
-double randlib::RandMath::W0Lambert(double x, double epsilon)
+double RandMath::W0Lambert(double x, double epsilon)
 {
   double w = 0;
   if(x < -M_1_E)
@@ -373,7 +372,7 @@ double randlib::RandMath::W0Lambert(double x, double epsilon)
   return WLambert(x, w, epsilon);
 }
 
-double randlib::RandMath::Wm1Lambert(double x, double epsilon)
+double RandMath::Wm1Lambert(double x, double epsilon)
 {
   double w = -2;
   if(x < -M_1_E || x > 0)

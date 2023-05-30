@@ -2,6 +2,8 @@
 #include "BinomialRand.h"
 #include "UniformDiscreteRand.h"
 
+#include "math/GammaMath.h"
+
 template< typename IntType >
 BetaBinomialRand<IntType>::BetaBinomialRand(IntType number, double shape1, double shape2)
 {

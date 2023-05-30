@@ -34,7 +34,7 @@ RealType ContinuousDistribution<RealType>::quantileImpl(double p, RealType initV
     }
 
     if (this->SupportType() == FINITE_T) {
-        if (!RandMath::findRootNewtonFirstOrder<RealType>([this, p] (const RealType & x)
+        if (!RandMath::findRootBrentFirstOrder<RealType>([this, p] (const RealType & x)
         {
             return this->F(x) - p;
         }, this->MinValue(), this->MaxValue(), initValue))
@@ -85,7 +85,7 @@ RealType ContinuousDistribution<RealType>::quantileImpl1m(double p, RealType ini
     }
 
     if (this->SupportType() == FINITE_T) {
-        if (!RandMath::findRootNewtonFirstOrder<RealType>([this, p] (const RealType & x)
+        if (!RandMath::findRootBrentFirstOrder<RealType>([this, p] (const RealType & x)
         {
             return this->S(x) - p;
         }, this->MinValue(), this->MaxValue(), initValue))

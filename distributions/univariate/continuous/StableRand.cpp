@@ -6,6 +6,8 @@
 #include "ExponentialRand.h"
 #include <functional>
 
+#include "math/GammaMath.h"
+
 template < typename RealType >
 StableDistribution<RealType>::StableDistribution(double exponent, double skewness, double scale, double location)
 {
@@ -267,7 +269,7 @@ double StableDistribution<RealType>::pdfForUnityExponent(double x) const
     /// Find peak of the integrand
     double theta0 = 0;
     std::function<double (double)> funPtr = std::bind(&StableDistribution<RealType>::integrandAuxForUnityExponent, this, std::placeholders::_1, xAdj);
-    RandMath::findRootNewtonFirstOrder(funPtr, lowerBoundary, upperBoundary, theta0);
+    RandMath::findRootBrentFirstOrder(funPtr, lowerBoundary, upperBoundary, theta0);
 
     /// Sanity check
     /// if we failed to find the peak position
@@ -532,7 +534,7 @@ double StableDistribution<RealType>::pdfForGeneralExponent(double x) const
     /// Search for the peak of the integrand
     double theta0;
     std::function<double (double)> funPtr = std::bind(&StableDistribution<RealType>::integrandAuxForGeneralExponent, this, std::placeholders::_1, xAdj, xiAdj);
-    RandMath::findRootNewtonFirstOrder(funPtr, -xiAdj, M_PI_2, theta0);
+    RandMath::findRootBrentFirstOrder(funPtr, -xiAdj, M_PI_2, theta0);
 
     /// If theta0 is too close to π/2 or -xiAdj then we can still underestimate the integral
     int maxRecursionDepth = 11;

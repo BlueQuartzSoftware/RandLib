@@ -3,6 +3,8 @@
 #include "ExponentialRand.h"
 #include "NormalRand.h"
 
+#include "math/GammaMath.h"
+
 template < typename RealType >
 GammaDistribution<RealType>::GammaDistribution(double shape, double rate)
 {

@@ -4,7 +4,7 @@
 
 #include <complex>
 
-namespace randlib::RandMath
+namespace RandMath
 {
 /**
  * @fn logBeta
@@ -37,4 +37,4 @@ double ibeta(double x, double a, double b, double logBetaFun, double logX, doubl
  * @return I(x, a, b) = B(x, a, b) / B(a, b)
  */
 double ibeta(double x, double a, double b);
-} // namespace randlib::RandMath
+} // namespace RandMath

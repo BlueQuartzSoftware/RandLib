@@ -1,8 +1,7 @@
 #include "GeometricStableRand.h"
 #include "LaplaceRand.h"
-#include "LevyRand.h"
-#include "UniformRand.h"
-#include "CauchyRand.h"
+
+#include "math/GammaMath.h"
 
 template < typename RealType >
 GeneralGeometricStableDistribution<RealType>::GeneralGeometricStableDistribution(double exponent, double skewness, double scale, double location, double shift)
@@ -200,7 +199,7 @@ double GeneralGeometricStableDistribution<RealType>::pdfByLevy(double x) const
     /// we do numerical integration in the case of c > 0.5
     // (as I wasn't able to handle complex integrals)
     double adivc = x / mu;
-    double y = RandMath::integral([this, a, c, adivc] (double t)
+    double y = RandMath::integral([a, c, adivc] (double t)
     {
         if (t <= 0 || t >= adivc)
             return 0.0;

@@ -1,6 +1,6 @@
 #include "MarcumMath.h"
 
-using namespace randlib;
+using namespace RandMath;
 
 namespace
 {
@@ -45,12 +45,12 @@ namespace
         /// sanity check
         int n0 = std::max(std::ceil(root), 5.0);
         double mpn0 = mu + n0;
-        double P = randlib::RandMath::pgamma(mpn0, y, logY);
+        double P = RandMath::pgamma(mpn0, y, logY);
         double diffP = (mpn0 - 1) * logY - y - std::lgammal(mpn0);
         diffP = std::exp(diffP);
         for(int n = n0; n > 0; --n)
         {
-            double term = n * logX - x - randlib::RandMath::lfact(n);
+            double term = n * logX - x - RandMath::lfact(n);
             double mupnm1 = mu + n - 1;
             term = std::exp(term) * P;
             sum += term;
@@ -58,7 +58,7 @@ namespace
             {
                 /// every 5 iterations we recalculate P and diffP
                 /// in order to achieve enough accuracy
-                P = randlib::RandMath::pgamma(mupnm1, y, logY);
+                P = RandMath::pgamma(mupnm1, y, logY);
                 diffP = (mupnm1 - 1) * logY - y - std::lgammal(mupnm1);
                 diffP = std::exp(diffP);
             }
@@ -70,7 +70,7 @@ namespace
             }
         }
         /// add the last 0-term
-        double lastTerm = randlib::RandMath::lpgamma(mu, y, logY) - x;
+        double lastTerm = RandMath::lpgamma(mu, y, logY) - x;
         lastTerm = std::exp(lastTerm);
         sum += lastTerm;
         return sum;
@@ -92,7 +92,7 @@ namespace
         double sigmaXi = sigma * xi;
         double rho = sqrtY / sqrtX;
         double aux = std::erfc(sqrtX - sqrtY);
-        double Phi = (sigma == 0) ? 0.0 : randlib::RandMath::sign(x - y) * std::sqrt(M_PI / sigma) * aux;
+        double Phi = (sigma == 0) ? 0.0 : RandMath::sign(x - y) * std::sqrt(M_PI / sigma) * aux;
         double Psi0 = aux / std::sqrt(rho);
         double logXi = M_LN2 + 0.5 * std::log(x * y);
         /// sanity check
@@ -197,7 +197,7 @@ namespace
     }
 }
 
-double randlib::RandMath::MarcumP(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
+double RandMath::MarcumP(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
 {
     /* 1 - ok
      * 2 - ok
@@ -238,22 +238,22 @@ double randlib::RandMath::MarcumP(double mu, double x, double y, double sqrtX, d
             0, y);
 }
 
-double randlib::RandMath::MarcumP(double mu, double x, double y)
+double RandMath::MarcumP(double mu, double x, double y)
 {
     double sqrtX = std::sqrt(x), sqrtY = std::sqrt(y);
     double logX = std::log(x), logY = std::log(y);
-    return randlib::RandMath::MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
+    return RandMath::MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
 }
 
-double randlib::RandMath::MarcumQ(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
+double RandMath::MarcumQ(double mu, double x, double y, double sqrtX, double sqrtY, double logX, double logY)
 {
     // TODO: implement and use, when mu + x > y
-    return 1.0 - randlib::RandMath::MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
+    return 1.0 - RandMath::MarcumP(mu, x, y, sqrtX, sqrtY, logX, logY);
 }
 
-double randlib::RandMath::MarcumQ(double mu, double x, double y)
+double RandMath::MarcumQ(double mu, double x, double y)
 {
     double sqrtX = std::sqrt(x), sqrtY = std::sqrt(y);
     double logX = std::log(x), logY = std::log(y);
-    return randlib::RandMath::MarcumQ(mu, x, y, sqrtX, sqrtY, logX, logY);
+    return RandMath::MarcumQ(mu, x, y, sqrtX, sqrtY, logX, logY);
 }

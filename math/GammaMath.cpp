@@ -1,7 +1,6 @@
 #include "GammaMath.h"
 
-using namespace randlib;
-using namespace randlib::RandMath;
+using namespace RandMath;
 
 /**
  * @fn FACTORIAL_TABLESIZE maximum value for input parameter to use table method
@@ -68,11 +67,11 @@ long double factorial(double n)
 
 long double doubleFactorial(int n)
 {
-  long double nFact = randlib::RandMath::factorial(n);
+  long double nFact = RandMath::factorial(n);
   if(n & 1)
   {
     n <<= 1;
-    return randlib::RandMath::factorial(n + 1) / (n * nFact);
+    return RandMath::factorial(n + 1) / (n * nFact);
   }
   return (1 << n) * nFact;
 }
@@ -344,9 +343,9 @@ long double lfact(size_t n)
 long double ldfact(size_t n)
 {
   if(n & 1)
-    return randlib::RandMath::lfact(n) - randlib::RandMath::ldfact(n - 1);
+    return RandMath::lfact(n) - RandMath::ldfact(n - 1);
   size_t k = n >> 1;
-  return k * M_LN2 + randlib::RandMath::lfact(k);
+  return k * M_LN2 + RandMath::lfact(k);
 }
 
 long double binom(size_t n, size_t k)
@@ -359,9 +358,9 @@ long double binom(size_t n, size_t k)
   if(k == 2 || k == n - 2)
     return 0.5 * n * (n - 1);
   /// next run general procedure
-  double lfactn = randlib::RandMath::lfact(n);
-  double lfactk = randlib::RandMath::lfact(k);
-  double lfactnmk = randlib::RandMath::lfact(n - k);
+  double lfactn = RandMath::lfact(n);
+  double lfactk = RandMath::lfact(k);
+  double lfactnmk = RandMath::lfact(n - k);
   return std::exp(lfactn - lfactk - lfactnmk);
 }
 
@@ -396,7 +395,7 @@ double digamma(double x)
   {
     double y = 1.0 - x;
     double z = M_PI / std::tan(M_PI * y);
-    return randlib::RandMath::digamma(y) + z;
+    return RandMath::digamma(y) + z;
   }
   /// shift to minimum value,
   /// for which series expansion is applicable
@@ -415,7 +414,7 @@ double digammamLog(double x)
     throw std::invalid_argument("Argument x of (digamma - log) function should be non-negative");
   if(x == 0.0)
     return -INFINITY;
-  return (x < 7.0) ? randlib::RandMath::digamma(x) - std::log(x) : digammamLogForLargeX(x);
+  return (x < 7.0) ? RandMath::digamma(x) - std::log(x) : digammamLogForLargeX(x);
 }
 
 double trigamma(double x)
@@ -424,7 +423,7 @@ double trigamma(double x)
   if(x < 0.0)
   {
     double z = M_PI / std::sin(M_PI * x);
-    return z * z - randlib::RandMath::trigamma(1.0 - x);
+    return z * z - RandMath::trigamma(1.0 - x);
   }
   /// set up tables
   static constexpr long double taylorCoef[] = {0.16666666666666666666l, -0.03333333333333333333l, 0.02380952380952380952l, -0.03333333333333333333l, 0.07575757575757575757l, -0.25311355311355311355l};
@@ -550,7 +549,7 @@ double lpgamma(double a, double x, double logA, double lgammaA)
   if(x == 0.0)
     return 0.0;
   if(a == 1.0)
-    return randlib::RandMath::log1mexp(-x);
+    return RandMath::log1mexp(-x);
   double logX = std::log(x);
   REGULARISED_GAMMA_METHOD_ID mId = getRegularizedGammaMethodId(a, x, logX);
   return lpgammaRaw(a, x, logX, logA, lgammaA, mId);
@@ -562,7 +561,7 @@ double lpgamma(double a, double x, double logX)
   if(x == 0.0)
     return 0.0;
   if(a == 1.0)
-    return randlib::RandMath::log1mexp(-x);
+    return RandMath::log1mexp(-x);
   REGULARISED_GAMMA_METHOD_ID mId = getRegularizedGammaMethodId(a, x, logX);
   return lpgammaRaw(a, x, logX, std::log(a), std::lgammal(a), mId);
 }
@@ -573,7 +572,7 @@ double lpgamma(double a, double x)
   if(x == 0.0)
     return 0.0;
   if(a == 1.0)
-    return randlib::RandMath::log1mexp(-x);
+    return RandMath::log1mexp(-x);
   double logX = std::log(x);
   REGULARISED_GAMMA_METHOD_ID mId = getRegularizedGammaMethodId(a, x, logX);
   return lpgammaRaw(a, x, logX, std::log(a), std::lgammal(a), mId);
@@ -629,7 +628,7 @@ double qtGammaExpansionAux(double a, double logX, double logA, double lgammaA)
   long double sum = 0.0;
   for(int n = 1; n != 20; ++n)
   {
-    double addon = n * logX - randlib::RandMath::lfact(n);
+    double addon = n * logX - RandMath::lfact(n);
     addon = std::exp(addon);
     addon /= (a + n);
     sum += (n & 1) ? -addon : addon;
@@ -646,7 +645,7 @@ double lqgammaRaw(double a, double x, double logX, double logA, double lgammaA, 
   if(mId == QT)
   {
     double y = qtGammaExpansionAux(a, logX, logA, lgammaA);
-    return randlib::RandMath::log1mexp(y);
+    return RandMath::log1mexp(y);
   }
   if(mId == CF)
   {
@@ -758,7 +757,7 @@ double qgamma(double a, double x)
   return qgammaRaw(a, x, logX, std::log(a), std::lgammal(a), mId);
 }
 
-double randlib::RandMath::xexpxsqerfc(double x)
+double RandMath::xexpxsqerfc(double x)
 {
     static constexpr int MAX_X = 10;
     static constexpr int N = 10;
@@ -780,7 +779,7 @@ double randlib::RandMath::xexpxsqerfc(double x)
     return (1.0 + sum) / M_SQRTPI;
 }
 
-double randlib::RandMath::harmonicNumber(double exponent, int number)
+double RandMath::harmonicNumber(double exponent, int number)
 {
     if(number < 1)
         return 0;

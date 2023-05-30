@@ -4,6 +4,9 @@
 #include "../continuous/ExponentialRand.h"
 #include "BernoulliRand.h"
 
+#include "math/GammaMath.h"
+#include "math/BetaMath.h"
+
 template< typename IntType >
 BinomialDistribution<IntType>::BinomialDistribution(IntType number, double probability)
 {

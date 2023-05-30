@@ -6,7 +6,7 @@
 
 /// Gamma-related functions
 
-namespace randlib::RandMath
+namespace RandMath
 {
 
 /**
