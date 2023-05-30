@@ -1,6 +1,6 @@
 ﻿#include "RandMath.h"
 
-#include <functional>
+#include <cmath>
 
 using namespace RandMath;
 
