@@ -10,7 +10,7 @@
 
 #include "math/NumericMath.h"
 
-#include "RandLib_export.hpp"
+#include "RandLib_export.h"
 
 namespace randlib::RandMath
 {
