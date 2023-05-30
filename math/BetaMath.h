@@ -1,13 +1,11 @@
-#ifndef BETAMATH
-#define BETAMATH
+#pragma once
 
-#include "RandMath.h"
+#include "math/GammaMath.hpp"
 
-/// Beta-related functions
+#include <complex>
 
-namespace RandMath
+namespace randlib::RandMath
 {
-
 /**
  * @fn logBeta
  * Calculate logarithm of beta function
@@ -39,8 +37,4 @@ double ibeta(double x, double a, double b, double logBetaFun, double logX, doubl
  * @return I(x, a, b) = B(x, a, b) / B(a, b)
  */
 double ibeta(double x, double a, double b);
-
-}
-
-#endif // BETAMATH
-
+} // namespace randlib::RandMath

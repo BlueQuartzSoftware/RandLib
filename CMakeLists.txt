@@ -99,6 +99,7 @@ set(RANDLIB_SRCS
     ${RandLib_SOURCE_DIR}/math/BetaMath.cpp 
     ${RandLib_SOURCE_DIR}/math/GammaMath.cpp 
     ${RandLib_SOURCE_DIR}/math/NumericMath.cpp 
+    ${RandLib_SOURCE_DIR}/math/MarcumMath.cpp
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/MarchenkoPasturRand.cpp 
     ${RandLib_SOURCE_DIR}/distributions/bivariate/ContinuousBivariateDistribution.cpp 
     ${RandLib_SOURCE_DIR}/distributions/bivariate/DiscreteBivariateDistribution.cpp 
@@ -173,7 +174,8 @@ set(RANDLIB_HDRS
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/KolmogorovSmirnovRand.h 
     ${RandLib_SOURCE_DIR}/math/BetaMath.h 
     ${RandLib_SOURCE_DIR}/math/GammaMath.h 
-    ${RandLib_SOURCE_DIR}/math/NumericMath.h 
+    ${RandLib_SOURCE_DIR}/math/NumericMath.h
+    ${RandLib_SOURCE_DIR}/math/MarcumMath.h
     ${RandLib_SOURCE_DIR}/RandLib_global.h 
     ${RandLib_SOURCE_DIR}/distributions/univariate/continuous/MarchenkoPasturRand.h 
     ${RandLib_SOURCE_DIR}/distributions/bivariate/ContinuousBivariateDistribution.h 

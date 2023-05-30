@@ -1,11 +1,12 @@
-#ifndef GAMMAMATH
-#define GAMMAMATH
+#pragma once
 
-#include "RandMath.h"
+#include "RandMath.hpp"
+
+#include <complex>
 
 /// Gamma-related functions
 
-namespace RandMath
+namespace randlib::RandMath
 {
 
 /**
@@ -126,7 +127,7 @@ double pgamma(double a, double x, double logA, double lgammaA);
  */
 double pgamma(double a, double x, double logX);
 
- /**
+/**
  * @fn pgamma
  * Calculate lower regularized incomplete gamma function
  * @param a non-negative parameter
@@ -158,7 +159,7 @@ double lqgamma(double a, double x, double logA, double lgammaA);
  */
 double lqgamma(double a, double x, double logX);
 
- /**
+/**
  * @fn lqgamma
  * Calculate logarithm of upper incomplete gamma function
  * @param a non-negative parameter
@@ -198,7 +199,19 @@ double qgamma(double a, double x, double logX);
  * @return Q(a, x)
  */
 double qgamma(double a, double x);
-}
 
-#endif // GAMMAMATH
+/**
+ * @brief xexpxsqerfc
+ * @param x
+ * @return x * exp(x^2) * erfc(x)
+ */
+    double xexpxsqerfc(double x);
 
+/**
+ * @fn harmonicNumber
+ * @param exponent
+ * @param number
+ * @return sum_{i=1}^{number} i^{-exponent}
+ */
+    double harmonicNumber(double exponent, int number);
+} // namespace RandMath
