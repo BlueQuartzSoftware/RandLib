@@ -1,8 +1,8 @@
 #include "BasicRandGenerator.h"
+
 #include <iostream>
-#include <sys/types.h>
 #include <thread>
-#include <time.h>
+#include <ctime>
 
 unsigned long RandEngine::mix(unsigned long a, unsigned long b, unsigned long c)
 {
@@ -39,7 +39,7 @@ unsigned long RandEngine::mix(unsigned long a, unsigned long b, unsigned long c)
 unsigned long RandEngine::getRandomSeed()
 {
   static unsigned long dummy = 123456789;
-  return mix(time(0), std::hash<std::thread::id>()(std::this_thread::get_id()), ++dummy);
+  return mix(time(nullptr), std::hash<std::thread::id>()(std::this_thread::get_id()), ++dummy);
 }
 
 void JKissRandEngine::Reseed(unsigned long seed)

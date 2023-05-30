@@ -1,5 +1,4 @@
-#ifndef BASICRANDGENERATOR_H
-#define BASICRANDGENERATOR_H
+#pragma once
 
 #include "RandLib_global.h"
 #include <cstddef>
@@ -177,5 +176,3 @@ typedef BasicRandGenerator<JLKiss64RandEngine> RandGenerator;
 #else
 typedef BasicRandGenerator<JKissRandEngine> RandGenerator;
 #endif
-
-#endif // BASICRANDGENERATOR_H

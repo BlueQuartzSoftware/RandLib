@@ -40,35 +40,14 @@ target_include_directories(RandLib PUBLIC ${RandLib_BINARY_DIR}/generated)
 
 set(RANDLIB_SRCS
     ${RandLib_SOURCE_DIR}/distributions/BasicRandGenerator.cpp
-
-   ${RandLib_SOURCE_DIR}/math/BetaMath.cpp 
-    ${RandLib_SOURCE_DIR}/math/GammaMath.cpp 
-    ${RandLib_SOURCE_DIR}/math/MarcumMath.cpp
-    ${RandLib_SOURCE_DIR}/math/NumericMath.cpp 
-    ${RandLib_SOURCE_DIR}/math/RandMath.cpp 
 )
+
 set(RANDLIB_HDRS
     ${RandLib_SOURCE_DIR}/distributions/ProbabilityDistribution.h
     ${RandLib_SOURCE_DIR}/distributions/BasicRandGenerator.h 
     ${RandLib_SOURCE_DIR}/distributions/UniformRand.h 
     ${RandLib_SOURCE_DIR}/distributions/UniformDiscreteRand.h 
-    ${RandLib_SOURCE_DIR}/distributions/UnivariateDistribution.h 
-
-    ${RandLib_SOURCE_DIR}/external/checks.hpp 
-    ${RandLib_SOURCE_DIR}/external/floor.hpp 
-    ${RandLib_SOURCE_DIR}/external/gcem_options.hpp 
-    ${RandLib_SOURCE_DIR}/external/helpers.hpp 
-    ${RandLib_SOURCE_DIR}/external/log.hpp 
-    ${RandLib_SOURCE_DIR}/external/pow.hpp 
-    ${RandLib_SOURCE_DIR}/external/sgn.hpp 
-    ${RandLib_SOURCE_DIR}/external/sqrt.hpp
-
-    ${RandLib_SOURCE_DIR}/math/BetaMath.h 
-    ${RandLib_SOURCE_DIR}/math/Constants.h 
-    ${RandLib_SOURCE_DIR}/math/GammaMath.h 
-    ${RandLib_SOURCE_DIR}/math/MarcumMath.h
-    ${RandLib_SOURCE_DIR}/math/NumericMath.h
-    ${RandLib_SOURCE_DIR}/math/RandMath.h 
+    ${RandLib_SOURCE_DIR}/distributions/UnivariateDistribution.h
 
     ${RandLib_SOURCE_DIR}/RandLib_global.h 
     ${RandLib_SOURCE_DIR}/RandLib.h 
