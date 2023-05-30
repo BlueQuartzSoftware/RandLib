@@ -1,10 +1,8 @@
 #include "BasicRandGenerator.h"
 #include <iostream>
-#include <pthread.h>
 #include <sys/types.h>
 #include <thread>
 #include <time.h>
-#include <unistd.h>
 
 unsigned long RandEngine::mix(unsigned long a, unsigned long b, unsigned long c)
 {
