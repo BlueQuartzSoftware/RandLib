@@ -2,6 +2,7 @@
 
 namespace RandMath {
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 long double logBeta(long double a, long double b)
 {
     if (a <= 0 || b <= 0)
@@ -19,7 +20,13 @@ long double logBeta(long double a, long double b)
     long double lgammaApB = (apb == roundApB) ? lfact(roundApB - 1) : std::lgammal(apb);
     return lgammaA + lgammaB - lgammaApB;
 }
+#else
+long double logBeta(long double a, long double b)
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
 
+#endif
 double ibetaPowerSeries1(double x, double a, double b, double logBetaFun, double logX, double log1mX)
 {
     double addon = 1.0, sum = 0.0;

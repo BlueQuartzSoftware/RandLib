@@ -1,6 +1,8 @@
 #include "GumbelRand.h"
 #include "ExponentialRand.h"
 
+#include "log.hpp"
+
 template < typename RealType >
 GumbelRand<RealType>::GumbelRand(double location, double scale)
 {
@@ -100,7 +102,7 @@ RealType GumbelRand<RealType>::quantileImpl1m(double p) const
 template < typename RealType >
 RealType GumbelRand<RealType>::Median() const
 {
-    static constexpr double M_LN_LN2 = std::log(M_LN2);
+    static constexpr double M_LN_LN2 = nonstd::log(M_LN2);
     return mu - beta * M_LN_LN2;
 }
 

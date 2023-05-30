@@ -34,6 +34,7 @@ void BetaDistribution<RealType>::setCoefficientsForGenerator()
     }
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename RealType >
 void BetaDistribution<RealType>::SetShapes(double shape1, double shape2)
 {
@@ -47,6 +48,14 @@ void BetaDistribution<RealType>::SetShapes(double shape1, double shape2)
     logBetaFun = std::log(betaFun);
     setCoefficientsForGenerator();
 }
+#else
+template<typename RealType>
+void BetaDistribution<RealType>::SetShapes(double shape1, double shape2)
+{
+    throw std::invalid_argument("BetaDistribution<RealType>::SetShapes  RandLib compiler does not "
+                                "support math special functions");
+}
+#endif
 
 template < typename RealType >
 void BetaDistribution<RealType>::SetSupport(double minValue, double maxValue)

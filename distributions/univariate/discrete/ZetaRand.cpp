@@ -14,6 +14,7 @@ String ZetaRand<IntType>::Name() const
     return "Zeta(" + this->toStringWithPrecision(GetExponent()) + ")";
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename IntType >
 void ZetaRand<IntType>::SetExponent(double exponent)
 {
@@ -25,6 +26,14 @@ void ZetaRand<IntType>::SetExponent(double exponent)
     logZetaS = std::log(zetaS);
     b = -std::expm1l(-sm1 * M_LN2);
 }
+#else
+template<typename IntType>
+void ZetaRand<IntType>::SetExponent(double exponent)
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+
+#endif
 
 template < typename IntType >
 double ZetaRand<IntType>::logP(const IntType & k) const
@@ -64,11 +73,13 @@ IntType ZetaRand<IntType>::Variate() const
     throw std::runtime_error("Zeta distribution: sampling failed");
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename IntType >
 long double ZetaRand<IntType>::Mean() const
 {
     return (s > 2) ? std::riemann_zetal(sm1) / zetaS : INFINITY;
 }
+
 
 template < typename IntType >
 long double ZetaRand<IntType>::Variance() const
@@ -79,6 +90,18 @@ long double ZetaRand<IntType>::Variance() const
     double z = std::riemann_zetal(s - 2) / zetaS;
     return z - y * y;
 }
+#else
+template<typename IntType>
+long double ZetaRand<IntType>::Mean() const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+template<typename IntType>
+long double ZetaRand<IntType>::Variance() const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+#endif
 
 template < typename IntType >
 IntType ZetaRand<IntType>::Mode() const
@@ -86,6 +109,7 @@ IntType ZetaRand<IntType>::Mode() const
     return 1;
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename IntType >
 long double ZetaRand<IntType>::Skewness() const
 {
@@ -103,7 +127,13 @@ long double ZetaRand<IntType>::Skewness() const
     logskew -= 2 * logZetaS;
     return std::exp(logskew);
 }
-
+#else
+template<typename IntType>
+long double ZetaRand<IntType>::Skewness() const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+#endif
 template < typename IntType >
 long double ZetaRand<IntType>::ExcessKurtosis() const
 {
@@ -120,12 +150,19 @@ long double ZetaRand<IntType>::ExcessKurtosis() const
     return numerator / denominator - 3.0;
 }
 
+#if HAVE_MATH_SPECIAL_FUNCTIONS
 template < typename IntType >
 long double ZetaRand<IntType>::Moment(int n) const
 {
     return (s > n + 1) ? std::riemann_zetal(s - n) / zetaS : INFINITY;
 }
-
+#else
+template<typename IntType>
+long double ZetaRand<IntType>::Moment(int n) const
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+#endif
 template class ZetaRand<int>;
 template class ZetaRand<long int>;
 template class ZetaRand<long long int>;

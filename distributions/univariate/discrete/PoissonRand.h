@@ -64,7 +64,7 @@ private:
 public:
     IntType Variate() const override;
     static IntType Variate(double rate, RandGenerator &randGenerator = ProbabilityDistribution<IntType>::staticRandGenerator);
-    void Sample(std::vector<IntType> &outputData) const;
+    void Sample(std::vector<IntType> &outputData) const override;
 
     long double Mean() const override;
     long double Variance() const override;
