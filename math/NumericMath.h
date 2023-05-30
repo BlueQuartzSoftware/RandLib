@@ -3,6 +3,7 @@
 #include "math/Constants.h"
 
 #include <algorithm>
+#include <functional>
 
 /// Numerical procedures
 
