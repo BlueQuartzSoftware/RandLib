@@ -47,4 +47,4 @@ double MarcumQ(double mu, double x, double y, double sqrtX, double sqrtY, double
  * @return Marcum Q-function
  */
 double MarcumQ(double mu, double x, double y);
-} // namespace randlib
+} // namespace RandMath

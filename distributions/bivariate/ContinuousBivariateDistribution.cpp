@@ -1,7 +1,7 @@
 #include "ContinuousBivariateDistribution.h"
-#include "../univariate/continuous/StudentTRand.h"
-#include "../univariate/continuous/NormalRand.h"
 #include "../univariate/continuous/InverseGammaRand.h"
+#include "../univariate/continuous/NormalRand.h"
+#include "../univariate/continuous/StudentTRand.h"
 
 template class ContinuousBivariateDistribution<NormalRand<float>, NormalRand<float>, float>;
 template class ContinuousBivariateDistribution<NormalRand<double>, NormalRand<double>, double>;

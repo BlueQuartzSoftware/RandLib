@@ -205,7 +205,7 @@ double qgamma(double a, double x);
  * @param x
  * @return x * exp(x^2) * erfc(x)
  */
-    double xexpxsqerfc(double x);
+double xexpxsqerfc(double x);
 
 /**
  * @fn harmonicNumber
@@ -213,5 +213,5 @@ double qgamma(double a, double x);
  * @param number
  * @return sum_{i=1}^{number} i^{-exponent}
  */
-    double harmonicNumber(double exponent, int number);
+double harmonicNumber(double exponent, int number);
 } // namespace RandMath

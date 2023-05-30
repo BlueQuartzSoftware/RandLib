@@ -759,36 +759,36 @@ double qgamma(double a, double x)
 
 double RandMath::xexpxsqerfc(double x)
 {
-    static constexpr int MAX_X = 10;
-    static constexpr int N = 10;
-    if(x < MAX_X)
-    {
-        double y = x * x;
-        y += std::log(std::erfc(x));
-        return x * std::exp(y);
-    }
-    double log2xSq = M_LN2 + 2 * std::log(x);
-    double sum = 0.0;
-    for(int n = 1; n != N; ++n)
-    {
-        double add = RandMath::ldfact(2 * n - 1);
-        add -= n * log2xSq;
-        add = std::exp(add);
-        sum += (n & 1) ? -add : add;
-    }
-    return (1.0 + sum) / M_SQRTPI;
+  static constexpr int MAX_X = 10;
+  static constexpr int N = 10;
+  if(x < MAX_X)
+  {
+    double y = x * x;
+    y += std::log(std::erfc(x));
+    return x * std::exp(y);
+  }
+  double log2xSq = M_LN2 + 2 * std::log(x);
+  double sum = 0.0;
+  for(int n = 1; n != N; ++n)
+  {
+    double add = RandMath::ldfact(2 * n - 1);
+    add -= n * log2xSq;
+    add = std::exp(add);
+    sum += (n & 1) ? -add : add;
+  }
+  return (1.0 + sum) / M_SQRTPI;
 }
 
 double RandMath::harmonicNumber(double exponent, int number)
 {
-    if(number < 1)
-        return 0;
-    if(exponent == 1)
-        return M_EULER + digamma(number + 1);
-    if(exponent == 2)
-        return M_PI_SQ / 6.0 - trigamma(number + 1);
-    double res = 1.0;
-    for(int i = 2; i <= number; ++i)
-        res += std::pow(i, -exponent);
-    return res;
+  if(number < 1)
+    return 0;
+  if(exponent == 1)
+    return M_EULER + digamma(number + 1);
+  if(exponent == 2)
+    return M_PI_SQ / 6.0 - trigamma(number + 1);
+  double res = 1.0;
+  for(int i = 2; i <= number; ++i)
+    res += std::pow(i, -exponent);
+  return res;
 }

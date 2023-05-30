@@ -105,7 +105,7 @@ long double logBeta(long double a, long double b)
 #else
 long double logBeta(long double a, long double b)
 {
-    throw std::runtime_error("RandLib compiler does not support math special functions");
+  throw std::runtime_error("RandLib compiler does not support math special functions");
 }
 #endif
 

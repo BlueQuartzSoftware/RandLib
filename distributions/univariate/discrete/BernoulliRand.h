@@ -18,25 +18,25 @@
  */
 class RANDLIBSHARED_EXPORT BernoulliRand : public BinomialDistribution<int>
 {
-    unsigned long long boundary = 0;///< coefficient for faster random number generation
+  unsigned long long boundary = 0; ///< coefficient for faster random number generation
 
 public:
-    explicit BernoulliRand(double probability = 0.5);
-    String Name() const override;
+  explicit BernoulliRand(double probability = 0.5);
+  String Name() const override;
 
 public:
-    void SetProbability(double probability);
+  void SetProbability(double probability);
 
-    double P(const int & k) const override;
-    double logP(const int & k) const override;
-    double F(const int & k) const override;
-    double S(const int & k) const override;
-    int Variate() const override;
-    static int Variate(double probability, RandGenerator &randGenerator = ProbabilityDistribution<int>::staticRandGenerator);
-    static int StandardVariate(RandGenerator &randGenerator = ProbabilityDistribution<int>::staticRandGenerator);
-    void Sample(std::vector<int> &outputData) const override;
+  double P(const int& k) const override;
+  double logP(const int& k) const override;
+  double F(const int& k) const override;
+  double S(const int& k) const override;
+  int Variate() const override;
+  static int Variate(double probability, RandGenerator& randGenerator = ProbabilityDistribution<int>::staticRandGenerator);
+  static int StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<int>::staticRandGenerator);
+  void Sample(std::vector<int>& outputData) const override;
 
-    inline double Entropy();
+  inline double Entropy();
 };
 
 #endif // BERNOULLIRAND_H

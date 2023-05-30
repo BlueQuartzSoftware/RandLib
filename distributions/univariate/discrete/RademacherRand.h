@@ -1,8 +1,8 @@
 #ifndef RADEMACHERRAND_H
 #define RADEMACHERRAND_H
 
-#include "DiscreteDistribution.h"
 #include "../BasicRandGenerator.h"
+#include "DiscreteDistribution.h"
 
 /**
  * @brief The RademacherRand class <BR>
@@ -18,31 +18,40 @@
 class RANDLIBSHARED_EXPORT RademacherRand : public DiscreteDistribution<int>
 {
 public:
-    RademacherRand();
-    String Name() const override;
-    SUPPORT_TYPE SupportType() const override { return FINITE_T; }
-    int MinValue() const override { return -1; }
-    int MaxValue() const override { return 1; }
+  RademacherRand();
+  String Name() const override;
+  SUPPORT_TYPE SupportType() const override
+  {
+    return FINITE_T;
+  }
+  int MinValue() const override
+  {
+    return -1;
+  }
+  int MaxValue() const override
+  {
+    return 1;
+  }
 
-    double P(const int & k) const override;
-    double logP(const int & k) const override;
-    double F(const int & k) const override;
-    int Variate() const override;
+  double P(const int& k) const override;
+  double logP(const int& k) const override;
+  double F(const int& k) const override;
+  int Variate() const override;
 
-    long double Mean() const override;
-    long double Variance() const override;
-    int Median() const override;
-    int Mode() const override;
-    long double Skewness() const override;
-    long double ExcessKurtosis() const override;
+  long double Mean() const override;
+  long double Variance() const override;
+  int Median() const override;
+  int Mode() const override;
+  long double Skewness() const override;
+  long double ExcessKurtosis() const override;
 
 private:
-    int quantileImpl(double p) const override;
-    int quantileImpl1m(double p) const override;
-    std::complex<double> CFImpl(double t) const override;
+  int quantileImpl(double p) const override;
+  int quantileImpl1m(double p) const override;
+  std::complex<double> CFImpl(double t) const override;
 
 public:
-    double Entropy();
+  double Entropy();
 };
 
 #endif // RADEMACHERRAND_H
