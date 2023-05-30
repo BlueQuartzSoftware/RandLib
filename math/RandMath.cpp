@@ -289,74 +289,81 @@ double RandMath::erfcinv(double p)
   return (p > 5e-16) ? erfinvAux2(beta) : erfinvAux1(beta);
 }
 
-long double RandMath::logBesselI(double nu, double x)
+#if HAVE_MATH_SPECIAL_FUNCTIONS
+long double logBesselI(double nu, double x)
 {
-  if(x < 0)
-  {
-    double roundNu = std::round(nu);
-    bool nuIsInt = areClose(nu, roundNu);
-    if(nuIsInt)
-    {
-      int nuInt = roundNu;
-      return (nuInt % 2) ? NAN : RandMath::logBesselI(nu, -x);
+    if (x < 0) {
+        double roundNu = std::round(nu);
+        bool nuIsInt = areClose(nu, roundNu);
+        if (nuIsInt) {
+            int nuInt = roundNu;
+            return (nuInt % 2) ? NAN : logBesselI(nu, -x);
+        }
+        return -INFINITY;
     }
-    return -INFINITY;
-  }
 
-  if(x == 0)
-  {
-    if(nu == 0)
-      return 0.0;
-    double roundNu = std::round(nu);
-    bool nuIsInt = areClose(nu, roundNu);
-    return (nu > 0 || nuIsInt) ? -INFINITY : INFINITY;
-  }
-
-  if(std::fabs(nu) == 0.5)
-  {
-    /// log(sinh(x)) or log(cosh(x))
-    long double y = x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
-    y += (nu > 0) ? RandMath::softplus(-2 * x) : RandMath::log1mexp(-2 * x);
-    return y;
-  }
-
-  if(nu < 0)
-  {
-    /// I(ν, x) = I(−ν, x) - 2 / π sin(πν) K(ν, x)
-    long double besseli = std::cyl_bessel_il(-nu, x);
-    long double sinPiNu = -std::sin(M_PI * nu);
-    long double y = 0;
-    if(sinPiNu == 0 || RandMath::areClose(nu, std::round(nu)))
-      y = besseli;
-    else
-    {
-      long double besselk = std::cyl_bessel_kl(-nu, x);
-      y = besseli - M_2_PI * sinPiNu * besselk;
+    if (x == 0) {
+        if (nu == 0)
+            return 0.0;
+        double roundNu = std::round(nu);
+        bool nuIsInt = areClose(nu, roundNu);
+        return (nu > 0 || nuIsInt) ? -INFINITY : INFINITY;
     }
-    return (y <= 0) ? -INFINITY : std::log(y);
-  }
 
-  long double besseli = std::cyl_bessel_il(nu, x); // TODO: expand Hankel asymptotic expansions
-  return std::isfinite(besseli) ? std::log(besseli) : x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
+    if (std::fabs(nu) == 0.5) {
+        /// log(sinh(x)) or log(cosh(x))
+        long double y = x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
+        y += (nu > 0) ? RandMath::softplus(-2 * x) : RandMath::log1mexp(-2 * x);
+        return y;
+    }
+
+    if (nu < 0) {
+        /// I(ν, x) = I(−ν, x) - 2 / π sin(πν) K(ν, x)
+        long double besseli = std::cyl_bessel_il(-nu, x);
+        long double sinPiNu = -std::sin(M_PI * nu);
+        long double y = 0;
+        if (sinPiNu == 0 || RandMath::areClose(nu, std::round(nu)))
+            y = besseli;
+        else {
+            long double besselk = std::cyl_bessel_kl(-nu, x);
+            y = besseli - M_2_PI * sinPiNu * besselk;
+        }
+        return (y <= 0) ? -INFINITY : std::log(y);
+    }
+
+    long double besseli = std::cyl_bessel_il(nu, x); // TODO: expand Hankel asymptotic expansions
+    return std::isfinite(besseli) ? std::log(besseli) : x - 0.5 * (M_LN2 + M_LNPI + std::log(x));
 }
 
-long double RandMath::logBesselK(double nu, double x)
+
+long double logBesselK(double nu, double x)
 {
-  if(nu < 0.0)
-    return NAN; /// K(-ν, x) = -K(ν, x) < 0
+    if (nu < 0.0)
+        return NAN; /// K(-ν, x) = -K(ν, x) < 0
 
-  if(x == 0.0)
-    return INFINITY;
+    if (x == 0.0)
+        return INFINITY;
 
-  long double besselk = 0;
-  if(nu == 0.5 || (besselk = std::cyl_bessel_kl(nu, x)) == 0)
-    return 0.5 * (M_LNPI - M_LN2 - std::log(x)) - x;
+    long double besselk = 0;
+    if (nu == 0.5 || (besselk = std::cyl_bessel_kl(nu, x)) == 0)
+        return 0.5 * (M_LNPI - M_LN2 - std::log(x)) - x;
 
-  if(!std::isfinite(besselk)) // TODO: expand Hankel asymptotic expansions
-    return (nu == 0) ? std::log(-std::log(x)) : std::lgammal(nu) - M_LN2 - nu * std::log(0.5 * x);
+    if (!std::isfinite(besselk)) // TODO: expand Hankel asymptotic expansions
+        return (nu == 0) ? std::log(-std::log(x)) : std::lgammal(nu) - M_LN2 - nu * std::log(0.5 * x);
 
-  return std::log(besselk);
+    return std::log(besselk);
 }
+#else
+long double logBesselI(double nu, double x)
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+long double logBesselK(double nu, double x)
+{
+    throw std::runtime_error("RandLib compiler does not support math special functions");
+}
+
+#endif
 
 double RandMath::W0Lambert(double x, double epsilon)
 {
