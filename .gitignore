@@ -3,3 +3,7 @@ unit_tests/*
 cov-int/*
 documentation/document.log
 build
+.idea/*
+cinclude2dot.pl
+cmake-build-debug/*
+cmake-build-release/*
