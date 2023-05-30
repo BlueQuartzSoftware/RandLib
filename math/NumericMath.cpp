@@ -1,4 +1,4 @@
-#include "NumericMath.hpp"
+#include "NumericMath.h"
 
 using namespace randlib;
 using namespace randlib::RandMath;

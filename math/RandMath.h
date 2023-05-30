@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "math/NumericMath.hpp"
+#include "math/NumericMath.h"
 
 #include "RandLib_export.hpp"
 

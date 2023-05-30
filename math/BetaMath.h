@@ -1,6 +1,6 @@
 #pragma once
 
-#include "math/GammaMath.hpp"
+#include "math/GammaMath.h"
 
 #include <complex>
 

@@ -1,4 +1,4 @@
-﻿#include "RandMath.hpp"
+﻿#include "RandMath.h"
 
 #include <functional>
 

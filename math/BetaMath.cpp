@@ -1,4 +1,4 @@
-#include "BetaMath.hpp"
+#include "BetaMath.h"
 
 using namespace randlib::RandMath;
 

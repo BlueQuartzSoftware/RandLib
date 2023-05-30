@@ -1,6 +1,6 @@
 #pragma once
 
-#include "math/Constants.hpp"
+#include "math/Constants.h"
 
 #include <algorithm>
 

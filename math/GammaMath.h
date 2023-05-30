@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RandMath.hpp"
+#include "RandMath.h"
 
 #include <complex>
 

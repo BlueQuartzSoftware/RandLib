@@ -1,4 +1,4 @@
-#include "GammaMath.hpp"
+#include "GammaMath.h"
 
 using namespace randlib;
 using namespace randlib::RandMath;
