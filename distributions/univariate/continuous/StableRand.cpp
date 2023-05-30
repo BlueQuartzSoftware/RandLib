@@ -533,12 +533,13 @@ double StableDistribution<RealType>::pdfForGeneralExponent(double x) const
 
     /// Search for the peak of the integrand
     double theta0 = 0;
-    std::function<double (double)> funPtr = std::bind(&StableDistribution<RealType>::integrandAuxForGeneralExponent, this, std::placeholders::_1, xAdj, xiAdj);
-    RandMath::findRootBrentFirstOrder(funPtr, -xiAdj, M_PI_2, theta0);
+    std::function<double(double)> funPtr = std::bind(&StableDistribution<RealType>::integrandAuxForGeneralExponent, this, std::placeholders::_1, xAdj, xiAdj);
+    RandMath::findRootBrentFirstOrder<double>(funPtr, -xiAdj, M_PI_2, theta0);
 
-    /// If theta0 is too close to π/2 or -xiAdj then we can still underestimate the integral
+    /// If theta0 is too close to π/2 or -xiAdj then we can still underestimate
+    /// the integral
     int maxRecursionDepth = 11;
-    double closeness = std::min(M_PI_2 - theta0, theta0 + xiAdj);
+    double closeness = std::min(M_PI_2 - static_cast<long double>(theta0), static_cast<long double>(theta0) + static_cast<long double>(xiAdj));
     if (closeness < 0.1)
         maxRecursionDepth = 20;
     else if (closeness < 0.2)
