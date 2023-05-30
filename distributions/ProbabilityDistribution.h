@@ -16,7 +16,7 @@ template < typename T >
 class RANDLIBSHARED_EXPORT ProbabilityDistribution
 {
 protected:
-    static thread_local RandGenerator staticRandGenerator;
+    static  RandGenerator staticRandGenerator;
 
     mutable RandGenerator localRandGenerator{};
 

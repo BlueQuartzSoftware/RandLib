@@ -22,7 +22,7 @@ unsigned long RandEngine::mix(unsigned long a, unsigned long b, unsigned long c)
 
 unsigned long RandEngine::getRandomSeed()
 {
-    static thread_local unsigned long dummy = 123456789;
+    static  unsigned long dummy = 123456789;
     return mix(time(0), std::hash<std::thread::id>()(std::this_thread::get_id()), ++dummy);
 }
 

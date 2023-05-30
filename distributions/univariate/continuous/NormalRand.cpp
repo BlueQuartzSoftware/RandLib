@@ -122,7 +122,7 @@ RealType NormalRand<RealType>::StandardVariate(RandGenerator &randGenerator)
             return ((signed)B > 0) ? x : -x;
         if (stairId == 0) /// handle the base layer
         {
-            static thread_local RealType z = -1;
+            static  RealType z = -1;
             if (z > 0) /// we don't have to generate another exponential variable as we already have one
             {
                 x = ExponentialRand<RealType>::StandardVariate(randGenerator) / ziggurat[1].second;
