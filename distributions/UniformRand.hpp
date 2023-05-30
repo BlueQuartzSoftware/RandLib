@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UnivariateDistribution.h"
+#include "UnivariateDistribution.hpp"
 
 /**
  * @brief The UniformRand class <BR>
@@ -15,12 +15,10 @@
  * (X - a) / (b - a) ~ IH(1)
  */
 template <typename RealType = double>
-class RANDLIBSHARED_EXPORT UniformRand : public UnivariateDistribution<RealType>
+class RANDLIB_EXPORT UniformRand : public UnivariateDistribution<RealType>
 {
     static_assert(std::is_floating_point_v<RealType>, "Continuous distribution supports only floating-point types");
 
-    RealType alpha = 1; ///< first shape α
-    RealType beta = 1; ///< second shape β
     RealType a = 0; ///< min bound
     RealType b = 1; ///< max bound
     RealType bma = 1; ///< b-a
@@ -52,7 +50,7 @@ public:
       SetSupport(minValue,maxValue);
   }
 
-  String Name() const override
+  std::string Name() const override
   {
       return "Uniform(" + this->toStringWithPrecision(MinValue()) + ", " + this->toStringWithPrecision(MaxValue()) + ")";
   }

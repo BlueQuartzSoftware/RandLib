@@ -34,7 +34,7 @@ endif()
 set(RANDLIB_EXPORT_HEADER ${RandLib_BINARY_DIR}/generated/RandLib_export.h)
 
 include(GenerateExportHeader)
-generate_export_header(RandLib EXPORT_FILE_NAME ${RANDLIB_EXPORT_HEADER} EXPORT_MACRO_NAME RANDLIBSHARED_EXPORT)
+generate_export_header(RandLib EXPORT_FILE_NAME ${RANDLIB_EXPORT_HEADER})
 
 target_include_directories(RandLib PUBLIC ${RandLib_BINARY_DIR}/generated)
 
@@ -43,14 +43,13 @@ set(RANDLIB_SRCS
 )
 
 set(RANDLIB_HDRS
-    ${RandLib_SOURCE_DIR}/distributions/ProbabilityDistribution.h
-    ${RandLib_SOURCE_DIR}/distributions/BasicRandGenerator.h 
-    ${RandLib_SOURCE_DIR}/distributions/UniformRand.h 
-    ${RandLib_SOURCE_DIR}/distributions/UniformDiscreteRand.h 
-    ${RandLib_SOURCE_DIR}/distributions/UnivariateDistribution.h
+    ${RandLib_SOURCE_DIR}/distributions/ProbabilityDistribution.hpp
+    ${RandLib_SOURCE_DIR}/distributions/BasicRandGenerator.hpp
+    ${RandLib_SOURCE_DIR}/distributions/UniformRand.hpp
+    ${RandLib_SOURCE_DIR}/distributions/UniformDiscreteRand.hpp
+    ${RandLib_SOURCE_DIR}/distributions/UnivariateDistribution.hpp
 
-    ${RandLib_SOURCE_DIR}/RandLib_global.h 
-    ${RandLib_SOURCE_DIR}/RandLib.h 
+    ${RandLib_SOURCE_DIR}/RandLib_global.h
 )
 
 target_sources(RandLib

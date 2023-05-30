@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ProbabilityDistribution.h"
+#include "ProbabilityDistribution.hpp"
 
+#include <functional>
 #include <complex>
 #include <numeric>
 
@@ -9,8 +10,7 @@ enum SUPPORT_TYPE
 {
   FINITE_T,
   RIGHTSEMIFINITE_T,
-  LEFTSEMIFINITE_T,
-  INFINITE_T
+  LEFTSEMIFINITE_T
 };
 
 /**
@@ -18,7 +18,7 @@ enum SUPPORT_TYPE
  * Abstract class for all univariate probability distributions
  */
 template <typename T>
-class UnivariateDistribution : public ProbabilityDistribution<T>
+class RANDLIB_EXPORT UnivariateDistribution : public ProbabilityDistribution<T>
 {
 protected:
 UnivariateDistribution() = default;
@@ -541,7 +541,7 @@ virtual std::complex<double> CFImpl(double t) const
 
     double im = this->ExpectedValue([t](double x) { return std::sin(t * x); }, leftBound, rightBound);
 
-    return std::complex<double>(re, im);
+    return {re, im};
 }
 
 //--------------------------------------------------------------------------------------

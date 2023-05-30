@@ -1,4 +1,4 @@
-#include "BasicRandGenerator.h"
+#include "BasicRandGenerator.hpp"
 
 #include <iostream>
 #include <thread>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BasicRandGenerator.h"
-#include "UnivariateDistribution.h"
+#include "BasicRandGenerator.hpp"
+#include "UnivariateDistribution.hpp"
 
 /**
  * @brief The UniformDiscreteRand class <BR>
@@ -12,7 +12,7 @@
  * P(X = k) = 1 / (b - a + 1) for a <= k <= b
  */
 template <typename IntType = int>
-class RANDLIBSHARED_EXPORT UniformDiscreteRand : public UnivariateDistribution<IntType>
+class RANDLIB_EXPORT UniformDiscreteRand : public UnivariateDistribution<IntType>
 {
     static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>, "Discrete distribution supports only signed integral types");
 
@@ -32,7 +32,7 @@ public:
       SetBoundaries(minValue, maxValue);
   }
 
-  String Name() const override
+  std::string Name() const override
   {
       return "Uniform Discrete(" + this->toStringWithPrecision(MinValue()) + ", " + this->toStringWithPrecision(MaxValue()) + ")";
   }

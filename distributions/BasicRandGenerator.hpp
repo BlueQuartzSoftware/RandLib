@@ -7,7 +7,7 @@
 /**
  * @brief The RandEngine class
  */
-class RANDLIBSHARED_EXPORT RandEngine
+class RANDLIB_EXPORT RandEngine
 {
 protected:
   /**
@@ -26,12 +26,9 @@ protected:
   static unsigned long getRandomSeed();
 
 public:
-  RandEngine()
-  {
-  }
-  virtual ~RandEngine()
-  {
-  }
+  RandEngine() = default;
+  virtual ~RandEngine() = default;
+
   virtual unsigned long long MinValue() const = 0;
   virtual unsigned long long MaxValue() const = 0;
   virtual void Reseed(unsigned long seed) = 0;
@@ -41,7 +38,7 @@ public:
 /**
  * @brief The JKissRandEngine class
  */
-class RANDLIBSHARED_EXPORT JKissRandEngine : public RandEngine
+class RANDLIB_EXPORT JKissRandEngine : public RandEngine
 {
   unsigned int X{};
   unsigned int C{};
@@ -53,22 +50,22 @@ public:
   {
     this->Reseed(getRandomSeed());
   }
-  unsigned long long MinValue() const
+  unsigned long long MinValue() const override
   {
     return 0;
   }
-  unsigned long long MaxValue() const
+  unsigned long long MaxValue() const override
   {
     return 4294967295UL;
   }
-  void Reseed(unsigned long seed);
-  unsigned long long Next();
+  void Reseed(unsigned long seed) override;
+  unsigned long long Next() override;
 };
 
 /**
  * @brief The JLKiss64RandEngine class
  */
-class RANDLIBSHARED_EXPORT JLKiss64RandEngine : public RandEngine
+class RANDLIB_EXPORT JLKiss64RandEngine : public RandEngine
 {
   unsigned long long X{};
   unsigned long long Y{};
@@ -82,23 +79,23 @@ public:
   {
     this->Reseed(getRandomSeed());
   }
-  unsigned long long MinValue() const
+  unsigned long long MinValue() const override
   {
     return 0;
   }
-  unsigned long long MaxValue() const
+  unsigned long long MaxValue() const override
   {
     return 18446744073709551615ULL;
   }
-  void Reseed(unsigned long seed);
-  unsigned long long Next();
+  void Reseed(unsigned long seed) override;
+  unsigned long long Next() override;
 };
 
 /**
  * @brief The PCGRandEngine class
  * Random number generator, taken from http://www.pcg-random.org/
  */
-class RANDLIBSHARED_EXPORT PCGRandEngine : public RandEngine
+class RANDLIB_EXPORT PCGRandEngine : public RandEngine
 {
   unsigned long long state{};
   unsigned long long inc{};
@@ -108,16 +105,16 @@ public:
   {
     this->Reseed(getRandomSeed());
   }
-  unsigned long long MinValue() const
+  unsigned long long MinValue() const override
   {
     return 0;
   }
-  unsigned long long MaxValue() const
+  unsigned long long MaxValue() const override
   {
     return 4294967295UL;
   }
-  void Reseed(unsigned long seed);
-  unsigned long long Next();
+  void Reseed(unsigned long seed) override;
+  unsigned long long Next() override;
 };
 
 /**
@@ -125,7 +122,7 @@ public:
  * Class for generators of random number, evenly spreaded from 0 to some integer value
  */
 template <class Engine>
-class RANDLIBSHARED_EXPORT BasicRandGenerator
+class RANDLIB_EXPORT BasicRandGenerator
 {
   static_assert(std::is_base_of<RandEngine, Engine>::value, "Engine must be a descendant of RandEngine");
 
@@ -149,9 +146,8 @@ class RANDLIBSHARED_EXPORT BasicRandGenerator
   }
 
 public:
-  BasicRandGenerator()
-  {
-  }
+  BasicRandGenerator() = default;
+  ~BasicRandGenerator() = default;
 
   unsigned long long Variate()
   {
