@@ -17,8 +17,8 @@ enum SUPPORT_TYPE
  * @brief The UnivariateDistribution class <BR>
  * Abstract class for all univariate probability distributions
  */
-template <typename T>
-class RANDLIB_EXPORT UnivariateDistribution : public ProbabilityDistribution<T>
+template <typename T, class Engine = JLKiss64RandEngine>
+class RANDLIB_EXPORT UnivariateDistribution : public ProbabilityDistribution<T, Engine>
 {
 protected:
   UnivariateDistribution() = default;

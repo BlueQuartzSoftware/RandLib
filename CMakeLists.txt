@@ -66,3 +66,16 @@ target_include_directories(RandLib
   $<BUILD_INTERFACE:${SEARCH_INCLUDE_DIR}>
   $<INSTALL_INTERFACE:include>
 )
+
+# testing binary
+add_executable(UniformTesting ${RandLib_SOURCE_DIR}/testing/UniformTesting.cpp)
+target_link_libraries(UniformTesting PRIVATE RandLib)
+
+# enable testing functionality
+enable_testing()
+
+# define tests
+add_test(
+  NAME UniformTesting
+  COMMAND $<TARGET_FILE:UniformTesting>
+  )

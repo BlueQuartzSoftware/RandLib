@@ -121,7 +121,7 @@ public:
  * @brief The BasicRandGenerator class
  * Class for generators of random number, evenly spreaded from 0 to some integer value
  */
-template <class Engine>
+template <class Engine = JLKiss64RandEngine>
 class RANDLIB_EXPORT BasicRandGenerator
 {
   static_assert(std::is_base_of<RandEngine, Engine>::value, "Engine must be a descendant of RandEngine");

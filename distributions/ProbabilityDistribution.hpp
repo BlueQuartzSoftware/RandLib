@@ -11,7 +11,7 @@
  * @brief The ProbabilityDistribution class <BR>
  * Abstract class for all probability distributions
  */
-template <typename T>
+template <typename T, class Engine = JLKiss64RandEngine>
 class RANDLIB_EXPORT ProbabilityDistribution
 {
 protected:
@@ -119,9 +119,9 @@ public:
   }
 
 protected:
-  static thread_local RandGenerator staticRandGenerator;
+  static thread_local BasicRandGenerator<Engine> staticRandGenerator;
 
-  mutable RandGenerator localRandGenerator{};
+  mutable BasicRandGenerator<Engine> localRandGenerator = BasicRandGenerator<Engine>{};
 
   /**
    * @brief MAX_ITER_REJECTION

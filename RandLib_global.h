@@ -6,6 +6,8 @@
 #include <cmath>
 #include <string>
 
+constexpr long double MIN_POSITIVE = 1e-21l;
+
 template <typename T>
 using Pair = std::pair<T, T>;
 
@@ -94,4 +96,8 @@ constexpr long double M_SQRT2 = 1.41421356237309504880l;
 
 #ifndef M_SQRT1_2
 constexpr long double M_SQRT1_2 = 0.70710678118654752440l;
+#endif
+
+#ifndef M_SQRT5
+constexpr long double M_SQRT5 = 2.23606797749978969640l;
 #endif
