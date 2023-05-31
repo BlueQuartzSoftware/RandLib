@@ -2,6 +2,8 @@
 
 #include "UnivariateDistribution.hpp"
 
+#include <algorithm>
+
 namespace
 {
 /**
