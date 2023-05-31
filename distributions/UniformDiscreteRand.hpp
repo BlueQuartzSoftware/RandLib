@@ -7,7 +7,7 @@
  *@brief The DiscreteDistribution class <BR>
  * Abstract class for all discrete distributions
  */
-template <typename IntType, class Engine>
+template <typename IntType, class Engine = JLKiss64RandEngine>
 class RANDLIB_EXPORT DiscreteDistribution : virtual public UnivariateDistribution<IntType, Engine>
 {
   static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>, "Discrete distribution supports only signed integral types");
@@ -387,7 +387,7 @@ public:
     return a + (intVar % n);
   }
 
-  static IntType StandardVariate(IntType minValue = 0, IntType maxValue = 1, RandGenerator& randGenerator = ProbabilityDistribution<IntType, Engine>::staticRandGenerator)
+  static IntType StandardVariate(IntType minValue = 0, IntType maxValue = 1, BasicRandGenerator<Engine>& randGenerator = ProbabilityDistribution<IntType, Engine>::staticRandGenerator)
   {
     unsigned long long MAX_RAND = randGenerator.MaxValue();
     IntType n = maxValue - minValue + 1;

@@ -167,8 +167,3 @@ public:
   }
 };
 
-#ifdef JLKISS64RAND
-typedef BasicRandGenerator<JLKiss64RandEngine> RandGenerator;
-#else
-typedef BasicRandGenerator<JKissRandEngine> RandGenerator;
-#endif

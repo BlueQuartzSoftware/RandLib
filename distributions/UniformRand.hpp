@@ -21,8 +21,19 @@ bool areClose(RealType a, RealType b, RealType eps = 1e-6)
   return std::fabs(b - a) < eps * std::max(fa, fb);
 }
 
+/**
+ * @fn sign
+ * @param x
+ * @return sign of x
+ */
 template <typename RealType>
-RealType adaptiveSimpsonsAux(const std::function<RealType(RealType)>& funPtr, RealType a, RealType b, RealType epsilon, RealType S, RealType fa, RealType fb, RealType fc, int bottom)
+int sign(RealType x)
+{
+  return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+}
+
+template <typename RealType>
+RealType adaptiveSimpsonsAux(const std::function<double(double)>& funPtr, RealType a, RealType b, RealType epsilon, RealType S, RealType fa, RealType fb, RealType fc, int bottom)
 {
   RealType c = .5 * (a + b), h = (b - a) / 12.0;
   RealType d = .5 * (a + c), e = .5 * (c + b);
@@ -50,7 +61,7 @@ RealType adaptiveSimpsonsAux(const std::function<RealType(RealType)>& funPtr, Re
  * @return
  */
 template <typename RealType>
-RealType integral(const std::function<RealType(RealType)>& funPtr, RealType a, RealType b, RealType epsilon, int maxRecursionDepth)
+RealType integral(const std::function<double(double)>& funPtr, RealType a, RealType b, RealType epsilon = 1e-11, int maxRecursionDepth = 11)
 {
   {
     if(a > b)
@@ -803,7 +814,7 @@ class RANDLIB_EXPORT UniformRand : public ContinuousDistribution<RealType, Engin
    * @param minValue a
    * @param maxValue b
    */
-  void SetSupport(double minValue, double maxValue)
+  void SetSupport(RealType minValue, RealType maxValue)
   {
     if(minValue >= maxValue)
       throw std::invalid_argument("Beta distribution: minimum value should be "
@@ -817,8 +828,8 @@ class RANDLIB_EXPORT UniformRand : public ContinuousDistribution<RealType, Engin
   }
 
 public:
-  UniformRand(double minValue = 0, double maxValue = 1)
-  : UnivariateDistribution<RealType>()
+  UniformRand(RealType minValue = 0, RealType maxValue = 1)
+  : UnivariateDistribution<RealType, Engine>()
   {
     SetSupport(minValue, maxValue);
   }
@@ -875,7 +886,7 @@ public:
    * @param randGenerator
    * @return a random number on interval (0,1) if no preprocessors are specified
    */
-  static RealType StandardVariate(RandGenerator& randGenerator = ProbabilityDistribution<RealType, Engine>::staticRandGenerator)
+  static RealType StandardVariate(BasicRandGenerator<Engine>& randGenerator = ProbabilityDistribution<RealType, Engine>::staticRandGenerator)
   {
 #ifdef RANDLIB_UNIDBL
     /// generates this->a random number on [0,1) with 53-bit resolution, using 2 32-bit integer variate
@@ -905,7 +916,7 @@ public:
    * @param randGenerator
    * @return a random number on interval [0,1]
    */
-  static RealType StandardVariateClosed(RandGenerator& randGenerator = ProbabilityDistribution<RealType, Engine>::staticRandGenerator)
+  static RealType StandardVariateClosed(BasicRandGenerator<Engine>& randGenerator = ProbabilityDistribution<RealType, Engine>::staticRandGenerator)
   {
     RealType x = randGenerator.Variate();
     return x / 4294967295.0;
@@ -916,7 +927,7 @@ public:
    * @param randGenerator
    * @return a random number on interval [0,1)
    */
-  static RealType StandardVariateHalfClosed(RandGenerator& randGenerator = ProbabilityDistribution<RealType, Engine>::staticRandGenerator)
+  static RealType StandardVariateHalfClosed(BasicRandGenerator<Engine>& randGenerator = ProbabilityDistribution<RealType, Engine>::staticRandGenerator)
   {
     RealType x = randGenerator.Variate();
     return x / 4294967296.0;
