@@ -34,7 +34,7 @@ endif()
 set(RANDLIB_EXPORT_HEADER ${RandLib_BINARY_DIR}/generated/RandLib_export.h)
 
 include(GenerateExportHeader)
-generate_export_header(RandLib EXPORT_FILE_NAME ${RANDLIB_EXPORT_HEADER})
+generate_export_header(RandLib EXPORT_FILE_NAME ${RANDLIB_EXPORT_HEADER} EXPORT_MACRO_NAME RANDLIB_EXPORT)
 
 target_include_directories(RandLib PUBLIC ${RandLib_BINARY_DIR}/generated)
 

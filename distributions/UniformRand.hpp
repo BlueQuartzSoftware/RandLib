@@ -508,7 +508,7 @@ bool findMin(const std::function<double(RealType)>& funPtr, RealType closePoint,
  * Abstract class for all continuous distributions
  */
 template <typename RealType, class Engine = JKissRandEngine, class = std::enable_if_t<!std::is_same_v<Engine, JLKiss64RandEngine>>>
-class RANDLIB_EXPORT ContinuousDistribution : virtual public UnivariateDistribution<RealType, Engine>
+class  ContinuousDistribution : virtual public UnivariateDistribution<RealType, Engine>
 {
   static_assert(std::is_floating_point_v<RealType>, "Continuous distribution supports only floating-point types");
 
@@ -801,7 +801,7 @@ protected:
  * (X - a) / (b - a) ~ IH(1)
  */
 template <typename RealType = double, class Engine = JKissRandEngine, class = std::enable_if_t<!std::is_same_v<Engine, JLKiss64RandEngine>>>
-class RANDLIB_EXPORT UniformRand : public ContinuousDistribution<RealType, Engine>
+class  UniformRand : public ContinuousDistribution<RealType, Engine>
 {
   static_assert(std::is_floating_point_v<RealType>, "Continuous distribution supports only floating-point types");
 
