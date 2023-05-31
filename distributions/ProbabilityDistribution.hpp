@@ -119,7 +119,7 @@ public:
   }
 
 protected:
-  static thread_local BasicRandGenerator<Engine> staticRandGenerator;
+  static BasicRandGenerator<Engine> staticRandGenerator;
 
   mutable BasicRandGenerator<Engine> localRandGenerator = BasicRandGenerator<Engine>{};
 
