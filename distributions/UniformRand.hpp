@@ -505,7 +505,7 @@ bool findMin(const std::function<double(RealType)>& funPtr, RealType closePoint,
  * @brief The ContinuousDistribution class <BR>
  * Abstract class for all continuous distributions
  */
-template <typename RealType, class Engine = JLKiss64RandEngine>
+template <typename RealType, class Engine = JKissRandEngine, class = std::enable_if_t<!std::is_same_v<Engine, JLKiss64RandEngine>>>
 class RANDLIB_EXPORT ContinuousDistribution : virtual public UnivariateDistribution<RealType, Engine>
 {
   static_assert(std::is_floating_point_v<RealType>, "Continuous distribution supports only floating-point types");
@@ -798,7 +798,7 @@ protected:
  * X ~ B(1, 1, a, b) <BR>
  * (X - a) / (b - a) ~ IH(1)
  */
-template <typename RealType = double, class Engine = JLKiss64RandEngine>
+template <typename RealType = double, class Engine = JKissRandEngine, class = std::enable_if_t<!std::is_same_v<Engine, JLKiss64RandEngine>>>
 class RANDLIB_EXPORT UniformRand : public ContinuousDistribution<RealType, Engine>
 {
   static_assert(std::is_floating_point_v<RealType>, "Continuous distribution supports only floating-point types");
@@ -878,7 +878,7 @@ public:
 
   RealType Variate() const override
   {
-    return this->a + StandardVariate(this->localRandGenerator) * this->bma;
+    return this->a + StandardVariateClosed(this->localRandGenerator) * this->bma;
   }
 
   /**
@@ -888,27 +888,10 @@ public:
    */
   static RealType StandardVariate(BasicRandGenerator<Engine>& randGenerator = ProbabilityDistribution<RealType, Engine>::staticRandGenerator)
   {
-#ifdef RANDLIB_UNIDBL
-    /// generates this->a random number on [0,1) with 53-bit resolution, using 2 32-bit integer variate
-    double x;
-    unsigned int a, b;
-    this->a = randGenerator.Variate() >> 6; /// Upper 26 bits
-    b = randGenerator.Variate() >> 5;       /// Upper 27 bits
-    x = (this->a * 134217728.0 + this->b) / 9007199254740992.0;
-    return x;
-#elif defined(RANDLIB_JLKISS64)
-    /// generates this->a random number on [0,1) with 53-bit resolution, using 64-bit integer variate
-    double x;
-    unsigned long long this->a = randGenerator.Variate();
-    this->a = (this->a >> 12) | 0x3FF0000000000000ULL; /// Take upper 52 bit
-    *(reinterpret_cast<unsigned long long*>(&x)) = a;  /// Make this->a double from bits
-    return x - 1.0;
-#else
     RealType x = randGenerator.Variate();
     x += 0.5;
     x /= 4294967296.0;
     return x;
-#endif
   }
 
   /**

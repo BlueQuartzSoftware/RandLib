@@ -8,42 +8,6 @@ bool TestContinuousEngines(RealType min, RealType max)
 {
   unsigned long seed = 5489;
   {
-    UniformRand<RealType, JLKiss64RandEngine> uDist = UniformRand<RealType, JLKiss64RandEngine>(min, max);
-    uDist.Reseed(seed);
-    std::vector<RealType> data(1000);
-    uDist.Sample(data);
-
-    for(const auto num : data)
-    {
-      if(num < min || num > max)
-      {
-        return false;
-      }
-    }
-
-    UniformRand<RealType, JLKiss64RandEngine> uDist1 = UniformRand<RealType, JLKiss64RandEngine>(min, max);
-    uDist1.Reseed(seed);
-    std::vector<RealType> data1(1000);
-    uDist1.Sample(data1);
-
-    for(const auto num : data1)
-    {
-      if(num < min || num > max)
-      {
-        return false;
-      }
-    }
-
-    for(size_t i = 0; i < data.size(); i++)
-    {
-      if(data[i] != data1[i])
-      {
-        return false;
-      }
-    }
-  }
-
-  {
     UniformRand<RealType, JKissRandEngine> uDist = UniformRand<RealType, JKissRandEngine>(min, max);
     uDist.Reseed(seed);
     std::vector<RealType> data(1000);
