@@ -122,7 +122,7 @@ public:
  * Class for generators of random number, evenly spreaded from 0 to some integer value
  */
 template <class Engine = JLKiss64RandEngine>
-class  BasicRandGenerator
+class BasicRandGenerator
 {
   static_assert(std::is_base_of<RandEngine, Engine>::value, "Engine must be a descendant of RandEngine");
 
@@ -146,8 +146,8 @@ class  BasicRandGenerator
   }
 
 public:
-  BasicRandGenerator() {};
-  ~BasicRandGenerator() {};
+  BasicRandGenerator(){};
+  ~BasicRandGenerator(){};
 
   unsigned long long Variate()
   {

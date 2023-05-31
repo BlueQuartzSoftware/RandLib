@@ -18,7 +18,7 @@ enum SUPPORT_TYPE
  * Abstract class for all univariate probability distributions
  */
 template <typename T, class Engine = JLKiss64RandEngine>
-class  UnivariateDistribution : public ProbabilityDistribution<T, Engine>
+class UnivariateDistribution : public ProbabilityDistribution<T, Engine>
 {
 protected:
   UnivariateDistribution() = default;

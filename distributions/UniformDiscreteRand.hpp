@@ -10,7 +10,7 @@
  * Abstract class for all discrete distributions
  */
 template <typename IntType, class Engine = JLKiss64RandEngine>
-class  DiscreteDistribution : virtual public UnivariateDistribution<IntType, Engine>
+class DiscreteDistribution : virtual public UnivariateDistribution<IntType, Engine>
 {
   static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>, "Discrete distribution supports only signed integral types");
 
@@ -305,7 +305,7 @@ protected:
  * P(X = k) = 1 / (b - a + 1) for a <= k <= b
  */
 template <typename IntType = int, class Engine = JLKiss64RandEngine>
-class  UniformDiscreteRand : public DiscreteDistribution<IntType, Engine>
+class UniformDiscreteRand : public DiscreteDistribution<IntType, Engine>
 {
   static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>, "Discrete distribution supports only signed integral types");
 

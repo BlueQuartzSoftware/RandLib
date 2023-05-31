@@ -12,7 +12,7 @@
  * Abstract class for all probability distributions
  */
 template <typename T, class Engine = JLKiss64RandEngine>
-class  ProbabilityDistribution
+class ProbabilityDistribution
 {
 protected:
   ProbabilityDistribution() = default;
