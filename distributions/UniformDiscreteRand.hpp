@@ -3,6 +3,8 @@
 #include "BasicRandGenerator.hpp"
 #include "UnivariateDistribution.hpp"
 
+#include <algorithm>
+
 /**
  *@brief The DiscreteDistribution class <BR>
  * Abstract class for all discrete distributions
