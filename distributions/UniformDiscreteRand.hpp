@@ -314,14 +314,13 @@ class RANDLIB_EXPORT UniformDiscreteRand : public DiscreteDistribution<IntType, 
   double logN = 0;                                                            ///< log(n)
   unsigned long long MAX_RAND_UNBIASED = this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
 
-protected:
-  ~UniformDiscreteRand() = default;
-
 public:
   UniformDiscreteRand(IntType minValue = 0, IntType maxValue = 1)
   {
     SetBoundaries(minValue, maxValue);
   }
+
+  ~UniformDiscreteRand() = default;
 
   std::string Name() const override
   {
@@ -359,12 +358,12 @@ public:
     MAX_RAND_UNBIASED = MAX_RAND - MAX_RAND % n - 1;
   }
 
-  double P(const IntType& k) const
+  double P(const IntType& k) const override
   {
     return (k < a || k > b) ? 0.0 : nInv;
   }
 
-  double logP(const IntType& k) const
+  double logP(const IntType& k) const override
   {
     return (k < a || k > b) ? -INFINITY : -logN;
   }

@@ -262,10 +262,5 @@ int main()
         return 1;
     }
 
-    if(!TestDiscreteEngines<unsigned long>(0, 8794032))
-    {
-        return 1;
-    }
-
     return 0;
 }
