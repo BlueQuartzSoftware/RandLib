@@ -9,20 +9,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_library(RandLib SHARED)
+add_library(RandLib INTERFACE)
 
 target_compile_features(RandLib
-  PUBLIC
+  INTERFACE
     cxx_std_17
-)
-
-set(RANDLIB_EXPORT_HEADER ${RandLib_BINARY_DIR}/generated/RandLib_export.h)
-
-include(GenerateExportHeader)
-generate_export_header(RandLib EXPORT_FILE_NAME ${RANDLIB_EXPORT_HEADER} EXPORT_MACRO_NAME RANDLIB_EXPORT)
-
-set(RANDLIB_SRCS
-  ${RandLib_SOURCE_DIR}/distributions/BasicRandGenerator.cpp
 )
 
 set(RANDLIB_HDRS
@@ -36,16 +27,13 @@ set(RANDLIB_HDRS
 )
 
 target_sources(RandLib
-  PRIVATE
+  INTERFACE
     ${RANDLIB_HDRS}
-    ${RANDLIB_SRCS}
-    ${RANDLIB_EXPORT_HEADER}
 )
 
 target_include_directories(RandLib
-  PUBLIC
+  INTERFACE
     ${RandLib_SOURCE_DIR}
-    ${RandLib_BINARY_DIR}/generated
     $<INSTALL_INTERFACE:include>
 )
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "RandLib_export.h"
-
 #include <climits>
 #include <cmath>
 #include <string>
