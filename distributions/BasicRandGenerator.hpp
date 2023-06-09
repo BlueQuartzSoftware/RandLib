@@ -90,7 +90,7 @@ class JKissRandEngine : public RandEngine
 public:
   JKissRandEngine()
   {
-    this->Reseed(getRandomSeed());
+    JKissRandEngine::Reseed(getRandomSeed());
   }
 
   uint64_t MinValue() const override
@@ -144,7 +144,7 @@ class JLKiss64RandEngine : public RandEngine
 public:
   JLKiss64RandEngine()
   {
-    this->Reseed(getRandomSeed());
+    JLKiss64RandEngine::Reseed(getRandomSeed());
   }
 
   uint64_t MinValue() const override
@@ -196,7 +196,7 @@ class PCGRandEngine : public RandEngine
 public:
   PCGRandEngine()
   {
-    this->Reseed(getRandomSeed());
+    PCGRandEngine::Reseed(getRandomSeed());
   }
 
   uint64_t MinValue() const override
