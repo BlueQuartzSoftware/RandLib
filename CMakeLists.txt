@@ -49,24 +49,22 @@ target_include_directories(RandLib
     $<INSTALL_INTERFACE:include>
 )
 
-# testing binary
-add_executable(UniformDiscreteTesting ${RandLib_SOURCE_DIR}/testing/UniformDiscreteTesting.cpp)
+include(CTest)
 
-target_link_libraries(UniformDiscreteTesting PRIVATE RandLib)
+if(BUILD_TESTING)
+  # testing binary
+  add_executable(UniformDiscreteTesting ${RandLib_SOURCE_DIR}/testing/UniformDiscreteTesting.cpp)
 
-add_test(
-  NAME UniformDiscreteTesting
-  COMMAND $<TARGET_FILE:UniformDiscreteTesting>
-)
+  target_link_libraries(UniformDiscreteTesting PRIVATE RandLib)
 
-add_executable(UniformContinuousTesting ${RandLib_SOURCE_DIR}/testing/UniformContinuousTesting.cpp)
-target_link_libraries(UniformContinuousTesting PRIVATE RandLib)
+  add_test(NAME UniformDiscreteTesting
+    COMMAND $<TARGET_FILE:UniformDiscreteTesting>
+  )
 
-add_test(
-    NAME UniformContinuousTesting
+  add_executable(UniformContinuousTesting ${RandLib_SOURCE_DIR}/testing/UniformContinuousTesting.cpp)
+  target_link_libraries(UniformContinuousTesting PRIVATE RandLib)
+
+  add_test(NAME UniformContinuousTesting
     COMMAND $<TARGET_FILE:UniformContinuousTesting>
-)
-
-# enable testing functionality
-enable_testing()
-
+  )
+endif()
