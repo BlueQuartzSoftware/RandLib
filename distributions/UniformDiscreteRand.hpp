@@ -314,7 +314,7 @@ class UniformDiscreteRand : public DiscreteDistribution<IntType, Engine>
   IntType b = 0;                                                              ///< max bound
   double nInv = 1;                                                            ///< 1/n
   double logN = 0;                                                            ///< log(n)
-  unsigned long long MAX_RAND_UNBIASED = this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
+  uint64_t MAX_RAND_UNBIASED = this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
 
 public:
   UniformDiscreteRand(IntType minValue = 0, IntType maxValue = 1)
@@ -356,7 +356,7 @@ public:
     nInv = 1.0 / n;
     logN = std::log(n);
 
-    unsigned long long MAX_RAND = this->localRandGenerator.MaxValue();
+    uint64_t MAX_RAND = this->localRandGenerator.MaxValue();
     MAX_RAND_UNBIASED = MAX_RAND - MAX_RAND % n - 1;
   }
 
@@ -391,11 +391,11 @@ public:
 
   static IntType StandardVariate(IntType minValue = 0, IntType maxValue = 1, BasicRandGenerator<Engine>& randGenerator = ProbabilityDistribution<IntType, Engine>::staticRandGenerator)
   {
-    unsigned long long MAX_RAND = randGenerator.MaxValue();
+    uint64_t MAX_RAND = randGenerator.MaxValue();
     IntType n = maxValue - minValue + 1;
     if(n <= 1)
       return minValue;
-    unsigned long long MAX_RAND_UNBIASED = MAX_RAND - MAX_RAND % n - 1;
+    uint64_t MAX_RAND_UNBIASED = MAX_RAND - MAX_RAND % n - 1;
     unsigned long intVar;
     do
     {

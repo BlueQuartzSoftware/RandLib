@@ -68,13 +68,13 @@ public:
 
   virtual ~RandEngine() = default;
 
-  virtual unsigned long long MinValue() const = 0;
+  virtual uint64_t MinValue() const = 0;
 
-  virtual unsigned long long MaxValue() const = 0;
+  virtual uint64_t MaxValue() const = 0;
 
   virtual void Reseed(unsigned long seed) = 0;
 
-  virtual unsigned long long Next() = 0;
+  virtual uint64_t Next() = 0;
 };
 
 /**
@@ -82,10 +82,10 @@ public:
  */
 class JKissRandEngine : public RandEngine
 {
-  unsigned int X{};
-  unsigned int C{};
-  unsigned int Y{};
-  unsigned int Z{};
+  uint32_t X{};
+  uint32_t C{};
+  uint32_t Y{};
+  uint32_t Z{};
 
 public:
   JKissRandEngine()
@@ -93,12 +93,12 @@ public:
     this->Reseed(getRandomSeed());
   }
 
-  unsigned long long MinValue() const override
+  uint64_t MinValue() const override
   {
     return 0;
   }
 
-  unsigned long long MaxValue() const override
+  uint64_t MaxValue() const override
   {
     return 4294967295UL;
   }
@@ -111,9 +111,9 @@ public:
     Z = 43219876;
   }
 
-  unsigned long long Next() override
+  uint64_t Next() override
   {
-    unsigned long long t = 698769069ULL * Z + C;
+    uint64_t t = 698769069ULL * Z + C;
 
     X *= 69069;
     X += 12345;
@@ -134,12 +134,12 @@ public:
  */
 class JLKiss64RandEngine : public RandEngine
 {
-  unsigned long long X{};
-  unsigned long long Y{};
-  unsigned int Z1{};
-  unsigned int Z2{};
-  unsigned int C1{};
-  unsigned int C2{};
+  uint64_t X{};
+  uint64_t Y{};
+  uint32_t Z1{};
+  uint32_t Z2{};
+  uint32_t C1{};
+  uint32_t C2{};
 
 public:
   JLKiss64RandEngine()
@@ -147,12 +147,12 @@ public:
     this->Reseed(getRandomSeed());
   }
 
-  unsigned long long MinValue() const override
+  uint64_t MinValue() const override
   {
     return 0;
   }
 
-  unsigned long long MaxValue() const override
+  uint64_t MaxValue() const override
   {
     return 18446744073709551615ULL;
   }
@@ -167,20 +167,20 @@ public:
     C2 = 1732654;
   }
 
-  unsigned long long Next() override
+  uint64_t Next() override
   {
     X = 1490024343005336237ULL * X + 123456789;
     Y ^= Y << 21;
     Y ^= Y >> 17;
     Y ^= Y << 30;
 
-    unsigned long long t = 4294584393ULL * Z1 + C1;
+    uint64_t t = 4294584393ULL * Z1 + C1;
     C1 = t >> 32;
     Z1 = t;
     t = 4246477509ULL * Z2 + C2;
     C2 = t >> 32;
     Z2 = t;
-    return X + Y + Z1 + (static_cast<unsigned long long>(Z2) << 32);
+    return X + Y + Z1 + (static_cast<uint64_t>(Z2) << 32);
   }
 };
 
@@ -190,8 +190,8 @@ public:
  */
 class PCGRandEngine : public RandEngine
 {
-  unsigned long long state{};
-  unsigned long long inc{};
+  uint64_t state{};
+  uint64_t inc{};
 
 public:
   PCGRandEngine()
@@ -199,12 +199,12 @@ public:
     this->Reseed(getRandomSeed());
   }
 
-  unsigned long long MinValue() const override
+  uint64_t MinValue() const override
   {
     return 0;
   }
 
-  unsigned long long MaxValue() const override
+  uint64_t MaxValue() const override
   {
     return 4294967295UL;
   }
@@ -215,12 +215,12 @@ public:
     inc = seed;
   }
 
-  unsigned long long Next() override
+  uint64_t Next() override
   {
-    unsigned long long oldstate = state;
+    uint64_t oldstate = state;
     state = oldstate * 6364136223846793005ULL + (inc | 1);
-    unsigned int xorshifted = ((oldstate >> 18u) ^ oldstate) >> 27u;
-    unsigned int rot = oldstate >> 59u;
+    uint32_t xorshifted = ((oldstate >> 18u) ^ oldstate) >> 27u;
+    uint32_t rot = oldstate >> 59u;
     return (xorshifted >> rot) | (xorshifted << ((-rot) & 31));
   }
 };
@@ -241,10 +241,10 @@ class BasicRandGenerator
    * @param value
    * @return decimals of given value
    */
-  static size_t getDecimals(unsigned long long value)
+  static size_t getDecimals(uint64_t value)
   {
     size_t num = 0;
-    unsigned long long maxRand = value;
+    uint64_t maxRand = value;
     while(maxRand != 0)
     {
       ++num;
@@ -258,7 +258,7 @@ public:
 
   ~BasicRandGenerator(){};
 
-  unsigned long long Variate()
+  uint64_t Variate()
   {
     return engine.Next();
   }
@@ -268,7 +268,7 @@ public:
     return getDecimals(engine.MaxValue());
   }
 
-  unsigned long long MaxValue()
+  uint64_t MaxValue()
   {
     return engine.MaxValue();
   }
