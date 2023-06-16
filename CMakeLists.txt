@@ -17,13 +17,13 @@ target_compile_features(RandLib
 )
 
 set(RANDLIB_HDRS
-  ${RandLib_SOURCE_DIR}/distributions/ProbabilityDistribution.hpp
-  ${RandLib_SOURCE_DIR}/distributions/BasicRandGenerator.hpp
-  ${RandLib_SOURCE_DIR}/distributions/UniformRand.hpp
-  ${RandLib_SOURCE_DIR}/distributions/UniformDiscreteRand.hpp
-  ${RandLib_SOURCE_DIR}/distributions/UnivariateDistribution.hpp
+  ${RandLib_SOURCE_DIR}/source/RandLib/distributions/ProbabilityDistribution.hpp
+  ${RandLib_SOURCE_DIR}/source/RandLib/distributions/BasicRandGenerator.hpp
+  ${RandLib_SOURCE_DIR}/source/RandLib/distributions/UniformRand.hpp
+  ${RandLib_SOURCE_DIR}/source/RandLib/distributions/UniformDiscreteRand.hpp
+  ${RandLib_SOURCE_DIR}/source/RandLib/distributions/UnivariateDistribution.hpp
 
-  ${RandLib_SOURCE_DIR}/RandLib_global.h
+  ${RandLib_SOURCE_DIR}/source/RandLib/RandLib_global.h
 )
 
 target_sources(RandLib
@@ -33,7 +33,7 @@ target_sources(RandLib
 
 target_include_directories(RandLib
   INTERFACE
-    ${RandLib_SOURCE_DIR}
+    ${RandLib_SOURCE_DIR}/source
     $<INSTALL_INTERFACE:include>
 )
 

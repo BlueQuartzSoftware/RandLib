@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BasicRandGenerator.hpp"
-#include "UnivariateDistribution.hpp"
+#include "RandLib/distributions/BasicRandGenerator.hpp"
+#include "RandLib/distributions/UnivariateDistribution.hpp"
 
 #include <algorithm>
 
@@ -309,11 +309,11 @@ class UniformDiscreteRand : public DiscreteDistribution<IntType, Engine>
 {
   static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>, "Discrete distribution supports only signed integral types");
 
-  size_t n = 1;                                                               ///< number of possible outcomes
-  IntType a = 0;                                                              ///< min bound
-  IntType b = 0;                                                              ///< max bound
-  double nInv = 1;                                                            ///< 1/n
-  double logN = 0;                                                            ///< log(n)
+  size_t n = 1;                                                     ///< number of possible outcomes
+  IntType a = 0;                                                    ///< min bound
+  IntType b = 0;                                                    ///< max bound
+  double nInv = 1;                                                  ///< 1/n
+  double logN = 0;                                                  ///< log(n)
   uint64_t MAX_RAND_UNBIASED = this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
 
 public:

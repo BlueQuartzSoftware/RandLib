@@ -1,6 +1,6 @@
 #pragma once
 
-#include "distributions/BasicRandGenerator.hpp"
+#include "RandLib/distributions/BasicRandGenerator.hpp"
 
 #include <iomanip>
 #include <sstream>

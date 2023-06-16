@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProbabilityDistribution.hpp"
+#include "RandLib/distributions/ProbabilityDistribution.hpp"
 
 #include <complex>
 #include <functional>

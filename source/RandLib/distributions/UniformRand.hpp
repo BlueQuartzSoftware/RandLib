@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UnivariateDistribution.hpp"
+#include "RandLib/distributions/UnivariateDistribution.hpp"
 
 #include <algorithm>
 

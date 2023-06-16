@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RandLib_global.h"
+#include "RandLib/RandLib_global.h"
 
 #include <cstddef>
 #include <ctime>
