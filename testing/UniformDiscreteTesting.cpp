@@ -1,5 +1,7 @@
-#include "distributions/BasicRandGenerator.hpp"
-#include "distributions/UniformDiscreteRand.hpp"
+#include "RandLib/distributions/BasicRandGenerator.hpp"
+#include "RandLib/distributions/UniformDiscreteRand.hpp"
+
+using namespace RandLib;
 
 namespace
 {

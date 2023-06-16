@@ -1,11 +1,13 @@
 #pragma once
 
-#include "ProbabilityDistribution.hpp"
+#include "RandLib/distributions/ProbabilityDistribution.hpp"
 
 #include <complex>
 #include <functional>
 #include <numeric>
 
+namespace RandLib
+{
 enum SUPPORT_TYPE
 {
   FINITE_T,
@@ -628,3 +630,4 @@ private:
   virtual T quantileImpl1m(double p, T initValue) const = 0;
   virtual T quantileImpl1m(double p) const = 0;
 };
+} // namespace RandLib

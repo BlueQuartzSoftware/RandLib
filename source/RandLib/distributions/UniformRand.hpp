@@ -1,10 +1,12 @@
 #pragma once
 
-#include "UnivariateDistribution.hpp"
+#include "RandLib/distributions/UnivariateDistribution.hpp"
 
 #include <algorithm>
 
-namespace
+namespace RandLib
+{
+namespace impl
 {
 /**
  * @fn areClose
@@ -501,7 +503,7 @@ bool findMin(const std::function<double(RealType)>& funPtr, RealType closePoint,
     return findMin(funPtr, abc, fb, root, epsilon);
   }
 }
-} // namespace
+} // namespace impl
 
 /**
  * @brief The ContinuousDistribution class <BR>
@@ -576,7 +578,7 @@ public:
     if(!std::isfinite(guess))
       guess = this->Median(); /// this shouldn't be nan or inf
     RealType root = 0;
-    ::findMin<RealType>([this](const RealType& x) { return -this->logf(x); }, guess, root);
+    impl::findMin<RealType>([this](const RealType& x) { return -this->logf(x); }, guess, root);
     return root;
   }
 
@@ -614,7 +616,7 @@ protected:
     {
       /// for small p we use logarithmic scale
       double logP = std::log(p);
-      if(!::findRootNewtonFirstOrder<RealType>(
+      if(!impl::findRootNewtonFirstOrder<RealType>(
              [this, logP](const RealType& x) {
                double logCdf = std::log(this->F(x)), logPdf = this->logf(x);
                double first = logCdf - logP;
@@ -628,12 +630,12 @@ protected:
 
     if(this->SupportType() == FINITE_T)
     {
-      if(!::findRootBrentFirstOrder<RealType>([this, p](const RealType& x) { return this->F(x) - p; }, this->MinValue(), this->MaxValue(), initValue))
+      if(!impl::findRootBrentFirstOrder<RealType>([this, p](const RealType& x) { return this->F(x) - p; }, this->MinValue(), this->MaxValue(), initValue))
         throw std::runtime_error("Continuous distribution: failure in numeric procedure");
       return initValue;
     }
 
-    if(!::findRootNewtonFirstOrder<RealType>(
+    if(!impl::findRootNewtonFirstOrder<RealType>(
            [this, p](const RealType& x) {
              double first = this->F(x) - p;
              double second = this->f(x);
@@ -664,7 +666,7 @@ protected:
     {
       /// for small p we use logarithmic scale
       double logP = std::log(p);
-      if(!::findRootNewtonFirstOrder<RealType>(
+      if(!impl::findRootNewtonFirstOrder<RealType>(
              [this, logP](const RealType& x) {
                double logCcdf = std::log(this->S(x)), logPdf = this->logf(x);
                double first = logP - logCcdf;
@@ -678,12 +680,12 @@ protected:
 
     if(this->SupportType() == FINITE_T)
     {
-      if(!::findRootBrentFirstOrder<RealType>([this, p](const RealType& x) { return this->S(x) - p; }, this->MinValue(), this->MaxValue(), initValue))
+      if(!impl::findRootBrentFirstOrder<RealType>([this, p](const RealType& x) { return this->S(x) - p; }, this->MinValue(), this->MaxValue(), initValue))
         throw std::runtime_error("Continuous distribution: failure in numeric procedure");
       return initValue;
     }
 
-    if(!::findRootNewtonFirstOrder<RealType>(
+    if(!impl::findRootNewtonFirstOrder<RealType>(
            [this, p](const RealType& x) {
              double first = p - this->S(x);
              double second = this->f(x);
@@ -725,7 +727,7 @@ protected:
     /// Integrate on finite interval [a, b]
     if(isLeftBoundFinite && isRightBoundFinite)
     {
-      return ::integral(
+      return impl::integral(
           [this, funPtr](double x) {
             double y = funPtr(x);
             return (y == 0.0) ? 0.0 : y * f(x);
@@ -736,7 +738,7 @@ protected:
     /// Integrate on semifinite interval [a, inf)
     if(isLeftBoundFinite)
     {
-      return ::integral(
+      return impl::integral(
           [this, funPtr, lowerBoundary](double x) {
             if(x >= 1.0)
               return 0.0;
@@ -755,7 +757,7 @@ protected:
     /// Integrate on semifinite intervale (-inf, b]
     if(isRightBoundFinite)
     {
-      return ::integral(
+      return impl::integral(
           [this, funPtr, upperBoundary](double x) {
             if(x <= 0.0)
               return 0.0;
@@ -770,7 +772,7 @@ protected:
     }
 
     /// Infinite case
-    return ::integral(
+    return impl::integral(
         [this, funPtr](double x) {
           if(std::fabs(x) >= 1.0)
             return 0.0;
@@ -1079,3 +1081,4 @@ private:
   static constexpr char TOO_LARGE_A[] = "Minimum element of the sample is smaller than lower boundary returned by method: ";
   static constexpr char TOO_SMALL_B[] = "Maximum element of the sample is greater than upper boundary returned by method: ";
 };
+} // namespace RandLib

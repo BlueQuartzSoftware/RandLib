@@ -1,10 +1,12 @@
 #pragma once
 
-#include "BasicRandGenerator.hpp"
-#include "UnivariateDistribution.hpp"
+#include "RandLib/distributions/BasicRandGenerator.hpp"
+#include "RandLib/distributions/UnivariateDistribution.hpp"
 
 #include <algorithm>
 
+namespace RandLib
+{
 /**
  *@brief The DiscreteDistribution class <BR>
  * Abstract class for all discrete distributions
@@ -309,12 +311,12 @@ class UniformDiscreteRand : public DiscreteDistribution<IntType, Engine>
 {
   static_assert(std::is_integral_v<IntType> && std::is_signed_v<IntType>, "Discrete distribution supports only signed integral types");
 
-  size_t n = 1;                                                               ///< number of possible outcomes
-  IntType a = 0;                                                              ///< min bound
-  IntType b = 0;                                                              ///< max bound
-  double nInv = 1;                                                            ///< 1/n
-  double logN = 0;                                                            ///< log(n)
-  unsigned long long MAX_RAND_UNBIASED = this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
+  size_t n = 1;                                                     ///< number of possible outcomes
+  IntType a = 0;                                                    ///< min bound
+  IntType b = 0;                                                    ///< max bound
+  double nInv = 1;                                                  ///< 1/n
+  double logN = 0;                                                  ///< log(n)
+  uint64_t MAX_RAND_UNBIASED = this->localRandGenerator.MaxValue(); ///< constant for unbiased generator
 
 public:
   UniformDiscreteRand(IntType minValue = 0, IntType maxValue = 1)
@@ -356,7 +358,7 @@ public:
     nInv = 1.0 / n;
     logN = std::log(n);
 
-    unsigned long long MAX_RAND = this->localRandGenerator.MaxValue();
+    uint64_t MAX_RAND = this->localRandGenerator.MaxValue();
     MAX_RAND_UNBIASED = MAX_RAND - MAX_RAND % n - 1;
   }
 
@@ -391,11 +393,11 @@ public:
 
   static IntType StandardVariate(IntType minValue = 0, IntType maxValue = 1, BasicRandGenerator<Engine>& randGenerator = ProbabilityDistribution<IntType, Engine>::staticRandGenerator)
   {
-    unsigned long long MAX_RAND = randGenerator.MaxValue();
+    uint64_t MAX_RAND = randGenerator.MaxValue();
     IntType n = maxValue - minValue + 1;
     if(n <= 1)
       return minValue;
-    unsigned long long MAX_RAND_UNBIASED = MAX_RAND - MAX_RAND % n - 1;
+    uint64_t MAX_RAND_UNBIASED = MAX_RAND - MAX_RAND % n - 1;
     unsigned long intVar;
     do
     {
@@ -484,3 +486,4 @@ private:
     return nInv * numerator / denominator;
   }
 };
+} // namespace RandLib
