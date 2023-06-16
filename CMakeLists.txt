@@ -79,7 +79,7 @@ if(RANDLIB_ENABLE_INSTALL)
 
   include(CMakePackageConfigHelpers)
 
-  set(RANDLIB_INSTALL_CMAKE_PREFIX "lib/cmake")
+  set(RANDLIB_INSTALL_CMAKE_PREFIX "lib/cmake" CACHE STRING "Install dir for CMake config")
 
   set(RANDLIB_CONFIG_FILE ${RandLib_BINARY_DIR}/RandLibConfig.cmake)
   set(RANDLIB_VERSION_FILE ${RandLib_BINARY_DIR}/RandLibConfigVersion.cmake)
