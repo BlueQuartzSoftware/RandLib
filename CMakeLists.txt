@@ -46,13 +46,13 @@ if(BUILD_TESTING)
   target_link_libraries(UniformDiscreteTesting PRIVATE RandLib)
 
   add_test(NAME UniformDiscreteTesting
-    COMMAND $<TARGET_FILE:UniformDiscreteTesting>
+    COMMAND UniformDiscreteTesting
   )
 
   add_executable(UniformContinuousTesting ${RandLib_SOURCE_DIR}/testing/UniformContinuousTesting.cpp)
   target_link_libraries(UniformContinuousTesting PRIVATE RandLib)
 
   add_test(NAME UniformContinuousTesting
-    COMMAND $<TARGET_FILE:UniformContinuousTesting>
+    COMMAND UniformContinuousTesting
   )
 endif()
