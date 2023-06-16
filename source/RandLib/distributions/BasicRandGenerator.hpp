@@ -7,6 +7,8 @@
 #include <thread>
 #include <type_traits>
 
+namespace RandLib
+{
 /**
  * @brief The RandEngine class
  */
@@ -278,3 +280,4 @@ public:
     engine.Reseed(seed);
   }
 };
+} // namespace RandLib

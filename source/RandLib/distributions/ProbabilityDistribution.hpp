@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+namespace RandLib
+{
 /**
  * @brief The ProbabilityDistribution class <BR>
  * Abstract class for all probability distributions
@@ -178,3 +180,4 @@ protected:
     return error + explanation;
   }
 };
+} // namespace RandLib

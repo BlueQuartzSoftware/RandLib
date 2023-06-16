@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+namespace RandLib
+{
 /**
  *@brief The DiscreteDistribution class <BR>
  * Abstract class for all discrete distributions
@@ -484,3 +486,4 @@ private:
     return nInv * numerator / denominator;
   }
 };
+} // namespace RandLib

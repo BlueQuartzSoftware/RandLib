@@ -1,6 +1,8 @@
 #include "RandLib/distributions/BasicRandGenerator.hpp"
 #include "RandLib/distributions/UniformRand.hpp"
 
+using namespace RandLib;
+
 namespace
 {
 template <typename RealType>

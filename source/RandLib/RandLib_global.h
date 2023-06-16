@@ -8,6 +8,8 @@
 #include <limits>
 #endif
 
+namespace RandLib
+{
 inline constexpr long double MIN_POSITIVE = 1e-21l;
 
 template <typename T>
@@ -101,3 +103,4 @@ inline constexpr long double M_SQRT1_2 = 0.70710678118654752440l;
 #ifndef M_SQRT5
 inline constexpr long double M_SQRT5 = 2.23606797749978969640l;
 #endif
+} // namespace RandLib
